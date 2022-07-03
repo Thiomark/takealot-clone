@@ -4,11 +4,11 @@ import SVGButtonComponent from './SVGButtonComponent'
 
 const HeaderComponent = () => {
 
-    const divider = (sides, extraStyle) => `h-7 hidden md:inline-block w-[1px] bg-gray-200 ${sides ? sides : 'mx-4'}`;
+    const divider = (sides) => `h-7 hidden md:inline-block w-[1px] bg-gray-200 ${sides ? sides : 'mx-4'}`;
 
     return (
         <header>
-            <div className='mx-auto flex py-4 items-center justify-between'>
+            <div className='mx-auto max-w-5xl px-4 flex py-4 items-center justify-between'>
                 <div className='md:hidden'>
                     <SVGButtonComponent iconStyle='h-6 w-6 text-gray-750'>
                         <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
