@@ -20,8 +20,8 @@ const WelcomeComponent = () => {
                 <div className="bg-blue-450">
                     <div className="max-w-5xl mx-auto py-3 hidden lg:space-x-4 md:block lg:flex px-4">
                         <div className="hidden lg:block">
-                            <button className="w-[200px] text-xs bg-gray-750 text-white p-2 rounded">Shop by Department</button>
-                            <div className="bg-white shadow overflow-hidden top-0 mt-10 w-[200px] bottom-0 absolute">
+                            <button className="w-[200px] text-xs bg-gray-750 text-white p-3 rounded">Shop by Department</button>
+                            <div className="bg-white shadow overflow-hidden top-0 mt-12 w-[200px] bottom-0 absolute">
                                 {[...Array(15)].map(button => <p className="py-1 text-sm px-4">button</p>)}
                             </div>
                         </div>

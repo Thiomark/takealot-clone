@@ -15,7 +15,7 @@ export default function Home() {
 
       <HeaderComponent />
       <WelcomeComponent />
-      <div className='bg-gray-100 pt-2'>
+      <div className='bg-gray-100 pt-2 pb-6'>
         <ProductsComponent title='Added to cart in the dark'/>
         <ProductsComponent title='Added to cart in the dark'/>
         <ProductsComponent title='Added to cart in the dark'/>
