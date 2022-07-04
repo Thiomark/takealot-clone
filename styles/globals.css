@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .sides {
+      @apply mx-auto max-w-[1600px] px-4 xl:px-20;
+    }
+  }
