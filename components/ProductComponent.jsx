@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/router';
+import { storeItems } from '@/utils/data';
+import { getRandomArbitrary } from '@/utils/helperFunctions'
 
 const ProductComponent = () => {
+    const router = useRouter();
+
     const [price, setPrice] = useState(0);
     const [oldPrice, setOldPrice] = useState(0);
     const [rating, setRating] =useState(0);
@@ -8,13 +13,7 @@ const ProductComponent = () => {
     const [image, setImage] = useState(null);
     const [title, setTitle] = useState(null);
     const [sale, setSale] = useState(0);
-    const getRandomArbitrary = (min, max) => {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
 
-    const placeHolderImages = ['bag', 'gadgets', 'hat', 'lamp', 'shoe', 'watch']
     const titleArray = 'Lorem ipsum dolor sit amet consect adipisicing elit'
 
     useEffect(() => {
@@ -22,14 +21,14 @@ const ProductComponent = () => {
         setOldPrice(getRandomArbitrary(60, 3000));
         setSale(getRandomArbitrary(7, 35));
         setRating((Math.random() * (5 - 3) + 3).toFixed(1));
-        setImage(placeHolderImages[getRandomArbitrary(0, placeHolderImages.length -1)]);
+        setImage(storeItems[getRandomArbitrary(0, storeItems.length -1)]);
         setTitle(titleArray.split(' ').splice(0, getRandomArbitrary(1, titleArray.split(' ').length - 1)).toString().replaceAll(',', ' '))
         setReviews(getRandomArbitrary(10, 200));
     }, [])
     
 
     return (
-        <div className='min-w-[280px] w-full bg-white p-4'>
+        <div className='min-w-[280px] w-full cursor-pointer bg-white p-4' onClick={() => router.push('/' + title.replaceAll(' ', '-').toLowerCase() + '?image=' + image)}>
             <div className='md:h-64 h-52 justify-center items-center relative bg-gray-200 mb-4'>
                 {oldPrice > price && <span className="bg-blue-450 p-2 absolute top-0 left-0 font-bold text-xs text-white h-12 w-12 z-20 rounded text-center flex items-center">{sale} % off</span>}
                 <img className="w-full absolute h-full" src={`placeholder-images/${image}-placeholder.png`} alt="" srcSet="" />

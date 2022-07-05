@@ -1,9 +1,12 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import SVGButtonComponent from './SVGButtonComponent';
 import WelcomeComponent from './WelcomeComponent';
 
 const HeaderComponent = () => {
+
+    const router = useRouter();
 
     const divider = (sides) => `h-7 hidden md:inline-block w-[1px] bg-gray-200 ${sides ? sides : 'mx-4'}`;
 
@@ -17,7 +20,7 @@ const HeaderComponent = () => {
                         </SVGButtonComponent>
                     </div>
                     <div className='flex items-center space-x-4'>
-                        <h1 className='flex items-center font-bold text-2xl'>takealot <span className='bg-blue-450 ml-1 justify-center text-[.65rem] text-white h-8 w-8 flex items-center rounded-full'>com</span></h1>
+                        <h1 onClick={() => router.push('/')} className='flex cursor-pointer items-center font-bold text-2xl'>takealot <span className='bg-blue-450 ml-1 justify-center text-[.65rem] text-white h-8 w-8 flex items-center rounded-full'>com</span></h1>
                         <div className='md:flex text-sm items-center hidden'>
                             <Link href="#">Help</Link>
                             <div className={divider()  + ' hidden md:hidden lg:inline-block'} />

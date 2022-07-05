@@ -43,3 +43,5 @@ export const footerLinks = [
         ]
     }
 ]
+
+export const storeItems = ['bag', 'gadgets', 'hat', 'lamp', 'shoe', 'watch']
