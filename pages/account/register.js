@@ -14,7 +14,7 @@ const Register = () => {
             <form className='p-8 flex gap-5 max-w-5xl mx-auto mb-10'>
                 <div className='max-w-[220px] hidden md:block w-full space-y-3'>
                     <div className='flex bg-yellow-150 items-center flex-col space-y-2 p-2'>
-                        <Image src='/truck.webp' width={48} height={34}/>
+                        <Image src='/truck.webp' alt='truck icon' width={48} height={34}/>
                         <p className='font-bold text-sm text-center'>Enjoy <span className='text-blue-450'>Free Delivery</span> worth R65 on your first order <Link href='#'><a className='font-normal block text-blue-450 underline'>T&Cs apply</a></Link></p>
                     </div>
                     <div className='space-y-6 text-xs p-6 bg-gray-100'>
@@ -25,24 +25,24 @@ const Register = () => {
                 </div>
                 <div className='md:grid w-full grid-cols-3 gap-3'>
                     <h1 className='font-bold col-span-3 md:font-normal md:pt-0 text-2xl mb-4 text-gray-800 py-3 border-b'>Register</h1>
-                    <label className={label} for='first_name'>First Name</label>
+                    <label className={label} htmlFor='first_name'>First Name</label>
                     <input type='text' className={input} />
-                    <label className={label} for='last_name'>Last Name</label>
+                    <label className={label} htmlFor='last_name'>Last Name</label>
                     <input type='text' className={input} />
-                    <label className={label} for='email'>Email</label>
+                    <label className={label} htmlFor='email'>Email</label>
                     <input type='text' className={input} />
-                    <label className={label} for='email'>Retype Email</label>
+                    <label className={label} htmlFor='email'>Retype Email</label>
                     <input type='text' className={input} />
-                    <label className={label} for='password'>Password</label>
+                    <label className={label} htmlFor='password'>Password</label>
                     <input type='password' className={input} />
                     <div className='col-span-3 md:grid grid-cols-3 mb-4 md:mb-0'>
                         <div className='bg-orange-100 md:max-w-xs w-[18em] mx-auto md:mx-0 col-span-2 md:w-full col-start-2'>
                             <p className='text-[.7rem] p-2 py-4 border-l-2 border-orange-400'>At least 8 characters and 1 special character or number</p>
                         </div>
                     </div>
-                    <label className={label} for='retype_password'>Retype Password</label>
+                    <label className={label} htmlFor='retype_password'>Retype Password</label>
                     <input type='password' className={input} />
-                    <label className={label} for='number'>Mobile Number</label>
+                    <label className={label} htmlFor='number'>Mobile Number</label>
                     <input type='text' className={input} />
                     <div className='col-span-3'>
                         <p className='text-sm font-bold'>Sign up to our Newsletters to be the first to know about our great deals!</p>

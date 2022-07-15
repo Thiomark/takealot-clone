@@ -1,12 +1,12 @@
 import SVGButtonComponent from "./SVGButtonComponent";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import { useRouter } from 'next/router';
+import { Carousel } from "react-responsive-carousel";
+import { useRouter } from "next/router";
 
 const WelcomeComponent = () => {
     const router = useRouter();
-    const buttons = ['Fresh Fasion', 'Appliances', 'Winner', 'Best Sellers', 'Deals & Promotions', 'Brand Store', 'Clearance'];
-    const shopByDepartment = ['Automotive & DIY', 'Baby & Toddler', 'Beauty', 'Books & Courses', 'Camping & Outdoor', 'Cellphones & Smartwatches', 'Fashion & Luggage', 'Computers & Electronics', 'Gaming', 'Garden, Pool & Patio', 'Groceries & Household', 'Health & Personal Care', 'Home & Appliances', 'Liquor', 'Office & Stationery', 'Pets', 'Sport & Training', 'Toys', 'TV, Audio & Media']
+    const buttons = ["Fresh Fasion", "Appliances", "Winner", "Best Sellers", "Deals & Promotions", "Brand Store", "Clearance"];
+    const shopByDepartment = ["Automotive & DIY", "Baby & Toddler", "Beauty", "Books & Courses", "Camping & Outdoor", "Cellphones & Smartwatches", "Fashion & Luggage", "Computers & Electronics", "Gaming", "Garden, Pool & Patio", "Groceries & Household", "Health & Personal Care", "Home & Appliances", "Liquor", "Office & Stationery", "Pets", "Sport & Training", "Toys", "TV, Audio & Media"]
 
     return (
         <div className="flex">
@@ -24,14 +24,14 @@ const WelcomeComponent = () => {
                     <div className="sides py-3 hidden lg:space-x-4 md:block lg:flex">
                         <div className="hidden lg:block">
                             <button className="w-[250px] text-xs bg-gray-750 text-white p-3 rounded">Shop by Department</button>
-                            {router.pathname === '/' && <ul className="bg-white shadow overflow-hidden top-0 mt-12 w-[250px] bottom-4 absolute">
+                            {router.pathname === "/" && <ul className="bg-white shadow overflow-hidden top-0 mt-12 w-[250px] bottom-4 absolute">
                                 {shopByDepartment.map((button, index) => <li key={index} className="py-1 block w-full relative text-sm px-4 after:content-['>'] after:absolute after:right-2"><a href="#">{button}</a></li>)}
                             </ul>}
                         </div>
                         <div className="space-y-3 w-full">
                             <div className="flex items-center lg:space-x-0 space-x-4">
                                 <div className="lg:hidden">
-                                    <SVGButtonComponent iconStyle='h-6 w-6 text-white'>
+                                    <SVGButtonComponent iconStyle="h-6 w-6 text-white">
                                         <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
                                     </SVGButtonComponent>
                                 </div>
@@ -65,7 +65,7 @@ const WelcomeComponent = () => {
                                 </svg>
                             </div>
                             <div className="p-2 px-4 flex-1">
-                                <h1 className="text-sm font-semibold">Where's my order?</h1>
+                                <h1 className="text-sm font-semibold">Where&apos;s my order?</h1>
                                 <p className="text-xs text-gray-700">Check your delivery or collection status.</p>
                             </div>
                         </div>

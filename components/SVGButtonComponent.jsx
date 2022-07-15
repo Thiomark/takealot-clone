@@ -5,7 +5,7 @@ const SVGButtonComponent = ({children, btnStyle, extraStyle = '', iconStyle = 'h
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className={iconStyle} viewBox="0 0 16 16">
             {children}
         </svg>
-        {after && <span className={spanStyle}>{after}</span>}
+        {after !== null && <span className={spanStyle}>{after}</span>}
     </button>
   )
 }

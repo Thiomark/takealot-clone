@@ -6,8 +6,8 @@ const ReviewsComponent = ({style}) => {
     const avgRating = [16, 10, 1, 13, 2];
     const colors = ['#1c8644', '#96d900', '#fae700', '#ffa200', '#ff1800'];
     const Stars = () => <div className='flex ml-4 items-center space-x-1'>
-        {[...Array(5)].map(star => (
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi w-4 h-4 text-orange-300 bi-star-fill" viewBox="0 0 16 16">
+        {[...Array(5)].map((star, index) => (
+            <svg key={index} xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi w-4 h-4 text-orange-300 bi-star-fill" viewBox="0 0 16 16">
                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
             </svg>
         ))}
@@ -47,7 +47,7 @@ const ReviewsComponent = ({style}) => {
                         </div>
                         <div>
                             <ul className='p-3'>
-                                {[...Array(5)].map((ele, index) => (<li className='flex py-2 items-center space-x-3'>
+                                {[...Array(5)].map((ele, index) => (<li key={index} className='flex py-2 items-center space-x-3'>
                                     <input className='' type="checkbox" />
                                     <span>{( index - 5 ) * - 1}</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi w-4 h-4 text-orange-300 bi-star-fill" viewBox="0 0 16 16">
@@ -87,7 +87,7 @@ const ReviewsComponent = ({style}) => {
                         <div className='flex items-stretch justify-between py-6'>
                             <button className='py-3 px-6 text-sm text-gray-400 border-none bg-gray-100'>Previous</button>
                             <div className='space-x-1'>
-                                {[...Array(3)].map((x, index) => <button className='py-3 px-6 text-sm border-none bg-gray-100'>{index}</button>)}
+                                {[...Array(3)].map((x, index) => <button key={index} className='py-3 px-6 text-sm border-none bg-gray-100'>{index}</button>)}
                             </div>
                             <button className='py-3 px-6 text-sm border-none bg-gray-100'>Previous</button>
                         </div>
