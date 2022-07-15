@@ -13,6 +13,9 @@ const ProductDescriptionComponent = ({style}) => {
             <ul>
                 {[...Array(3)].map((item, index) => <li key={index} className='text-xs text-gray-600'>1x Deep Cleansing Powder 30g</li>)}
             </ul>
+            <div className='flex sides-scale justify-center lg:block lg:justify-start bg-white py-8 items-center z-10 absolute bottom-0 right-0 left-0'>
+                <button className=' w-4/5 lg:w-fit lg:px-8 lg:rounded-sm rounded-full text-sm text-center py-2 border-gray-800 border'>Show More</button>
+            </div>
         </div>
     )
 }

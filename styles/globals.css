@@ -6,4 +6,29 @@
     .sides {
       @apply mx-auto max-w-[1600px] px-4 xl:px-20;
     }
+
+    .sides-scale {
+      @apply p-4 xl:p-8
+    }
+
+    .sides-scale-x {
+      @apply px-4 xl:px-8
+    }
   }
+
+  .checkbox-round {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox-round:checked {
+    background-color: gray;
+}

@@ -18,8 +18,12 @@ module.exports = {
           450: '#1c8644'
         },
         gray: {
+          350: '#eaeaea',
           250: '#ededed',
           750: '#4d4d4f'
+        },
+        yellow: {
+          150: '#FFF2BD'
         }
       }
     },
