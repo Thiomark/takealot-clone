@@ -1,9 +1,9 @@
 import FooterComponent from "./FooterComponent"
 import HeaderComponent from "./HeaderComponent"
 
-const Layout = ({title, children, showFooter}) => {
+const Layout = ({title, children, showFooter, bg}) => {
     return (
-        <div className='bg-gray-100 min-h-screen flex flex-col'>
+        <div className={`${bg} min-h-screen flex flex-col`}>
             <HeaderComponent title={title}/>
             <main className="flex-1 flex flex-col">
                 {children}
@@ -14,7 +14,8 @@ const Layout = ({title, children, showFooter}) => {
 }
 
 Layout.defaultProps = {
-    showFooter: true
+    showFooter: true,
+    bg: 'bg-gray-100'
 }
 
 export default Layout

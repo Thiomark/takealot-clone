@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { ProductContext } from 'providers/ProductProvider';
 import React, { useContext } from 'react';
 import SVGButtonComponent from './SVGButtonComponent';
+import TakealotIcon from './TakealotIcon';
 import WelcomeComponent from './WelcomeComponent';
 
 const HeaderComponent = () => {
@@ -22,9 +23,9 @@ const HeaderComponent = () => {
                         </SVGButtonComponent>
                     </div>
                     <div className='flex items-center space-x-4'>
-                        <h1 onClick={() => router.push('/')} className='flex cursor-pointer items-center font-bold text-2xl'>takealot <span className='bg-blue-450 ml-1 justify-center text-[.65rem] text-white h-8 w-8 flex items-center rounded-full'>com</span></h1>
+                        <TakealotIcon />
                         <div className='md:flex text-sm items-center hidden'>
-                            <Link href="#">Help</Link>
+                            <Link href="/help">Help</Link>
                             <div className={divider()  + ' hidden md:hidden lg:inline-block'} />
                             <a className='hidden lg:inline'>Sell on Takealot</a>
                         </div>
