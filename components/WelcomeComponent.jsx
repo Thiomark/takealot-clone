@@ -92,16 +92,16 @@ const FeaturedBrands = () => {
     return (
         <div className="h-16 relative flex justify-center items-center space-x-6 overflow-x-hidden">
             <button className="rounded-full absolute left-2 flex items-center justify-center h-10 w-10 shadow-[0_0_6px_0px_rgba(0,0,0,.3)]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi h-6 w-6 bi-chevron-right" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi h-6 w-6 bi-chevron-right" viewBox="0 0 16 16">
+                    <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                 </svg>
             </button>
             <img src="canon.webp" className="h-full w-auto" alt="" />
             <img src="mac.webp" className="h-full w-auto" alt="" />
             <img src="canon.webp" className="h-full w-auto" alt="" />
             <button className="rounded-full absolute right-2 flex items-center justify-center h-10 w-10 shadow-[0_0_6px_0px_rgba(0,0,0,.3)]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi h-6 w-6 bi-chevron-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi h-6 w-6 bi-chevron-right" viewBox="0 0 16 16">
+                    <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                 </svg>
             </button>
         </div>
