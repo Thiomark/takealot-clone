@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { AppContext } from 'providers/AppProvider';
 import { ProductContext } from 'providers/ProductProvider';
 import React, { useContext, useState } from 'react';
 import SVGButtonComponent from './SVGButtonComponent';
@@ -10,27 +11,29 @@ const HeaderComponent = () => {
 
     const router = useRouter();
     const {cart, list} = useContext(ProductContext);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const {isMenuOpen, setIsMenuOpen} = useContext(AppContext);
 
     const links = [
-        {name: 'Home'},
-        {name: 'Shop by Category', arrow: true},
-        {name: 'Deals'},
-        {name: 'Orders'},
-        {name: 'My Account', arrow: true},
-        {name: 'Help'}
+        {name: 'Home', url: '/'},
+        {name: 'Shop by Category', arrow: true, url: '#'},
+        {name: 'Deals', url: '#'},
+        {name: 'Orders', url: '#'},
+        {name: 'My Account', arrow: true, url: '#'},
+        {name: 'Help', url: '/help'}
     ]
 
     const bottomLinks = [
         {
-            name: 'Deals',
+            name: 'Cart',
+            url: '/cart',
             color: 'text-green-700',
             svg: () => (<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>),
             cart: cart.length,
             showCart: true
         },
         {
-            name: 'Orders',
+            name: 'Lists',
+            url: '/wishlist',
             color: 'text-red-500',
             svg: () => (<path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>)
         }
@@ -42,19 +45,22 @@ const HeaderComponent = () => {
     return (
         <>
             <header className='shadow bg-white'>
-                <div className={`absolute z-50 ${isMenuOpen ? 'scale-100' : 'scale-0 delay-500'} bottom-0 top-0 left-0 right-0`} onClick={() => setIsMenuOpen(false)}>
+                <div className={`fixed z-50 ${isMenuOpen ? 'scale-100' : 'scale-0 delay-500'} bottom-0 top-0 left-0 right-0`} onClick={() => setIsMenuOpen(false)}>
                     <div className={`${isMenuOpen ? 'translate-x-0 shadow-[0_0_0_100vw_rgba(0,0,0,0.7)]' : '-translate-x-full shadow-[0_0_0_100vw_rgba(0,0,0,0)] scale-100'} w-3/5 h-full flex flex-col bg-gray-100 transition duration-500 relative after:content-["x"] after:hover:cursor-pointer after:absolute after:-right-6 after:text-white after:text-2xl`}>
                         <div>
-                            <header className='p-4 border-b bg-white'>
+                            <div className='p-4 border-b bg-white'>
                                 <TakealotIcon />
-                            </header>
+                            </div>
                             <div className='bg-white shadow mt-4 text-sm divide-y-[1px] divide-gray-100'>
-                                {links.map((item, index) => <Link key={index} href='#'>
-                                    <a className='p-4 justify-between flex items-center'>
+                                {links.map((item, index) => <button onClick={(e) => {
+                                    e.stopPropagation();
+                                    router.push(item.url)
+                                }} className='block w-full' key={index}>
+                                    <span className='p-4 justify-between flex items-center'>
                                         <span>{item.name}</span>
                                         {item.arrow && <span className='text-gray-400'>&rarr;</span>}      
-                                    </a>
-                                </Link>)}
+                                    </span>
+                                </button>)}
                             </div>
                             <div className='bg-white shadow mt-4 text-sm divide-y-[1px] divide-gray-100'>
                                 {bottomLinks.map((item, index) => <Link key={index} href='#'>
