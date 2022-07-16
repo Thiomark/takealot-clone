@@ -34,7 +34,7 @@ const ProductScreen = () => {
                 <div className='bg-white lg:-mx-4 xl:mx-0 hidden xl:row-start-2 lg:block xl:col-end-3 col-span-2 col-start-1 col-end-3 row-start-2 row-end-6'>&nbsp;</div>
                 
                 <div className='hidden lg:flex 2xl:hidden space-x-2 justify-center col-start-1 col-end-2 lg:pb-[1em] row-start-5 row-end-6'>
-                    {product.images.map(img => (<div key={img} onClick={() => setImage(img)} className='border border-[#dadada] w-[5em] h-[5em]'>
+                    {product.images.map((img, index) => (<div key={index} onClick={() => setImage(img)} className='border border-[#dadada] w-[5em] h-[5em]'>
                         <img className='w-full cursor-pointer h-full object-cover' src={`placeholder-images/${img}-placeholder.png`}/>
                     </div>))}
                 </div>
@@ -55,12 +55,14 @@ const ProductScreen = () => {
                 <div className='bg-white lg:col-span-2 xl:col-start-1 xl:col-end-3'>
                     <h1 className='py-4 sides-scale-x font-bold text-gray-500'>Product Information</h1>
                     <table className='w-full text-sm'>
-                        {Object.keys(product.productInfo).map((item, index) => (
-                            <tr key={index}>
-                                <th className='text-left font-semibold text-gray-500 border py-2 sides-scale-x'>{item}</th>
-                                <td className='text-left font-light text-gray-400 border py-2 sides-scale-x'>{product.productInfo[item]}</td>
-                            </tr>
-                        ))}
+                        <tbody>
+                            {Object.keys(product.productInfo).map((item, index) => (
+                                <tr key={index}>
+                                    <th className='text-left font-semibold text-gray-500 border py-2 sides-scale-x'>{item}</th>
+                                    <td className='text-left font-light text-gray-400 border py-2 sides-scale-x'>{product.productInfo[item]}</td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                 </div>
                 <ReviewsComponent style={'sides-scale gap-10 bg-white xl:col-start-1 xl:col-end-3 shadow lg:col-span-2'}/>

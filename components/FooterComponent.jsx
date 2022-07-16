@@ -20,8 +20,8 @@ const FooterComponent = () => {
                     ))}
                 </div>
                 <div className='py-6 bg-white'>
-                    <div className='mx-auto flex xl:space-y-4 xl:block items-center justify-between max-w-[1600px] w-full'>
-                        <div className='text-center'>
+                    <div className='mx-auto flex flex-col md:flex-row xl:space-y-4 xl:block items-center justify-between max-w-[1600px] w-full'>
+                        <div className='text-center mb-8 md:mb-0'>
                             <h1 className='mb-2'>Download Our Apps</h1>
                             <div className='flex flex-wrap gap-3 justify-center'>
                                 <button>

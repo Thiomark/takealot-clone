@@ -67,7 +67,7 @@ const ReviewsComponent = ({style}) => {
                         </div>
                     </div>
                     <div className='divide-y-[1px] divide-gray-200'>
-                        {[...Array(10)].map(x => <div key={x}>
+                        {[...Array(10)].map((x, i) => <div key={i}>
                             <div className='py-5 -ml-4'>
                                 <Stars />
                             </div>
