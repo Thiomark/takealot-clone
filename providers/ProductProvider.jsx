@@ -16,6 +16,7 @@ export const ProductProvider = ({children}) => {
     }
 
     const addItemToList = (product) => {
+        
         setList(prev => [product, ...prev]);
     }
 

@@ -2,6 +2,7 @@ import Head from 'next/head';
 import HeaderComponent from '@/components/HeaderComponent';
 import ProductsComponent from '@/components/ProductsComponent';
 import FooterComponent from '@/components/FooterComponent';
+import CarousalsComponent from '@/components/home-screen/CarousalsComponent';
 
 export default function Home() {
     return (
@@ -12,14 +13,13 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <HeaderComponent />
+            <CarousalsComponent />
             <div className='bg-gray-100 pt-2 pb-6'>
-                <div className='sides'>
-                    <ProductsComponent title='Add To Cart In The Dark - Load Shedding Essentials'/>
-                    <ProductsComponent title='New on Takealot'/>
-                    <ProductsComponent title='Your Premium Liquor Choices'/>
-                    <ProductsComponent title='Makeup'/>
-                    <ProductsComponent title='Sports & Training'/>
-                </div>
+                <ProductsComponent title='Add To Cart In The Dark - Load Shedding Essentials'/>
+                <ProductsComponent title='New on Takealot'/>
+                <ProductsComponent title='Your Premium Liquor Choices'/>
+                <ProductsComponent title='Makeup'/>
+                <ProductsComponent title='Sports & Training'/>
             </div>
             <FooterComponent /> 
         </div>

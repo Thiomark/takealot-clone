@@ -1,52 +1,38 @@
 import Layout from '@/components/Layout';
 import ProductsComponent from '@/components/ProductsComponent';
+import ProductHeaderComponent from '@/components/single-product/ProductHeaderComponent';
+import Link from 'next/link';
 import { ProductContext } from 'providers/ProductProvider';
 import React, { useContext } from 'react';
 
 const Cart = () => {
     const {list, deleteFromCart, addItemToList} = useContext(ProductContext);
+    const links = ['My Account', 'My Lists', 'Wish List'];
 
     return (
         <Layout>
-            <h1>Shopping Cart</h1>
-            <div className='lg:flex gap-10'>
-                <div className='w-full space-y-2'>
-                    {list.map(item => <div key={item.id} className='bg-white pt-8 relative grid-cols-[1em_6em_1fr_1fr_6em_1em] grid-rows-[auto_auto_auto_2em_auto] grid items-stretch'>
-                        <div className='flex col-start-2 row-span-3 items-center justify-center'>
-                            <img className="w-auto object-cover h-20 border" src={`placeholder-images/${item.displayedImage}-placeholder.png`} alt={item.name} srcSet="" />
-                        </div>
-                        <h1 className='col-start-3 ml-4 col-end-6'>{item.name}</h1>
-                        <h1 className='col-start-3 ml-4 col-end-6'>R {item.price}</h1> 
-                        <p className='col-start-3 ml-4 col-end-6'>in stock </p>
-                        <button className='text-gray-700 p-4 col-start-1 row-start-5 col-end-4 justify-center border flex items-center space-x-4'>
-                            <span>Qty</span>
-                        </button>
-                        <button onClick={() => deleteFromCart(item.id)} className='text-gray-700 absolute top-4 right-4 flex items-center space-x-4'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi w-6 h-6 bi-trash-fill" viewBox="0 0 16 16">
-                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                            </svg>
-                            <span className='hidden lg:block'>Remove</span>
-                        </button>
-                        <button onClick={() => {
-                            deleteFromCart(item.id)
-                            addItemToList(item.id)}} className='text-gray-700 flex items-center space-x-4 col-start-4 col-end-7 row-start-5 border'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi lg:block hidden w-6 h-6 bi-trash-fill" viewBox="0 0 16 16">
-                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                            </svg>
-                            <span className=''>Move To List</span>
-                        </button>
-                    </div>)}
+            <div className='pb-10'>
+                <ProductHeaderComponent showShare={false} style={'w-full hidden md:block sides col-start-1 xl:col-end-5 col-end-3'} links={links}/>
+                <div className='flex items-center justify-between sides w-full my-4 md:mt-0'>
+                    <h1 className='font-bold text-sm text-gray-700'>Wish List <span className='uppercase text-[.6rem] py-1 px-2 font-semibold ml-2 bg-gray-300 rounded-full'>Default</span></h1>
+                    <button className='text-gray-700 before:content flex space-x-2 items-center text-sm font-bold'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi w-4 h-5 bi-share-fill" viewBox="0 0 16 16">
+                            < path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+                        </svg>
+                        <span className='hidden md:block'>Share</span> 
+                    </button>
                 </div>
-                <div className='bg-white hidden sides-scale-x py-4 max-w-md w-full'>
-                    <h1>Cart Summary</h1>
-                    <div>
-                        <p>Total: <span>(5 items)</span></p>
-                        <span>R 2700</span>
+                {list.length === 0 && <div className='sides w-full pb-6'>
+                    <div className='bg-white w-full space-y-2 flex flex-col items-center justify-center py-10'>
+                        <img src='wishlist.svg' className='rounded-full border-4 shadow-md border-white' />
+                        <h1 className='py-3 font-bold'>This list is empty!</h1>
+                        <p className='text-gray-700'>Go on, start planning what gifts you&apos;d like!</p>
+                        <Link href='/'><a className='text-sm text-center text-white md:w-fit md:px-5 bg-blue-450 max-w-md md:rounded-none rounded-full w-full py-3'>Continue Shopping</a></Link>
                     </div>
-                    <button>Proceed To Checkout</button>
-                </div>
+                </div>}
+                    
+                <ProductsComponent showMoreButton={false} showAddToCart title='Trending Now'/>
             </div>
-            <ProductsComponent showMoreButton={false} showAddToCart title='Customers who bought items in your cart also bought'/>
         </Layout>
     )
 }

@@ -1,12 +1,13 @@
 import HeaderComponent from '@/components/HeaderComponent';
+import { newslettersOptionsObject } from '@/utils/data';
 import Image from 'next/image';
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 
 const Register = () => {
+    const [newslettersOptions, setNewslettersOptions] = useState(newslettersOptionsObject);
     const label = 'text-sm text-gray-800 after:content-["*"] after:mx-1';
     const input = 'p-1.5 sm:p-0.5 md:max-w-xs col-span-2 md:mb-0 border w-full mb-5';
-    const checkboxs = 'General Newsletter  Daily Deals  Electronics  Garden, Pool & Patio  Books  Movies & TV  Gaming  Music  Afrikaans  Baby & Toddler  Toys  Sport  Camping & Outdoor  Pets  Luggage & Travel  Home & Kitchen  Office & Stationery  Fashion  Liquor  Auto & DIY  Health & Personal Care  Beauty'.split('  ').map((item, index) => ({name: item, checked: index < 2 ? true : false}));
 
     return (
         <div>
@@ -47,9 +48,11 @@ const Register = () => {
                     <div className='col-span-3'>
                         <p className='text-sm font-bold'>Sign up to our Newsletters to be the first to know about our great deals!</p>
                         <div className='grid grid-cols-2 mt-4 gap-2'>
-                            {checkboxs.map((item, index) => (
+                            {newslettersOptions.map((item, index) => (
                                 <div key={index} className='text-sm items-center'>
-                                    <input type='checkbox' checked={item.checked} />
+                                    <input type='checkbox' onChange={() => {
+                                        setNewslettersOptions(prev => prev.map(option => option.name === item.name ? ({name: option.name, checked: !option.checked}) : option))
+                                    }} checked={item.checked} />
                                     <span className='ml-2'>{item.name}</span>
                                 </div>
                             ))}

@@ -2,13 +2,13 @@ import React from 'react'
 import ProductComponent from './ProductComponent';
 import SVGButtonComponent from './SVGButtonComponent';
 
-const ProductsComponent = ({title, showMoreButton = true, showAddToCart}) => {
+const ProductsComponent = ({title, showMoreButton = true, showAddToCart, sides}) => {
 
     const buttons = 'h-10 w-10 z-50 hidden top-2/4 group-hover:flex -translate-y-2/4 absolute shadow bg-gray-750 text-white justify-center items-center rounded-full ';
 
     return (
         <div>
-            <div className=''>
+            <div className={`${sides ? 'sides' : ''}`}>
                 <div className='flex py-2 items-center justify-between'>
                     <h1 className='capitalize tet-sm'>{title}</h1>
                     {showMoreButton && <button className='px-4 py-2 text-sm border-[1.5px] border-gray-400'>View More</button>}
@@ -25,6 +25,10 @@ const ProductsComponent = ({title, showMoreButton = true, showAddToCart}) => {
             </div>
         </div>
     )
+}
+
+ProductsComponent.defaultProps = {
+    sides: true
 }
 
 export default ProductsComponent

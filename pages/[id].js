@@ -48,7 +48,7 @@ const ProductScreen = () => {
                 <ProductSummaryComponent
                     style={'p-4 lg:pt-0 xl:pt-4 bg-white shadow lg:col-start-2 xl:row-start-2 lg:col-end-3 lg:shadow-none lg:row-start-4 lg:row-end-5'}/>
                 <div className='overflow-x-hidden lg:col-start-1 lg:col-span-2 xl:col-end-3'>
-                    <ProductsComponent showAddToCart showMoreButton={false} title='You Might Also Like'/> 
+                    <ProductsComponent sides={false} showAddToCart showMoreButton={false} title='You Might Also Like'/> 
                 </div>
                 <ProductDescriptionComponent 
                     style={'sides-scale bg-white w-full xl:col-start-1 xl:col-end-3 lg:col-span-2 overflow-none shadow relative'} />    
@@ -68,7 +68,7 @@ const ProductScreen = () => {
                 <ReviewsComponent style={'sides-scale gap-10 bg-white xl:col-start-1 xl:col-end-3 shadow lg:col-span-2'}/>
                         
                 <div className='overflow-x-hidden lg:col-span-2 xl:col-start-1 xl:col-end-5'>
-                    <ProductsComponent showAddToCart showMoreButton={false} title='Customers Also Bought'/> 
+                    <ProductsComponent sides={false} showAddToCart showMoreButton={false} title='Customers Also Bought'/> 
                 </div>
             </div>
             <div className='hidden lg:block'>

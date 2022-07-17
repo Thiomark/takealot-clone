@@ -46,6 +46,15 @@ export const footerLinks = [
     }
 ]
 
+export const headerPagesLinks = [
+    {name: 'Home', url: '/'},
+    {name: 'Shop by Category', arrow: true, url: '#'},
+    {name: 'Deals', url: '#'},
+    {name: 'Orders', url: '#'},
+    {name: 'My Account', arrow: true, url: '#'},
+    {name: 'Help', url: '/help'}
+]
+
 export const storeItems = ['bag', 'gadgets', 'hat', 'lamp', 'shoe', 'watch']
 
 export const generateRandomProduct = () => {
@@ -60,6 +69,7 @@ export const generateRandomProduct = () => {
         rating: (Math.random() * (5 - 3) + 3).toFixed(1),
         reviews: getRandomArbitrary(10, 200),
         inStock: ['jhb', 'cpt'],
+        summary: titleArray,
         images,
         productInfo: {
             categories: 'Gaming / Gaming Accessories / Controllers',
@@ -70,3 +80,94 @@ export const generateRandomProduct = () => {
         displayedImage: images[images.length - 1]
     })
 }
+
+export const newslettersOptionsObject = [
+    {
+        "name": "General Newsletter",
+        "checked": true
+    },
+    {
+        "name": "Daily Deals",
+        "checked": true
+    },
+    {
+        "name": "Electronics",
+        "checked": false
+    },
+    {
+        "name": "Garden, Pool & Patio",
+        "checked": false
+    },
+    {
+        "name": "Books",
+        "checked": false
+    },
+    {
+        "name": "Movies & TV",
+        "checked": false
+    },
+    {
+        "name": "Gaming",
+        "checked": false
+    },
+    {
+        "name": "Music",
+        "checked": false
+    },
+    {
+        "name": "Afrikaans",
+        "checked": false
+    },
+    {
+        "name": "Baby & Toddler",
+        "checked": false
+    },
+    {
+        "name": "Toys",
+        "checked": false
+    },
+    {
+        "name": "Sport",
+        "checked": false
+    },
+    {
+        "name": "Camping & Outdoor",
+        "checked": false
+    },
+    {
+        "name": "Pets",
+        "checked": false
+    },
+    {
+        "name": "Luggage & Travel",
+        "checked": false
+    },
+    {
+        "name": "Home & Kitchen",
+        "checked": false
+    },
+    {
+        "name": "Office & Stationery",
+        "checked": false
+    },
+    {
+        "name": "Fashion",
+        "checked": false
+    },
+    {
+        "name": "Liquor",
+        "checked": false
+    },
+    {
+        "name": "Auto & DIY",
+        "checked": false
+    },
+    {
+        "name": "Health & Personal Care",
+        "checked": false
+    },
+    {
+        "name": "Beauty",
+        "checked": false
+    }
+]

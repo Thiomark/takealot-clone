@@ -7,7 +7,7 @@ const FooterComponent = () => {
     const tags = 'Baby / ToddlerBeautyBooksCamerasCamping / OutdoorsCellphones / WearablesComputers / TabletsFashionGamingGarden, Pool / PatioHealthHome / KitchenLuggage / TravelMovies / SeriesMusicOffice / StationeryPetsSportTV, Audio / VideoToysVouchers'.split(' / ');
 
     return (
-        <div>
+        <div className='bg-white'>
             <div className='xl:grid grid-cols-5 sides'>
                 <div className='col-span-4 hidden items-center xl:grid grid-cols-4'>
                     {footerLinks.map((col, index) => (
