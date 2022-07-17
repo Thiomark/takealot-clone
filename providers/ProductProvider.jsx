@@ -23,9 +23,13 @@ export const ProductProvider = ({children}) => {
     const deleteFromCart = (id) => {
         setCart(prev => prev.filter(x => x.id !== id));
     }
+    
+    const deleteFromList = (id) => {
+        setList(prev => prev.filter(x => x.id !== id));
+    }
 
     return (
-        <ProductContext.Provider value={{fetchProduct, deleteFromCart, addItemToCart, addItemToList, product, cart, list}}>
+        <ProductContext.Provider value={{fetchProduct, deleteFromList, deleteFromCart, addItemToCart, addItemToList, product, cart, list}}>
             {children}
         </ProductContext.Provider>
     );
