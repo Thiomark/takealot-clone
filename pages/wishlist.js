@@ -13,15 +13,6 @@ const Cart = () => {
         <Layout>
             <div className='pb-10'>
                 <ProductHeaderComponent showShare={false} style={'w-full hidden md:block sides col-start-1 xl:col-end-5 col-end-3'} links={links}/>
-                <div className='flex items-center justify-between sides w-full my-4 md:mt-0'>
-                    <h1 className='font-bold text-sm text-gray-700'>Wish List <span className='uppercase text-[.6rem] py-1 px-2 font-semibold ml-2 bg-gray-300 rounded-full'>Default</span></h1>
-                    <button className='text-gray-700 before:content flex space-x-2 items-center text-sm font-bold'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi w-4 h-5 bi-share-fill" viewBox="0 0 16 16">
-                            < path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
-                        </svg>
-                        <span className='hidden md:block'>Share</span> 
-                    </button>
-                </div>
                 {list.length === 0 && <div className='sides w-full pb-6'>
                     <div className='bg-white w-full space-y-2 flex flex-col items-center justify-center py-10'>
                         <img src='wishlist.svg' className='rounded-full border-4 shadow-md border-white' />
@@ -33,18 +24,28 @@ const Cart = () => {
                 {list.length > 0 && <div className='mb-10'>
                     <div className='lg:flex md:sides w-full'>
                     <div className='hidden lg:block space-y-3 mr-6 max-w-[300px] w-full'>
-                            <div className='bg-white p-4'>
-                                <h1 className='text-lg text-gray-700 font-bold mb-6'>Cart Summary</h1>
-                                <div className='flex items-center justify-between pb-2'>
-                                    <p className='text-sm font-semibold uppercase'>Total: <span className='text-xs lowercase font-normal'>(5 items)</span></p>
-                                    <span className='font-bold text-2xl text-green-450'>R 2700</span>
+                            <div className='bg-white'>
+                                <h1 className='text-lg px-4 py-2 text-gray-700 font-bold border-b'>&larr; My Lists</h1>
+                                <div className='flex items-center justify-between'>
+                                    <div className='border-l pt-4 w-full'>
+                                        <p className='border-l-4 border-blue-450 block rounded-r-full mr-6 px-4 text-xs text-gray-750 py-2 bg-blue-50'>Wish List ({list.length})</p>
+                                        <button className='w-full text-blue-450 text-xs font-semibold text-left p-4'>&#43; Create a List</button>
+                                    </div>
                                 </div>
-                                <button className=' bg-green-450 text-center py-2 w-full text-sm text-white'>Proceed To Checkout</button>
                             </div>
                         </div>
                         <div className='w-full space-y-2'>
+                            <div className='flex items-center justify-between md:mx-0 mx-4 my-4 md:mt-0'>
+                                <h1 className='font-bold text-sm text-gray-700'>Wish List <span className='uppercase text-[.6rem] py-1 px-2 font-semibold ml-2 bg-gray-300 rounded-full'>Default</span></h1>
+                                <button className='text-gray-700 before:content flex space-x-2 items-center text-sm font-bold'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi w-4 h-5 bi-share-fill" viewBox="0 0 16 16">
+                                        < path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/>
+                                    </svg>
+                                    <span className='hidden md:block'>Share</span> 
+                                </button>
+                            </div>
                             {list.map(item => 
-                            <div key={item.id} className='bg-white pt-8 relative grid-cols-[1em_6em_1fr_1fr_6em_1em] md:grid-cols-[1em_6em_1fr_8em_3em_1em] grid-rows-[auto_auto_auto_2em_auto] md:grid-rows-[auto_auto_auto_2em_auto_1.5em] grid items-stretch'>
+                            <div key={item.id} className='bg-white pt-8 relative grid-cols-[1em_6em_3em_1fr_6em_1em] md:grid-cols-[1em_6em_1fr_8em_3em_1em] grid-rows-[auto_auto_auto_2em_auto] md:grid-rows-[auto_auto_auto_2em_auto_1.5em] grid items-stretch'>
                                 <div className='flex col-start-2 md:row-span-5 row-span-3 items-center justify-center'>
                                     <img className="w-auto object-cover h-20" src={`placeholder-images/${item.displayedImage}-placeholder.png`} alt={item.name} srcSet="" />
                                 </div>
@@ -77,7 +78,6 @@ const Cart = () => {
                                     <span className=''>Add to Cart</span>
                                 </button>
                             </div>)}
-                           
                         </div>
                     </div>
                 </div>}
