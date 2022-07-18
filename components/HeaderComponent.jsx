@@ -112,7 +112,7 @@ const HeaderComponent = ({title}) => {
                             <div className={divider()} />
                             <Link href='#'><a className='hidden lg:inline'>Orders</a></Link>
                             <div className={divider() + ' hidden md:hidden lg:inline-block'} />
-                            <Link href="#">My Account</Link>
+                            <Link href="/account">My Account</Link>
                         </div>
                         <div className='flex items-center'>
                             <SVGButtonComponent extraStyle='md:hidden' iconStyle='h-5 w-5 text-gray-750'>

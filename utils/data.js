@@ -51,7 +51,7 @@ export const headerPagesLinks = [
     {name: 'Shop by Category', arrow: true, url: '#'},
     {name: 'Deals', url: '#'},
     {name: 'Orders', url: '#'},
-    {name: 'My Account', arrow: true, url: '#'},
+    {name: 'My Account', arrow: true, url: '/account'},
     {name: 'Help', url: '/help'}
 ]
 

@@ -1,4 +1,5 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState } from 'react';
+import { toast } from 'react-toastify';
 
 export const ProductContext = createContext();
 
@@ -12,11 +13,11 @@ export const ProductProvider = ({children}) => {
     };
 
     const addItemToCart = (product) => {
+        
         setCart(prev => [product, ...prev]);
     }
 
     const addItemToList = (product) => {
-        
         setList(prev => [product, ...prev]);
     }
 
@@ -25,6 +26,7 @@ export const ProductProvider = ({children}) => {
     }
     
     const deleteFromList = (id) => {
+        // toast("Item removed from Wish List");
         setList(prev => prev.filter(x => x.id !== id));
     }
 

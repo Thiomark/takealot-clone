@@ -70,7 +70,6 @@ const Cart = () => {
                                     </svg>
                                 </button>
                                 <button onClick={() => {
-                                    deleteFromList(item.id)
                                     addItemToCart(item.id)}} className='md:text-xs rounded-full md:mb-2 md:py-3 md:rounded-none px-8 bg-green-450 mb-4 mr-4 md:mr-0 text-white md:row-start-2 md:col-start-4 md:col-end-6 text justify-center flex items-center space-x-2 col-start-4 col-end-7 row-start-5 text-sm'>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi md:block w-4 h-4 bi-trash-fill" viewBox="0 0 16 16">
                                     <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
