@@ -29,7 +29,7 @@ const Account = () => {
             order: '3',
             secondName: 'Customer Information',
             links: [
-                { name: 'Personal Details', url: '#' },
+                { name: 'Personal Details', url: '/account/personal-details' },
                 { name: 'Address Book', url: '#' },
                 { name: 'Product Reviews', url: '#', hideOnLargeScreens: true },
                 { name: 'Buy Gift Vouchers', url: '#', hideOnLargeScreens: true },
@@ -80,7 +80,7 @@ const Account = () => {
         <Layout>
             <div className='md:p-4 md:sides xl:px-20 w-full'>
                 <h1 className='hidden md:block pb-4 font-bold text-lg'>My Account</h1>
-                <div className='pb-10 md:grid grid-cols-2 lg:grid-cols-3 gap-6 grid-rows-3'>
+                <div className='pb-10 md:grid grid-cols-2 lg:grid-cols-3 gap-6 grid-rows-[repeat(3,minmax(13em,1fr))]'>
                     {sections.map((section, index) => (
                         <div key={index} className={`md:bg-white md:shadow md:py-4 ${section.HideOnMobile && 'hidden md:block'}`} style={{order: section.order}}>
                             <header className='md:pb-2 py-4 md:py-0 font-semibold text-gray-900 px-5 md:px-4 md:flex items-center justify-between'>

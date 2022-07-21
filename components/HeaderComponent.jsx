@@ -99,20 +99,20 @@ const HeaderComponent = ({title}) => {
                     <div className='flex items-center space-x-4'>
                         <TakealotIcon />
                         <div className='md:flex text-sm items-center hidden'>
-                            <Link href="/help">Help</Link>
+                            <Link href="/help"><a className='hover:underline hover:text-blue-450'>Help</a></Link>
                             <div className={divider()  + ' hidden md:hidden lg:inline-block'} />
-                            <a className='hidden lg:inline'>Sell on Takealot</a>
+                            <Link href='#'><a className='hidden lg:inline hover:underline hover:text-blue-450'>Sell on Takealot</a></Link>
                         </div>
                     </div>
                     <div className='flex items-center space-x-4'>
                         <div className='md:flex hidden text-sm items-center'>
-                            <Link href="/account/login">Login</Link>
+                            <Link href="/account/login"><a className='hover:underline hover:text-blue-450'>Login</a></Link>
                             <div className={divider()} />
-                            <Link href="/account/register">Register</Link>
+                            <Link href="/account/register"><a className='hover:underline hover:text-blue-450'>Register</a></Link>
                             <div className={divider()} />
-                            <Link href='#'><a className='hidden lg:inline'>Orders</a></Link>
+                            <Link href='#'><a className='hidden lg:inline hover:underline hover:text-blue-450'>Orders</a></Link>
                             <div className={divider() + ' hidden md:hidden lg:inline-block'} />
-                            <Link href="/account">My Account</Link>
+                            <Link href="/account"><a className='hover:underline hover:text-blue-450'>My Account</a></Link>
                         </div>
                         <div className='flex items-center'>
                             <SVGButtonComponent extraStyle='md:hidden' iconStyle='h-5 w-5 text-gray-750'>

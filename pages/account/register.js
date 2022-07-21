@@ -1,18 +1,25 @@
 import HeaderComponent from '@/components/HeaderComponent';
 import { newslettersOptionsObject } from '@/utils/data';
 import Image from 'next/image';
-import Link from 'next/link'
+import Link from 'next/link';
+import {useRouter} from 'next/router'
 import React, { useState } from 'react'
 
 const Register = () => {
     const [newslettersOptions, setNewslettersOptions] = useState(newslettersOptionsObject);
     const label = 'text-sm text-gray-800 after:content-["*"] after:mx-1';
     const input = 'p-1.5 sm:p-0.5 md:max-w-xs col-span-2 md:mb-0 border w-full mb-5';
+    const router = useRouter();
+
+    const submit = (e) => {
+        e.preventDefault();
+        router.push('/');
+    }
 
     return (
         <div>
             <HeaderComponent />
-            <form className='p-8 flex gap-5 max-w-5xl mx-auto mb-10'>
+            <form onSubmit={(e) => submit(e)} className='p-8 flex gap-5 max-w-5xl mx-auto mb-10'>
                 <div className='max-w-[220px] hidden md:block w-full space-y-3'>
                     <div className='flex bg-yellow-150 items-center flex-col space-y-2 p-2'>
                         <Image src='/truck.webp' alt='truck icon' width={48} height={34}/>
@@ -27,13 +34,13 @@ const Register = () => {
                 <div className='md:grid w-full grid-cols-3 gap-3'>
                     <h1 className='font-bold col-span-3 md:font-normal md:pt-0 text-2xl mb-4 text-gray-800 py-3 border-b'>Register</h1>
                     <label className={label} htmlFor='first_name'>First Name</label>
-                    <input type='text' className={input} />
+                    <input type='text' required className={input} />
                     <label className={label} htmlFor='last_name'>Last Name</label>
-                    <input type='text' className={input} />
+                    <input type='text' required className={input} />
                     <label className={label} htmlFor='email'>Email</label>
-                    <input type='text' className={input} />
+                    <input type='email' required className={input} />
                     <label className={label} htmlFor='email'>Retype Email</label>
-                    <input type='text' className={input} />
+                    <input type='email' required className={input} />
                     <label className={label} htmlFor='password'>Password</label>
                     <input type='password' className={input} />
                     <div className='col-span-3 md:grid grid-cols-3 mb-4 md:mb-0'>
@@ -44,7 +51,7 @@ const Register = () => {
                     <label className={label} htmlFor='retype_password'>Retype Password</label>
                     <input type='password' className={input} />
                     <label className={label} htmlFor='number'>Mobile Number</label>
-                    <input type='text' className={input} />
+                    <input type='text' required className={input} />
                     <div className='col-span-3'>
                         <p className='text-sm font-bold'>Sign up to our Newsletters to be the first to know about our great deals!</p>
                         <div className='grid grid-cols-2 mt-4 gap-2'>

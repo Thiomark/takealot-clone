@@ -1,5 +1,4 @@
 import Layout from '@/components/Layout';
-import ProductsComponent from '@/components/ProductsComponent';
 import ProductHeaderComponent from '@/components/single-product/ProductHeaderComponent';
 import Link from 'next/link';
 import { ProductContext } from 'providers/ProductProvider';
