@@ -59,7 +59,7 @@ const Account = () => {
             order: '4',
             HideOnMobile: true,
             links: [
-                { name: 'My Lists', url: '#' },
+                { name: 'My Lists', url: '/wishlist' },
                 { name: 'Create a List', url: '#' }
             ]
         },

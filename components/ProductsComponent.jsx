@@ -11,7 +11,7 @@ const ProductsComponent = ({title, showMoreButton = true, showAddToCart, sides})
             <div className={`${sides ? 'sides' : ''}`}>
                 <div className='flex py-2 items-center justify-between'>
                     <h1 className='capitalize tet-sm'>{title}</h1>
-                    {showMoreButton && <button className='px-4 py-2 text-sm border-[1.5px] border-gray-400'>View More</button>}
+                    {showMoreButton && <button className='px-3 py-2 font-semibold text-xs rounded-full md:rounded-none md:text-sm border-[1.5px] border-gray-500'>View More</button>}
                 </div>
                 <div className='py-2 gap-4 relative items-stretch group flex overflow-hidden'>
                     <SVGButtonComponent className='top-2/4' btnStyle={buttons + 'right-3'} iconStyle='h-5 w-5'>

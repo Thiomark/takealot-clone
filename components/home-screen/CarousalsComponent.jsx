@@ -3,7 +3,7 @@ import { Carousel } from 'react-responsive-carousel'
 
 const CarousalsComponent = () => {
     return (
-        <div className="grid-cols-[200px_1.5em_1fr_1.5em_300px] grid-rows-[1fr_auto_auto] py-6 lg:grid sides">
+        <div className="grid-cols-[200px_1.5em_1fr_1.5em_300px] grid-rows-[1fr_auto_auto] md:py-6 lg:grid md:sides">
             <div className="col-start-3">
                 <Carousel infiniteLoop autoPlay showStatus={false} showThumbs={false}>
                     <img className="h-80 w-full object-cover bg-no-repeat" src="placeholder-images/banner-image-1.webp" />

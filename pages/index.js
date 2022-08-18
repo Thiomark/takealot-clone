@@ -15,7 +15,7 @@ export default function Home() {
             <HeaderComponent />
             <CarousalsComponent />
             <div className='bg-gray-100 pt-2 pb-6'>
-                <ProductsComponent title='Add To Cart In The Dark - Load Shedding Essentials'/>
+                <ProductsComponent title='Load Shedding Essentials'/>
                 <ProductsComponent title='New on Takealot'/>
                 <ProductsComponent title='Your Premium Liquor Choices'/>
                 <ProductsComponent title='Makeup'/>

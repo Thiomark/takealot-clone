@@ -26,7 +26,7 @@ const PersonalDetails = () => {
 
     return (
         <Layout>
-            <div className='md:sides w-full'>
+            <div className='md:sides w-full pb-20'>
                 <ProductHeaderComponent style={'hidden md:block'} showShare={false} links={['My Account', 'Personal Details']} />
                 <h1 className='md:px-0 p-4 md:pt-0 md:font-semibold md:text-lg'>Personal Details</h1>
                 <div className='divide-y-[1px] md:space-y-2 md:divide-y-0'>
