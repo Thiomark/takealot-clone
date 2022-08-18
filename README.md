@@ -1,11 +1,11 @@
 ## Getting Started
 
-First, run the development server:
+Run the Server
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-![desktop](https://user-images.githubusercontent.com/60178286/185280427-69c1fa1e-e2e2-4c0f-8bf4-ac556c4f5102.png)
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+![takealot](https://user-images.githubusercontent.com/60178286/185282058-f4c7ee95-c58f-4f52-b157-02ed32556f8c.png)
