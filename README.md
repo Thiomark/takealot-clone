@@ -1,3 +1,11 @@
+## Info
+[Takealot](https://www.takealot.com/, 'The original website')
+
+My Version - [Takealot](https://www.takealot.com/, 'My version') 
+
+## Features
+
+
 ## Getting Started
 
 Run the Server

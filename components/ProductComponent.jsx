@@ -22,7 +22,7 @@ const ProductComponent = ({showAddToCart}) => {
     };
 
     return (
-        <div className='min-w-[280px] w-full cursor-pointer bg-white p-4' onClick={() => {
+        <div className='md:min-w-[280px] min-w-[68%] w-full cursor-pointer bg-white p-4' onClick={() => {
                 fetchProduct(product);
                 router.push('/' + product.name.replaceAll(' ', '-').toLowerCase())
             }}>
