@@ -1,5 +1,5 @@
-import Layout from '@/components/Layout'
-import TakealotIcon from '@/components/TakealotIcon'
+import Layout from '../components/Layout'
+import TakealotIcon from '../components/TakealotIcon'
 import Link from 'next/link'
 import React, { useState } from 'react'
 

@@ -1,5 +1,5 @@
-import HeaderComponent from '@/components/HeaderComponent';
-import { newslettersOptionsObject } from '@/utils/data';
+import HeaderComponent from '../../components/HeaderComponent';
+import { newslettersOptionsObject } from '../../utils/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import {useRouter} from 'next/router'

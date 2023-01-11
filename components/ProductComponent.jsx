@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from 'next/router';
-import { generateRandomProduct } from '@/utils/data';
-import { ProductContext } from "providers/ProductProvider";
+import { generateRandomProduct } from '../utils/data';
+import { ProductContext } from "../providers/ProductProvider";
 
 const ProductComponent = ({showAddToCart}) => {
 

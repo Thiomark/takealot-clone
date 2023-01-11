@@ -1,8 +1,8 @@
-import { headerPagesLinks } from '@/utils/data';
+import { headerPagesLinks } from '../utils/data';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { AppContext } from 'providers/AppProvider';
-import { ProductContext } from 'providers/ProductProvider';
+import { AppContext } from '../providers/AppProvider';
+import { ProductContext } from '../providers/ProductProvider';
 import React, { useContext } from 'react';
 import SVGButtonComponent from './SVGButtonComponent';
 import TakealotIcon from './TakealotIcon';

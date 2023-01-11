@@ -1,5 +1,5 @@
-import Layout from '@/components/Layout';
-import ProductHeaderComponent from '@/components/single-product/ProductHeaderComponent';
+import Layout from '../../components/Layout';
+import ProductHeaderComponent from '../../components/single-product/ProductHeaderComponent';
 import Link from 'next/link';
 import React from 'react';
 

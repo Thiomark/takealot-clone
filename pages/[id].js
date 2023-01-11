@@ -1,15 +1,15 @@
-import Layout from '@/components/Layout';
-import ProductsComponent from '@/components/ProductsComponent';
-import ProductDescriptionComponent from '@/components/single-product/ProductDescriptionComponent';
-import ProductHeaderComponent from '@/components/single-product/ProductHeaderComponent';
-import ProductPriceComponent from '@/components/single-product/ProductPriceComponent';
-import ProductSummaryComponent from '@/components/single-product/ProductSummaryComponent';
-import ReviewsComponent from '@/components/single-product/ReviewsComponent';
+import Layout from '../components/Layout';
+import ProductsComponent from '../components/ProductsComponent';
+import ProductDescriptionComponent from '../components/single-product/ProductDescriptionComponent';
+import ProductHeaderComponent from '../components/single-product/ProductHeaderComponent';
+import ProductPriceComponent from '../components/single-product/ProductPriceComponent';
+import ProductSummaryComponent from '../components/single-product/ProductSummaryComponent';
+import ReviewsComponent from '../components/single-product/ReviewsComponent';
 import { useRouter } from 'next/router';
-import { generateRandomProduct } from '@/utils/data';
-import { ProductContext } from 'providers/ProductProvider';
+import { generateRandomProduct } from '../utils/data';
+import { ProductContext } from '../providers/ProductProvider';
 import React, { useContext, useEffect } from 'react';
-import FooterComponent from '@/components/FooterComponent';
+import FooterComponent from '../components/FooterComponent';
 
 const ProductScreen = () => {
     const links = ['Gaming', 'Gaming Accessories', 'Controllers'];

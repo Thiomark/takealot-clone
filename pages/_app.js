@@ -1,6 +1,6 @@
-import { AppProvider } from 'providers/AppProvider'
-import { AuthProvider } from 'providers/AuthProvider'
-import { ProductProvider } from 'providers/ProductProvider'
+import { AppProvider } from '../providers/AppProvider'
+import { AuthProvider } from '../providers/AuthProvider'
+import { ProductProvider } from '../providers/ProductProvider'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {

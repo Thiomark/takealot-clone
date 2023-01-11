@@ -1,7 +1,7 @@
-import Layout from '@/components/Layout';
-import ProductsComponent from '@/components/ProductsComponent';
+import Layout from '../components/Layout';
+import ProductsComponent from '../components/ProductsComponent';
 import Link from 'next/link';
-import { ProductContext } from 'providers/ProductProvider';
+import { ProductContext } from '../providers/ProductProvider';
 import React, { useContext } from 'react';
 
 const Cart = () => {

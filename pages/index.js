@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import HeaderComponent from '@/components/HeaderComponent';
-import ProductsComponent from '@/components/ProductsComponent';
-import FooterComponent from '@/components/FooterComponent';
-import CarousalsComponent from '@/components/home-screen/CarousalsComponent';
+import HeaderComponent from '../components/HeaderComponent';
+import ProductsComponent from '../components/ProductsComponent';
+import FooterComponent from '../components/FooterComponent';
+import CarousalsComponent from '../components/home-screen/CarousalsComponent';
 
 export default function Home() {
     return (

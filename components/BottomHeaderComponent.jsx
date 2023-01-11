@@ -2,7 +2,7 @@ import SVGButtonComponent from "./SVGButtonComponent";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "providers/AppProvider";
+import { AppContext } from "../providers/AppProvider";
 
 const BottomHeaderComponent = () => {
 

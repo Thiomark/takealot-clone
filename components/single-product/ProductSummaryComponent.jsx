@@ -1,4 +1,4 @@
-import { ProductContext } from "providers/ProductProvider";
+import { ProductContext } from "../../providers/ProductProvider";
 import { useContext } from "react";
 import AddToCartButtonsComponent from "./AddToCartButtonsComponent";
 import RatingComponent from "./RatingComponent"
