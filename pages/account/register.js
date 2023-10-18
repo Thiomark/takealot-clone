@@ -4,11 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "../../utils/supabaseClient";
 import React, { useState } from "react";
+import { useContext } from "react";
+import { AuthProvider } from "../../providers/AuthProvider";
 
 const Register = () => {
   const [newslettersOptions, setNewslettersOptions] = useState(
     newslettersOptionsObject
   );
+  const { register } = useContext(AuthProvider);
   const [email, setEmail] = useState("iiii@gmail.com");
   const [password, setPassword] = useState("123456");
   const [firstName, setFirstName] = useState("First Name");
@@ -20,36 +23,7 @@ const Register = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-
-    const {
-      error,
-      data: { user },
-    } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      console.error(error);
-      // You can use react-toastify here for better error handling
-      return;
-    }
-
-    // Update additional user details in your profiles table
-    const { data, error: updateError } = await supabase
-      .from("profiles")
-      .upsert([
-        {
-          id: user.id,
-          name: firstName,
-          surname: lastName,
-          phone: mobileNumber,
-        },
-      ]);
-
-    if (updateError) {
-      console.error(updateError);
-    }
+    register({ email, password, mobileNumber, firstName, lastName });
   };
 
   return (
