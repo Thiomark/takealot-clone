@@ -38,6 +38,7 @@ const ProductsComponent = ({
   showMoreButton = true,
   showAddToCart,
   sides,
+  products,
 }) => {
   const buttons =
     "h-10 w-10 z-50 hidden top-2/4 group-hover:flex -translate-y-2/4 absolute shadow bg-gray-750 text-white justify-center items-center rounded-full ";
@@ -54,11 +55,20 @@ const ProductsComponent = ({
           )}
         </div>
         <Slider {...settings}>
-          {[...Array(12)].map((product, index) => (
-            <div key={index} className="pr-6">
-              <ProductComponent showAddToCart={showAddToCart} />
-            </div>
-          ))}
+          {products && products.length > 0
+            ? products.map((product, index) => (
+                <div key={index} className="pr-6">
+                  <ProductComponent
+                    product={product}
+                    showAddToCart={showAddToCart}
+                  />
+                </div>
+              ))
+            : [...Array(12)].map((product, index) => (
+                <div key={index} className="pr-6">
+                  <ProductComponent showAddToCart={showAddToCart} />
+                </div>
+              ))}
         </Slider>
       </div>
     </div>

@@ -6,7 +6,6 @@ import ProductPriceComponent from "../components/single-product/ProductPriceComp
 import ProductSummaryComponent from "../components/single-product/ProductSummaryComponent";
 import ReviewsComponent from "../components/single-product/ReviewsComponent";
 import { useRouter } from "next/router";
-import { generateRandomProduct } from "../utils/data";
 import { ProductContext } from "../providers/ProductProvider";
 import React, { useContext, useEffect } from "react";
 import FooterComponent from "../components/FooterComponent";
@@ -18,7 +17,7 @@ const ProductScreen = () => {
 
   useEffect(() => {
     if (!product) {
-      fetchProduct(generateRandomProduct());
+      fetchProduct(router.query?.id);
     }
   }, []);
 
@@ -39,10 +38,10 @@ const ProductScreen = () => {
           </div>
 
           <div className="hidden lg:flex 2xl:hidden space-x-2 justify-center col-start-1 col-end-2 lg:pb-[1em] row-start-5 row-end-6">
-            {product.images.map((img, index) => (
+            {product.images.split(",").map((img, index) => (
               <div
                 key={index}
-                onClick={() => setImage(img)}
+                onClick={() => {}}
                 className="border border-[#dadada] w-[5em] h-[5em]"
               >
                 <img

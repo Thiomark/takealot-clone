@@ -1,18 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/router";
-import { generateRandomProduct } from "../utils/data";
 import { ProductContext } from "../providers/ProductProvider";
 
-const ProductComponent = ({ showAddToCart }) => {
+const ProductComponent = ({ showAddToCart, product }) => {
   const router = useRouter();
-  const [product, setProduct] = useState(null);
-  const { fetchProduct, addItemToCart } = useContext(ProductContext);
-
-  useEffect(() => {
-    if (!product) {
-      setProduct(generateRandomProduct());
-    }
-  }, []);
+  const { addItemToCart } = useContext(ProductContext);
 
   if (!product) {
     return <h1>loading</h1>;
@@ -22,8 +14,7 @@ const ProductComponent = ({ showAddToCart }) => {
     <div
       className="md:min-w-[280px] min-w-[68%] w-full cursor-pointer bg-white p-4"
       onClick={() => {
-        fetchProduct(product);
-        router.push("/" + product.name.replaceAll(" ", "-").toLowerCase());
+        router.push("/" + product.id);
       }}
     >
       <div className="md:h-64 h-52 justify-center items-center relative bg-gray-200 mb-4">

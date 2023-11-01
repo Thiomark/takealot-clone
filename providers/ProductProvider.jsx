@@ -2,6 +2,8 @@ import React, { createContext, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { mapSortOptionToFieldAndDirection } from "../utils/mapSortOptionToFieldAndDirection";
 import ImageService from "../utils/ImageService";
+import { generateRandomProduct } from "../utils/data";
+import { toast } from "react-toastify";
 
 export const ProductContext = createContext();
 
@@ -12,14 +14,30 @@ export const ProductProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [list, setList] = useState([]);
 
-  const fetchProduct = (product) => {
-    setProduct(product);
+  const fetchProduct = async (productId) => {
+    if (!productId) return;
+    try {
+      setIsLoading(true);
+      const { data: product, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", productId)
+        .single();
+
+      if (error) throw new Error(error);
+      // product.image = ImageService.generateURL(product.image);
+      setProduct({ ...generateRandomProduct(), ...product });
+    } catch (error) {
+      toast.error(`Failed to fetch product id: ${productId}`);
+      console.error("Error fetching product:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fetchProducts = async ({ sortOption, searchQuery }) => {
     try {
       if (isLoading) return;
-      setIsLoading(true);
       setIsLoading(true);
 
       const { sortField, sortDirection } =
@@ -54,9 +72,12 @@ export const ProductProvider = ({ children }) => {
           console.error(`Failed to process image: ${imageError}`);
         }
       }
-      setProducts(products);
+
+      setProducts(
+        products.map((pr) => ({ ...generateRandomProduct(), ...pr }))
+      );
     } catch (error) {
-      console.log(error);
+      toast.error(`Failed to fetch products`);
       console.error(`Failed to fetch products: ${error.message}`);
     } finally {
       setIsLoading(false);
