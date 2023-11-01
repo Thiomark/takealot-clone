@@ -1,34 +1,72 @@
-import React from 'react'
-import ProductComponent from './ProductComponent';
-import SVGButtonComponent from './SVGButtonComponent';
+import ProductComponent from "./ProductComponent";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
-const ProductsComponent = ({title, showMoreButton = true, showAddToCart, sides}) => {
+const settings = {
+  infinite: false,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+};
 
-    const buttons = 'h-10 w-10 z-50 hidden top-2/4 group-hover:flex -translate-y-2/4 absolute shadow bg-gray-750 text-white justify-center items-center rounded-full ';
+const ProductsComponent = ({
+  title,
+  showMoreButton = true,
+  showAddToCart,
+  sides,
+}) => {
+  const buttons =
+    "h-10 w-10 z-50 hidden top-2/4 group-hover:flex -translate-y-2/4 absolute shadow bg-gray-750 text-white justify-center items-center rounded-full ";
 
-    return (
-        <div>
-            <div className={`${sides ? 'sides' : ''}`}>
-                <div className='flex py-2 items-center justify-between'>
-                    <h1 className='capitalize tet-sm'>{title}</h1>
-                    {showMoreButton && <button className='px-3 py-2 font-semibold text-xs rounded-full md:rounded-none md:text-sm border-[1.5px] border-gray-500'>View More</button>}
-                </div>
-                <div className='py-2 gap-4 relative items-stretch group flex overflow-hidden'>
-                    <SVGButtonComponent className='top-2/4' btnStyle={buttons + 'right-3'} iconStyle='h-5 w-5'>
-                        <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                    </SVGButtonComponent>
-                    <SVGButtonComponent btnStyle={buttons + 'left-3'} iconStyle='h-5 w-5'>
-                        <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                    </SVGButtonComponent>
-                    {[...Array(5)].map((product, index) => <ProductComponent showAddToCart={showAddToCart} key={index}/>)}
-                </div>
-            </div>
+  return (
+    <div>
+      <div className={`${sides ? "sides" : ""}`}>
+        <div className="flex py-2 items-center justify-between">
+          <h1 className="capitalize tet-sm">{title}</h1>
+          {showMoreButton && (
+            <button className="px-3 py-2 font-semibold text-xs rounded-full md:rounded-none md:text-sm border-[1.5px] border-gray-500">
+              View More
+            </button>
+          )}
         </div>
-    )
-}
+        <Slider {...settings}>
+          {[...Array(12)].map((product, index) => (
+            <div key={index} className="pr-6">
+              <ProductComponent showAddToCart={showAddToCart} />
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </div>
+  );
+};
 
 ProductsComponent.defaultProps = {
-    sides: true
-}
+  sides: true,
+};
 
-export default ProductsComponent
+export default ProductsComponent;
