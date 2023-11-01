@@ -1,10 +1,7 @@
-/**
- * Maps a sort option to a sort field and direction.
- * @param {string} sortOption - The sort option (e.g., 'lowToHigh', 'highToLow', 'newStock', 'latest')
- * @returns {Object} - Object containing the sort field and sort direction
- */
-export function mapSortOptionToFieldAndDirection(sortOption: string) {
-  let sortField, sortDirection;
+export type SortOption = "lowToHigh" | "highToLow" | "newStock";
+
+export function mapSortOptionToFieldAndDirection(sortOption: SortOption) {
+  let sortField: string, sortDirection: "asc" | "desc";
   switch (sortOption) {
     case "lowToHigh":
       sortField = "price";
@@ -19,6 +16,7 @@ export function mapSortOptionToFieldAndDirection(sortOption: string) {
       sortDirection = "desc";
       break;
     default:
+      // This default case can actually be omitted because sortOption type is now constrained
       sortField = "created_at";
       sortDirection = "desc";
       break;

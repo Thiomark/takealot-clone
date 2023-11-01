@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { mapSortOptionToFieldAndDirection } from "../utils/mapSortOptionToFieldAndDirection";
-import ImageService from "../utils/ImageService";
+import { ImageService } from "../utils/ImageService";
 import { generateRandomProduct } from "../utils/data";
 import { toast } from "react-toastify";
 
@@ -25,7 +25,7 @@ export const ProductProvider = ({ children }) => {
         .single();
 
       if (error) throw new Error(error);
-      // product.image = ImageService.generateURL(product.image);
+      product.image = ImageService.generateURL(product.image);
       setProduct({ ...generateRandomProduct(), ...product });
     } catch (error) {
       toast.error(`Failed to fetch product id: ${productId}`);
