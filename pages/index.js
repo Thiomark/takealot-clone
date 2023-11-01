@@ -3,8 +3,38 @@ import HeaderComponent from "../components/HeaderComponent";
 import ProductsComponent from "../components/ProductsComponent";
 import FooterComponent from "../components/FooterComponent";
 import CarousalsComponent from "../components/home-screen/CarousalsComponent";
+import { useContext, useEffect } from "react";
+import { ProductContext } from "../providers/ProductProvider";
 
 export default function Home() {
+  const { fetchProducts, products } = useContext(ProductContext);
+
+  useEffect(() => {
+    const selectedOption = "relevance";
+    const searchQuery = "";
+    fetchProducts({ selectedOption, searchQuery });
+  }, []);
+
+  // Using Array.prototype.reduce to group products by their category
+  const groupedProducts = products.reduce((acc, product) => {
+    const { category } = product; // Assuming each product object has a 'category' field
+
+    // Initialize the category array if it doesn't exist
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+
+    // Add the product to the respective category
+    acc[category].push(product);
+
+    return acc;
+  }, {});
+
+  // Sort categories by the number of items they contain, in descending order
+  const sortedCategories = Object.keys(groupedProducts).sort((a, b) => {
+    return groupedProducts[b].length - groupedProducts[a].length;
+  });
+
   return (
     <div>
       <Head>
@@ -15,11 +45,13 @@ export default function Home() {
       <HeaderComponent />
       <CarousalsComponent />
       <div className="pb-10 bg-gray-50">
-        <ProductsComponent title="Load Shedding Essentials" />
-        <ProductsComponent title="New on Takealot" />
-        <ProductsComponent title="Your Premium Liquor Choices" />
-        <ProductsComponent title="Makeup" />
-        <ProductsComponent title="Sports & Training" />
+        {sortedCategories.map((category) => (
+          <ProductsComponent
+            key={category}
+            title={category}
+            products={groupedProducts[category]}
+          />
+        ))}
       </div>
       <FooterComponent />
     </div>
