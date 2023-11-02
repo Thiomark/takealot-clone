@@ -1,14 +1,19 @@
 import { useContext } from "react";
 import { useRouter } from "next/router";
 import { ProductContext } from "../providers/ProductProvider";
+import Image from "next/image";
 
 const ProductComponent = ({ showAddToCart, product }) => {
   const router = useRouter();
   const { addItemToCart } = useContext(ProductContext);
 
   if (!product) {
-    return <h1>loading</h1>;
+    return <h1>loading...</h1>;
   }
+
+  const discountedPrice = product.sale
+  ? (product.price - product.price * product.sale).toFixed(2)
+  : product.price;
 
   return (
     <div
@@ -18,9 +23,9 @@ const ProductComponent = ({ showAddToCart, product }) => {
       }}
     >
       <div className="md:h-64 h-52 justify-center items-center relative bg-gray-200 mb-4">
-        {product.oldPrice > product.price && (
+        {product.sale && (
           <span className="bg-blue-450 p-2 absolute top-0 left-0 font-bold text-xs text-white h-12 w-12 z-20 rounded text-center flex items-center">
-            {product.sale} % off
+            {product.sale * 100} % off
           </span>
         )}
         <img
@@ -35,9 +40,9 @@ const ProductComponent = ({ showAddToCart, product }) => {
       </div>
       <h1 className="text-sm font-bold mb-1">
         R {product.price}{" "}
-        {product.oldPrice > product.price && (
+        {product.sale && (
           <span className="text-xs text-gray-400 font-normal line-through ml-2">
-            R {product.oldPrice}
+            R {discountedPrice}
           </span>
         )}
       </h1>
