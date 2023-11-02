@@ -1,5 +1,3 @@
-// CartContext.js
-
 import React, { createContext, useState, useContext } from "react";
 
 type CartItem = {

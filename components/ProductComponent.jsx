@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { useRouter } from "next/router";
 import { ProductContext } from "../providers/ProductProvider";
-import Image from "next/image";
 
 const ProductComponent = ({ showAddToCart, product }) => {
   const router = useRouter();
