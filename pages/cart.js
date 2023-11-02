@@ -1,12 +1,12 @@
 import Layout from "../components/Layout";
 import ProductsComponent from "../components/ProductsComponent";
 import Link from "next/link";
-import { ProductContext } from "../providers/ProductProvider";
-import React, { useContext } from "react";
+import React from "react";
+import { useCart } from "../providers/CartProvider";
+import Image from "next/image";
 
 const Cart = () => {
-  const { cart, deleteFromCart, addItemToList } = useContext(ProductContext);
-
+  const { cart, removeFromCart } = useCart();
   const createAnOrder = async () => {
     const payload = {
       cartId: "f9ee03fe-e509-44cc-8c44-7e8048ec1096",
@@ -49,28 +49,38 @@ const Cart = () => {
                   className="bg-white pt-8 relative grid-cols-[1em_6em_1fr_1fr_6em_1em] grid-rows-[auto_auto_auto_2em_auto] md:grid-rows-[auto_auto_auto_2em_auto_1.5em] grid items-stretch"
                 >
                   <div className="flex col-start-2 md:row-span-5 row-span-3 items-center justify-center">
-                    <img
+                    <Image
                       className="w-auto object-cover h-20"
-                      src={`placeholder-images/${item.displayedImage}-placeholder.png`}
-                      alt={item.name}
+                      height={300}
+                      width={300}
+                      loading="lazy"
+                      src={`/placeholder-images/hat-placeholder.png`}
+                      alt={item.products.name}
                       srcSet=""
                     />
                   </div>
                   <h1 className="col-start-3 ml-4 font-semibold text-lg col-end-6 md:col-end-5 md:row-start-1">
-                    {item.name}
+                    {item.products.name}
                   </h1>
                   <h1 className="col-start-3 md:col-start-5 md:row-start-1 ml-4 col-end-6 font-bold text-lg">
-                    R {item.price}
+                    R {item.products.price}
                   </h1>
                   <div className="col-start-3 md:col-end-5 ml-4 col-end-6">
-                    <p className="text-sm text-gray-500">fghj fgh fghj dfgh</p>
-                    <p className="text-sm font-bold text-gray-600">in stock </p>
+                    <p className="text-sm text-gray-500">
+                      {item.products.name}
+                    </p>
+                    <p className="text-sm font-bold text-gray-600">
+                      in stock{" "}
+                      <span className="bg-gray-200 text-xs p-1 rounded">
+                        JHB
+                      </span>{" "}
+                    </p>
                   </div>
                   <button className="text-gray-700 p-4 md:border-none md:row-start-2 md:col-start-5 md:col-end-6 col-start-1 row-start-5 col-end-4 justify-center border flex items-center space-x-4">
-                    <span>Qty</span>
+                    <span>Qty {item.quantity}</span>
                   </button>
                   <button
-                    onClick={() => deleteFromCart(item.id)}
+                    onClick={() => removeFromCart(item)}
                     className="text-gray-700 md:text-xs md:row-start-4 md:col-start-5 md:static absolute top-4 right-4 flex items-center space-x-2"
                   >
                     <svg
@@ -85,8 +95,8 @@ const Cart = () => {
                   </button>
                   <button
                     onClick={() => {
-                      deleteFromCart(item.id);
-                      addItemToList(item.id);
+                      // removeFromCart(item)
+                      // addItemToList(item.id);
                     }}
                     className="text-gray-700 md:text-xs md:mr-6 md:col-end-5 md:ml-auto text justify-center flex items-center space-x-2 col-start-4 col-end-7 row-start-5 border md:border-none md:row-start-4 md:col-start-4"
                   >

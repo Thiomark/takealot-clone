@@ -1,70 +1,126 @@
-import React, { createContext, useState, useContext } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import { getCookie, deleteCookie } from "cookies-next";
+import { supabase } from "../utils/supabaseClient";
+import { toast } from "react-toastify";
 
-type CartItem = {
+type CartItemType = {
+  cart_id: string;
+  product_id: string;
+  quantity: number;
+  products: ProductType;
+};
+
+type ProductType = {
   id: string;
+  price: number;
   name: string;
-  // other fields
-};
-
-type ListItems = {
-  // define the shape of your list items here
-};
-
-type CartProviderProps = {
-  children: React.ReactNode;
+  images: string;
+  qty: number;
 };
 
 type CartContextType = {
-  cart: CartItem[];
-  list: ListItems[];
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (id: string) => void;
-  addToList: (item: ListItems) => void;
-  removeFromList: (id: string) => void;
+  cart: CartItemType[];
+  addToCart: (product: ProductType) => void;
+  fetchCart: (cartId: string) => Promise<void>;
+  removeFromCart: (SelectProduct: ProductType) => void;
+};
+
+type CartProviderProps = {
+  children: ReactNode;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export const useCart = () => {
+export const useCart = (): CartContextType => {
   const context = useContext(CartContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };
 
-export const CartProvider = ({ children }: CartProviderProps) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [list, setList] = useState<ListItems[]>([]);
+export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+  const [cart, setCart] = useState<CartItemType[]>([]);
 
-  const addToCart = (item: CartItem) => {
-    setCart((prevCart) => [...prevCart, item]);
+  useEffect(() => {
+    const cartIdFromCookie = getCookie("cart_id");
+    if (!cartIdFromCookie) return;
+
+    const checkCartExistsAndFetch = async () => {
+      try {
+        const { data: cartExists, error } = await supabase.rpc(
+          "does_cart_exist",
+          {
+            cart_id_to_check: cartIdFromCookie,
+          }
+        );
+
+        if (error) throw error;
+        if (!cartExists) {
+          deleteCookie("cart_id");
+          return;
+        }
+
+        fetchCart(cartIdFromCookie);
+      } catch (error: any) {
+        toast.error(`Error: ${error.message}`);
+        deleteCookie("cart_id");
+      }
+    };
+
+    checkCartExistsAndFetch();
+  }, []);
+
+  const addToCart = (newProduct: ProductType) => {
+    setCart((prevCart) => {
+      // const existingProduct = prevCart.find(
+      //   (product) => product.product_id === newProduct.id
+      // );
+      // if (existingProduct) {
+      //   // If it exists, increase the quantity
+      //   return prevCart.map((product) =>
+      //     product.product_id === newProduct.id
+      //       ? { ...product, qty: product.quantity + 1 }
+      //       : product
+      //   );
+      // }
+      // return [...prevCart, { ...newProduct, quantity: 1 }];
+      return [];
+    });
   };
 
-  const removeFromCart = (id: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  const removeFromCart = (SelectProduct: ProductType) => {
+    setCart((prevCart) => {
+      const newArray = prevCart.filter(
+        (product) => product.product_id !== SelectProduct.id
+      );
+      return newArray;
+    });
   };
 
-  const addToList = (item: ListItems) => {
-    setList((prevList) => [...prevList, item]);
-  };
+  const fetchCart = async (cartId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("cart_items")
+        .select("*, products(*)")
+        .eq("cart_id", cartId);
 
-  const removeFromList = (id: string) => {
-    // @ts-ignore
-    // TODO add types
-    setList((prevList) => prevList.filter((item) => item.id !== id));
+      if (error) throw error;
+      if (data) setCart(data);
+    } catch (error: any) {
+      toast.error(`Error fetching cart: ${error.message}`);
+    }
   };
 
   return (
     <CartContext.Provider
-      value={{
-        cart,
-        list,
-        addToCart,
-        removeFromCart,
-        addToList,
-        removeFromList,
-      }}
+      value={{ cart, addToCart, fetchCart, removeFromCart }}
     >
       {children}
     </CartContext.Provider>
