@@ -134,12 +134,11 @@ const Cart = () => {
                     R 2700
                   </span>
                 </div>
-                <button
-                  onClick={createAnOrder}
-                  className=" bg-green-450 text-center py-2 w-full text-sm text-white"
-                >
-                  Proceed To Checkout
-                </button>
+                <Link href="/buy/review">
+                  <a className=" bg-green-450 text-center block py-2 w-full text-sm text-white">
+                    Proceed To Checkout
+                  </a>
+                </Link>
               </div>
               <div className="p-4 text-sm text-gray-700 space-y-2 bg-white">
                 <div className="flex items-center space-x-3">

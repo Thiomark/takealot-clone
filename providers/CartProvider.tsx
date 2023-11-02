@@ -8,21 +8,7 @@ import React, {
 import { getCookie, deleteCookie } from "cookies-next";
 import { supabase } from "../utils/supabaseClient";
 import { toast } from "react-toastify";
-
-type CartItemType = {
-  cart_id: string;
-  product_id: string;
-  quantity: number;
-  products: ProductType;
-};
-
-type ProductType = {
-  id: string;
-  price: number;
-  name: string;
-  images: string;
-  qty: number;
-};
+import { CartItemType, ProductType } from "../types";
 
 type CartContextType = {
   cart: CartItemType[];
