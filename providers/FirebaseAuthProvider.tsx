@@ -10,7 +10,7 @@ import {
   signInWithEmailAndPassword,
   AuthError,
 } from "firebase/auth";
-import firebaseApp from "@/firebase/config";
+import firebaseApp from "@/firebase";
 
 type ContextState = {
   user: User | null;
@@ -35,7 +35,7 @@ const FirebaseAuthContext = createContext<ContextState>(defaultContextValue);
 const FirebaseAuthProvider: FC<FirebaseAuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(defaultContextValue.user);
   const [loading, setLoading] = useState<boolean>(false);
-  const [shouldRedirect, setShouldRedirect] = useState<boolean>(false); // Add this flag
+  const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
   const auth = getAuth(firebaseApp);
 
   const signIn = async (email: string, password: string): Promise<void> => {
@@ -63,7 +63,7 @@ const FirebaseAuthProvider: FC<FirebaseAuthProviderProps> = ({ children }) => {
   };
 
   const handleAuthError = (error: AuthError): void => {
-    // Handle error, e.g., display an error message to the user
+    // TODO Handle error, e.g., display an error message to the user
     console.error("Authentication Error:", error.message);
   };
 
@@ -74,7 +74,7 @@ const FirebaseAuthProvider: FC<FirebaseAuthProviderProps> = ({ children }) => {
       if (!user || authUser?.uid !== user?.uid) {
         setUser(authUser);
         if (shouldRedirect) {
-          setShouldRedirect(false); // Reset the flag after redirect
+          setShouldRedirect(false);
           redirect("/admin");
         }
       }
@@ -84,7 +84,7 @@ const FirebaseAuthProvider: FC<FirebaseAuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (!user) return;
-    setShouldRedirect(true); // Set the flag before redirect
+    setShouldRedirect(true);
   }, [user]);
 
   return (
