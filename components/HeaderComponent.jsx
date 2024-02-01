@@ -6,14 +6,14 @@ import SVGButtonComponent from "./SVGButtonComponent";
 import TakealotIcon from "./TakealotIcon";
 import BottomHeaderComponent from "./BottomHeaderComponent";
 import { AppContext } from "../providers/AppProvider";
-import { ProductContext } from "../providers/ProductProvider";
+// import { ProductContext } from "../providers/ProductProvider";
 import { useAuth } from "../providers/FirebaseAuthProvider";
 import { headerPagesLinks } from "../utils/data";
 
 const HeaderComponent = ({ title = "Takealot.com" }) => {
   const router = useRouter();
   const { user, logout } = useAuth();
-  const { cart } = useContext(ProductContext);
+  // const { cart } = useContext(ProductContext);
   const { isMenuOpen, setIsMenuOpen } = useContext(AppContext);
 
   const bottomLinks = [
@@ -24,7 +24,7 @@ const HeaderComponent = ({ title = "Takealot.com" }) => {
       svg: () => (
         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
       ),
-      cart: cart.length,
+      cart: 0,
       showCart: true,
     },
     {
@@ -238,7 +238,7 @@ const HeaderComponent = ({ title = "Takealot.com" }) => {
                 />
               </SVGButtonComponent>
               <div className={divider("mx-2")} />
-              <SVGButtonComponent
+              {/* <SVGButtonComponent
                 event={() => router.push("/cart")}
                 after={cart.length}
                 spanStyle="ml-1 hidden text-xs md:inline text-white"
@@ -246,7 +246,7 @@ const HeaderComponent = ({ title = "Takealot.com" }) => {
                 btnStyle="h-9 w-9 md:w-auto md:px-4 rounded-full p-2 flex items-center justify-center md:bg-green-450"
               >
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-              </SVGButtonComponent>
+              </SVGButtonComponent> */}
             </div>
           </div>
         </div>
