@@ -13,6 +13,7 @@ import {
   signInAnonymously,
   onAuthStateChanged,
   User as FirebaseUser,
+  signOut,
 } from "firebase/auth";
 import axios from "axios";
 import firebaseApp from "@/firebase";
@@ -23,6 +24,7 @@ const auth = getAuth(firebaseApp);
 interface AuthContextType {
   user: FirebaseUser | null;
   loading: boolean;
+  logout: () => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, name: string) => Promise<void>;
   signInAnonymously: () => Promise<void>;
@@ -89,6 +91,12 @@ export const FirebaseAuthProvider = ({
     }
   };
 
+  const logout = async () => {
+    await signOut(auth);
+    // TDOD should only go home if it is on protected routes
+    router.push("/");
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -102,6 +110,7 @@ export const FirebaseAuthProvider = ({
     loading,
     signIn,
     signUp,
+    logout,
     signInAnonymously: signInAnonymouslyHandler,
   };
 

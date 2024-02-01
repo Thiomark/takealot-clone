@@ -10,9 +10,15 @@ import { ProductContext } from "../providers/ProductProvider";
 import { useAuth } from "../providers/FirebaseAuthProvider";
 import { headerPagesLinks } from "../utils/data";
 
-const HeaderComponent = ({ title = "Takealot.com" }) => {
+interface HeaderComponentProps {
+  title?: string;
+}
+
+const HeaderComponent: React.FC<HeaderComponentProps> = ({
+  title = "Takealot.com",
+}) => {
   const router = useRouter();
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { cart } = useContext(ProductContext);
   const { isMenuOpen, setIsMenuOpen } = useContext(AppContext);
 
@@ -40,7 +46,7 @@ const HeaderComponent = ({ title = "Takealot.com" }) => {
     },
   ];
 
-  const divider = (sides) =>
+  const divider = (sides?: string) =>
     `h-7 hidden md:inline-block w-[1px] bg-gray-200 ${sides ? sides : "mx-4"}`;
 
   return (

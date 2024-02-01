@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import { useAuth } from "@/providers/FirebaseAuthProvider";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>("iotsoela@gmail.com");
-  const [password, setPassword] = useState<string>("123456");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const { signIn } = useAuth();
   const router = useRouter();
