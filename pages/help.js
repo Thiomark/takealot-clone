@@ -10,7 +10,7 @@ const Help = () => {
         <div bg='bg-white'>
             <header className='mx-auto max-w-3xl flex items-center w-full px-8 py-4'>
                 <TakealotIcon />
-                <Link href='/help'><a className='ml-6 text-sm hidden md:block'>Help</a></Link>
+                <Link href='/help' className='ml-6 text-sm hidden md:block'>Help</Link>
             </header>
             <div className='bg-blue-450'>
                 <div className='text-white mx-auto max-w-3xl space-y-6 sm:space-x-6 sm:space-y-0 p-8 sm:flex items-center'>
@@ -18,7 +18,9 @@ const Help = () => {
                         <h1 className='text-2xl font-semibold mb-4'>When will I get my order?</h1>
                         <p className='text-sm'>Find tracking information and order details in <span className='font-bold'>My Account</span>, under <span className='font-bold'>Orders</span></p>
                     </div>
-                    <Link href='/orders'><a className='text-blue-450 text-center font-semibold bg-white w-full text-sm flex-shrink-0 sm:w-fit block p-3 text-semibold'>View Orders &rarr;</a></Link>
+                    <Link
+                        href='/orders'
+                        className='text-blue-450 text-center font-semibold bg-white w-full text-sm flex-shrink-0 sm:w-fit block p-3 text-semibold'>View Orders &rarr;</Link>
                 </div>
             </div>
             <div className='bg-gray-100 mx-auto max-w-3xl flex-1 p-6 mt-14 md:p-12'>
@@ -34,7 +36,7 @@ const Help = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 const Card = ({item}) => {

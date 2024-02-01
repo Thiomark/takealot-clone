@@ -37,14 +37,16 @@ const PersonalDetails = () => {
                                 <h1 className='text-sm md:text-lg font-semibold'>{item.field}</h1>
                                 <p className='text-xs md:text-sm text-gray-600'>{item.value}</p>
                             </div>
-                            <Link href={'#'}><a className='text-sm md:text-white md:bg-blue-450 md:px-14 md:py-2 font-bold text-blue-450'>Edit</a></Link>
+                            <Link
+                                href={'#'}
+                                className='text-sm md:text-white md:bg-blue-450 md:px-14 md:py-2 font-bold text-blue-450'>Edit</Link>
                         </div>
-                    )
+                    );
                 })}
                 </div>
             </div>
         </Layout>
-    )
+    );
 }
 
 export default PersonalDetails

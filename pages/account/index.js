@@ -94,12 +94,15 @@ const Account = () => {
                             </header>
                             <div className='divide-y-[1px] md:space-y-2 text-gray-500 md:text-blue-450 md:divide-none bg-white text-sm md:border-none border-y-[1px]'>{
                                 section.links.map((link, i) => (
-                                    <Link key={i} href={link.url}>
-                                        <a className={`px-4 items-center justify-between md:py-0 py-3 ${link.hideOnLargeScreens && 'md:hidden'} ${link.HideOnMobile ? 'hidden md:block' : 'flex'}`}>
-                                            <span>{link.name}</span>
-                                            <span className='md:hidden'>&rarr;</span>
-                                        </a>
-                                    </Link>
+                                    (<Link
+                                        key={i}
+                                        href={link.url}
+                                        className={`px-4 items-center justify-between md:py-0 py-3 ${link.hideOnLargeScreens && 'md:hidden'} ${link.HideOnMobile ? 'hidden md:block' : 'flex'}`}>
+
+                                        <span>{link.name}</span>
+                                        <span className='md:hidden'>&rarr;</span>
+
+                                    </Link>)
                                 ))
                             }</div>
                         </div>
@@ -107,7 +110,7 @@ const Account = () => {
                 }</div>
             </div>
         </Layout>
-    )
+    );
 }
 
 export default Account;

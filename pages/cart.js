@@ -82,11 +82,13 @@ const Cart = () => {
                 <div className='bg-white w-full space-y-6 flex flex-col items-center justify-center py-10'>
                     <img src='cart.svg' className='rounded-full border-4 shadow-md border-white' />
                     <h1>Your shopping cart is empty</h1>
-                    <Link href='/'><a className='text-sm text-center text-white md:w-fit md:px-5 bg-blue-450 max-w-md md:rounded-none rounded-full w-full py-3'>Continue Shopping</a></Link>
+                    <Link
+                        href='/'
+                        className='text-sm text-center text-white md:w-fit md:px-5 bg-blue-450 max-w-md md:rounded-none rounded-full w-full py-3'>Continue Shopping</Link>
                 </div>
             </div>}
         </Layout>
-    )
+    );
 }
 
 export default Cart;

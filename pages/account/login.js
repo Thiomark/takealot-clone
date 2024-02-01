@@ -21,7 +21,7 @@ const Login = () => {
                     <input required type='email' className={input + ' mt-2 mb-4'} />
                     <div className='text-sm flex items-center justify-between py-3'>
                         <label htmlFor='email'>Password</label>
-                        <Link href='#'><a className='hover:underline text-blue-450'>Forgot Password</a></Link>
+                        <Link href='#' className='hover:underline text-blue-450'>Forgot Password</Link>
                     </div>
                     <input required type='password' className={input} />
                     <div className='flex flex-col items-center space-y-5 mt-20'>
@@ -31,7 +31,7 @@ const Login = () => {
                             </svg>
                             <span>Login</span>
                         </button>
-                        <h1 className='text-sm text-center'>New to Takealot? <Link href='/account/register'><a className='hover:underline text-blue-450'>Create account</a></Link></h1>
+                        <h1 className='text-sm text-center'>New to Takealot? <Link href='/account/register' className='hover:underline text-blue-450'>Create account</Link></h1>
                     </div>
                 </form>
                 <div className='text-center mt-8 text-xs md:text-left'>
@@ -40,7 +40,7 @@ const Login = () => {
                 </div>
             </div>
         </Layout>
-    )
+    );
 }
 
 export default Login

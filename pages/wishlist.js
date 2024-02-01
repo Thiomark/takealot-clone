@@ -17,7 +17,9 @@ const Cart = () => {
                         <img src='wishlist.svg' className='rounded-full border-4 shadow-md border-white' />
                         <h1 className='py-3 font-bold'>This list is empty!</h1>
                         <p className='text-gray-700'>Go on, start planning what gifts you&apos;d like!</p>
-                        <Link href='/'><a className='text-sm text-center text-white md:w-fit md:px-5 bg-blue-450 max-w-md md:rounded-none rounded-full w-full py-3'>Continue Shopping</a></Link>
+                        <Link
+                            href='/'
+                            className='text-sm text-center text-white md:w-fit md:px-5 bg-blue-450 max-w-md md:rounded-none rounded-full w-full py-3'>Continue Shopping</Link>
                     </div>
                 </div>}
                 {list.length > 0 && <div className='mb-10'>
@@ -81,7 +83,7 @@ const Cart = () => {
                 </div>}
             </div>
         </Layout>
-    )
+    );
 }
 
 export default Cart

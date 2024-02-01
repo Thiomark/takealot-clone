@@ -6,7 +6,10 @@ const ProductHeaderComponent = ({links, style, showShare}) => {
         <div className={style}>
             <div className='flex w-full items-center justify-between'>
                 <div className='flex items-center py-4'>
-                    {links.map((x, index) => <Link href='#' key={x}><a className={`text-sm hover:underline text-blue-450 ${index < links.length - 1 && 'after:content-["/"] after:mx-4'}`}>{x}</a></Link>)}
+                    {links.map((x, index) => <Link
+                        href='#'
+                        key={x}
+                        className={`text-sm hover:underline text-blue-450 ${index < links.length - 1 && 'after:content-["/"] after:mx-4'}`}>{x}</Link>)}
                 </div>
                 {showShare && <button className='text-gray-700 before:content flex items-center text-sm font-bold'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi mr-2 w-4 h-5 bi-share-fill" viewBox="0 0 16 16">
@@ -15,7 +18,7 @@ const ProductHeaderComponent = ({links, style, showShare}) => {
                 </button>}
             </div>
         </div>
-    )
+    );
 }
 
 ProductHeaderComponent.defaultProps = {

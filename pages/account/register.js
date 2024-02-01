@@ -23,7 +23,7 @@ const Register = () => {
                 <div className='max-w-[220px] hidden md:block w-full space-y-3'>
                     <div className='flex bg-yellow-150 items-center flex-col space-y-2 p-2'>
                         <Image src='/truck.webp' alt='truck icon' width={48} height={34}/>
-                        <p className='font-bold text-sm text-center'>Enjoy <span className='text-blue-450'>Free Delivery</span> worth R65 on your first order <Link href='#'><a className='font-normal block text-blue-450 underline'>T&Cs apply</a></Link></p>
+                        <p className='font-bold text-sm text-center'>Enjoy <span className='text-blue-450'>Free Delivery</span> worth R65 on your first order <Link href='#' className='font-normal block text-blue-450 underline'>T&Cs apply</Link></p>
                     </div>
                     <div className='space-y-6 text-xs p-6 bg-gray-100'>
                         <h1 className='font-bold'>Safe Shopping at Takealot</h1>
@@ -67,11 +67,11 @@ const Register = () => {
                         <p className='text-sm py-4 md:py-0 md:mt-2 max-w-sm sm:max-w-full'>You will receive newsletters based on your interests, recent orders and browsing behaviour.</p>
                     </div>
                     <button type='submit' className='p-3 md:p-2 md:w-auto w-full text-sm bg-blue-450 text-white'>Register Now</button>
-                    <p className='text-sm col-span-3 mt-5 md:mt-0 md:text-xs max-w-sm sm:max-w-full'>By clicking on &apos;Register Now&apos;, you agree to our <Link href="#"><a className='text-blue-450 hover:underline'>Terms and Conditions</a></Link> and confirm that you are over 18 years of age</p>
+                    <p className='text-sm col-span-3 mt-5 md:mt-0 md:text-xs max-w-sm sm:max-w-full'>By clicking on &apos;Register Now&apos;, you agree to our <Link href="#" className='text-blue-450 hover:underline'>Terms and Conditions</Link> and confirm that you are over 18 years of age</p>
                 </div>
             </form>
         </div>
-    )
+    );
 }
 
 export default Register
