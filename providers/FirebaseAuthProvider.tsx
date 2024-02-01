@@ -1,97 +1,117 @@
-"use client";
-
-import { createContext, FC, useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { useRouter } from "next/router";
 import {
   getAuth,
-  onAuthStateChanged,
-  User,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  AuthError,
+  createUserWithEmailAndPassword,
+  signInAnonymously,
+  onAuthStateChanged,
+  User as FirebaseUser,
 } from "firebase/auth";
+import axios from "axios";
 import firebaseApp from "@/firebase";
+import { SERVER_BASE_URL } from "@/config/index";
 
-type ContextState = {
-  user: User | null;
+const auth = getAuth(firebaseApp);
+
+interface AuthContextType {
+  user: FirebaseUser | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
-};
-
-interface FirebaseAuthProviderProps {
-  children: React.ReactNode;
+  signUp: (email: string, password: string, name: string) => Promise<void>;
+  signInAnonymously: () => Promise<void>;
 }
 
-const defaultContextValue: ContextState = {
-  user: null,
-  loading: false,
-  signIn: async () => {},
-  signUp: async () => {},
-};
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const FirebaseAuthContext = createContext<ContextState>(defaultContextValue);
+interface FirebaseAuthProviderProps {
+  children: ReactNode;
+}
 
-const FirebaseAuthProvider: FC<FirebaseAuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(defaultContextValue.user);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
-  const auth = getAuth(firebaseApp);
+export const FirebaseAuthProvider = ({
+  children,
+}: FirebaseAuthProviderProps) => {
+  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
-  const signIn = async (email: string, password: string): Promise<void> => {
-    if (loading) return;
+  const signIn = async (email: string, password: string) => {
+    setLoading(true);
     try {
-      setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      handleAuthError(error);
+      // Optional: Redirect after sign in
+      router.push(router.query.redirect?.toString() || "/");
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  const signUp = async (email: string, password: string): Promise<void> => {
-    if (loading) return;
+  const signUp = async (email: string, password: string, name: string) => {
+    setLoading(true);
     try {
-      setLoading(true);
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      handleAuthError(error);
+      // Create user in Firebase for auth management
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // Use backend endpoint to store additional user details
+      await axios.post(`${SERVER_BASE_URL}/api/register`, {
+        uid: userCredential.user.uid,
+        email,
+        name,
+      });
+      // Sign in the user after registration
+      await signIn(email, password);
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleAuthError = (error: AuthError): void => {
-    // TODO Handle error, e.g., display an error message to the user
-    console.error("Authentication Error:", error.message);
+  const signInAnonymouslyHandler = async () => {
+    setLoading(true);
+    try {
+      await signInAnonymously(auth);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const contextValue = { user, loading, signIn, signUp };
-
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-      if (!user || authUser?.uid !== user?.uid) {
-        setUser(authUser);
-        if (shouldRedirect) {
-          setShouldRedirect(false);
-          redirect("/admin");
-        }
-      }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
     });
-    return unsubscribe;
-  }, [auth]);
+    return () => unsubscribe();
+  }, []);
 
-  useEffect(() => {
-    if (!user) return;
-    setShouldRedirect(true);
-  }, [user]);
+  const value = {
+    user,
+    loading,
+    signIn,
+    signUp,
+    signInAnonymously: signInAnonymouslyHandler,
+  };
 
-  return (
-    <FirebaseAuthContext.Provider value={contextValue}>
-      {children}
-    </FirebaseAuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export { FirebaseAuthProvider, FirebaseAuthContext };
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within a FirebaseAuthProvider");
+  }
+  return context;
+};

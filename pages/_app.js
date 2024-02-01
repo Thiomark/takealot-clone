@@ -1,18 +1,18 @@
-import { AppProvider } from '../providers/AppProvider'
-import { AuthProvider } from '../providers/AuthProvider'
-import { ProductProvider } from '../providers/ProductProvider'
-import '../styles/globals.css'
+import { AppProvider } from "../providers/AppProvider";
+import { ProductProvider } from "../providers/ProductProvider";
+import { FirebaseAuthProvider } from "../providers/FirebaseAuthProvider";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-    return (
-        <AppProvider>
-            <AuthProvider>
-                <ProductProvider>
-                    <Component {...pageProps} />
-                </ProductProvider>
-            </AuthProvider>
-        </AppProvider>
-    )
+  return (
+    <AppProvider>
+      <FirebaseAuthProvider>
+        <ProductProvider>
+          <Component {...pageProps} />
+        </ProductProvider>
+      </FirebaseAuthProvider>
+    </AppProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
