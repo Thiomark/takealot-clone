@@ -45,7 +45,7 @@ const ProductsComponent = ({title, showMoreButton = true, showAddToCart, sides})
                     {showMoreButton && <button className='px-3 py-2 font-semibold text-xs rounded-full md:rounded-none md:text-sm border-[1.5px] border-gray-500'>View More</button>}
                 </div>
                 <Slider {...settings} >
-                    {[...Array(12)].map((product, index) => <div className='pr-6'><ProductComponent showAddToCart={showAddToCart} key={index}/></div>)}
+                    {[...Array(12)].map((product, index) => <div key={index} className='pr-6'><ProductComponent showAddToCart={showAddToCart} /></div>)}
                 </Slider>
             </div>
         </div>
