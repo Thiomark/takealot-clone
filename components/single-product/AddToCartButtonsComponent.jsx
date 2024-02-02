@@ -5,13 +5,21 @@ import { useCart } from "@/providers/CartProvider";
 const AddToCartButtonsComponent = ({ extraStyle }) => {
   const { product } = useProducts();
   const { addItemToCart, addItemToList } = useCart();
+  const productToAddTocart = {
+    id: product.id,
+    qty: 1,
+    selectedOptions: {
+      colour: "Red",
+      size: "M",
+    },
+  };
 
   return (
     <div
       className={`fixed lg:grid-cols-1 lg:mt-4 lg:p-0 z-30 xl:p-0 xl:grid-cols-1 lg:relative grid grid-cols-2 gap-2 bottom-0 right-0 left-0 bg-white p-4 w-full ${extraStyle}`}
     >
       <button
-        onClick={() => addItemToCart(product)}
+        onClick={() => addItemToCart(productToAddTocart)}
         className="flex text-sm font-bold items-center justify-center space-x-2 text-white bg-green-450 w-full p-3"
       >
         <svg

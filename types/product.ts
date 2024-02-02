@@ -33,3 +33,9 @@ export interface ProductServerResponseType extends ProductType {
     Barcode: number;
   };
 }
+
+export interface AddProductToCartProductType {
+  id: string;
+  qty?: number;
+  selectedOptions?: any;
+}
