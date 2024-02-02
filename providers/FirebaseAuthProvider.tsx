@@ -47,7 +47,6 @@ export const FirebaseAuthProvider = ({
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Optional: Redirect after sign in
       router.push(router.query.redirect?.toString() || "/");
     } catch (error) {
       console.error(error);
@@ -59,19 +58,16 @@ export const FirebaseAuthProvider = ({
   const signUp = async (email: string, password: string, name: string) => {
     setLoading(true);
     try {
-      // Create user in Firebase for auth management
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      // Use backend endpoint to store additional user details
       await axios.post(`${SERVER_BASE_URL}/api/register`, {
         uid: userCredential.user.uid,
         email,
         name,
       });
-      // Sign in the user after registration
       await signIn(email, password);
     } catch (error) {
       console.error(error);
@@ -93,7 +89,7 @@ export const FirebaseAuthProvider = ({
 
   const logout = async () => {
     await signOut(auth);
-    // TDOD should only go home if it is on protected routes
+    // TODO should only go home if it is on protected routes
     router.push("/");
   };
 
