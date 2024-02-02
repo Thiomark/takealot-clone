@@ -6,7 +6,8 @@ import { useCart } from "@/providers/CartProvider";
 import React from "react";
 
 const Cart = () => {
-  const { deleteFromCart, addItemToList } = useProducts();
+  const { addItemToList } = useProducts();
+  const { deleteFromCart } = useCart();
   const { cart } = useCart();
 
   return (

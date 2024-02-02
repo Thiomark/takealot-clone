@@ -34,6 +34,11 @@ export interface ProductServerResponseType extends ProductType {
   };
 }
 
+export type SelectedOptions = {
+  colour?: string;
+  size?: string;
+};
+
 export interface AddProductToCartProductType {
   id: string;
   qty?: number;

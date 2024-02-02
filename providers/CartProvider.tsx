@@ -7,19 +7,12 @@ import React, {
 } from "react";
 import axios from "axios";
 import { setCookie, deleteCookie } from "cookies-next";
-import { AddProductToCartProductType, ProductType } from "@/types/product";
+import { AddProductToCartProductType } from "@/types/product";
 import { toast } from "react-toastify";
 import { SERVER_BASE_URL } from "@/config/index";
 import extractErrorMessage, { AxiosError } from "@/utils/extractErrorMessage";
 import { getCookie } from "cookies-next";
-
-interface CartContextType {
-  loading: boolean;
-  cart: Array<ProductType>;
-  cartId: string;
-  fetchCart: () => Promise<void>;
-  addItemToCart: (newProduct: AddProductToCartProductType) => Promise<void>;
-}
+import { CartContextType } from "@/types/cart";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -31,6 +24,31 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState("");
+  const [shipping, setShipping] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
+  const [cartSubTotal, setCartSubTotal] = useState(0);
+  const [personalInfo, setPersonalInfo] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+  });
+  const [shippingAddress, setShippingAddress] = useState({
+    complex_or_building: "",
+    street_address: "",
+    suburb: "",
+    city_or_town: "",
+    province: "",
+    post_code: "",
+  });
+  const [billingAddress, setBillingAddress] = useState({
+    complex_or_building: "",
+    street_address: "",
+    suburb: "",
+    city_or_town: "",
+    province: "",
+    post_code: "",
+  });
 
   useEffect(() => {
     fetchCart();
@@ -82,10 +100,20 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       if (!response.data.exists) {
         deleteCookie("cart-id");
       }
-      // clearCart
+      clearCart();
     } catch (error) {
       console.error("Error clearing the cart: ", error);
     }
+  };
+
+  const clearCart = () => {
+    //TODO clear the cart everything import like shipping, cart amount etc
+    //   CLEAR_CART(state) {
+    //     state.cart = [];
+    //     state.shipping = 0;
+    //     state.cartTotal = 0;
+    //     state.cartSubTotal = 0;
+    //   },
   };
 
   const createCart = async () => {
@@ -109,6 +137,41 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     }
   };
 
+  const deleteFromCart = async (productId: string) => {
+    try {
+      if (!productId || loading || !cartId) return;
+
+      setLoading(true);
+
+      let payload = {
+        product_id: productId,
+        cart_id: cartId,
+      };
+
+      const response = await axios.post(
+        `${SERVER_BASE_URL}/api/cart/remove_product`,
+        payload
+      );
+
+      if (response.data.error) {
+        throw new Error(response.data.error);
+      }
+
+      await fetchCart();
+
+      toast("Product added successfully!");
+    } catch (error) {
+      const errorMessage = extractErrorMessage(error as AxiosError);
+      if (errorMessage && errorMessage.includes("Cart not found")) {
+        await checkCart();
+      } else {
+        toast.error(errorMessage || "Error removing product from the cart.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchCart = async () => {
     try {
       const storedCartId = getCookie("cart-id");
@@ -125,15 +188,13 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
       if (!response.data) return;
 
-      // commit("UPDATE_ADDRESSES", {
-      //   shippingAddress: response.data.shipping_address,
-      //   billingAddress: response.data.billing_address,
-      // });
       setCart(response.data.cart_items);
-      // commit("SET_CART_SUB_TOTAL", response.data.cart_subtotal);
-      // commit("SET_CART_TOTAL", response.data.cart_total);
-      // commit("SET_CART_SHIPPING", response.data.cart_shipping);
-      // commit("SET_PERSONAL_INFO", response.data.personal_information);
+      setShippingAddress(response.data.shipping_address);
+      setBillingAddress(response.data.billing_address);
+      setCartSubTotal(response.data.cart_subtotal);
+      setCartTotal(response.data.cart_total);
+      setShipping(response.data.cart_shipping);
+      setPersonalInfo(response.data.personal_information);
     } catch (error) {
       const errorMessage = extractErrorMessage(error as AxiosError);
 
@@ -151,9 +212,16 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     <CartContext.Provider
       value={{
         cart,
+        shipping,
+        cartTotal,
+        cartSubTotal,
         cartId,
         loading,
+        personalInfo,
+        billingAddress,
+        shippingAddress,
         addItemToCart,
+        deleteFromCart,
         fetchCart,
       }}
     >
@@ -170,174 +238,7 @@ export const useCart = () => {
   return context;
 };
 
-// import Vue from "vue";
-
-// const state = () => ({
-//   cartId: null,
-//   loading: false,
-//   cart: [],
-//   liked: [],
-//   shipping: 0,
-//   cartTotal: 0,
-//   cartSubTotal: 0,
-//   personalInfo: {
-//     first_name: "",
-//     last_name: "",
-//     email: "",
-//     phone_number: "",
-//   },
-//   shippingAddress: {
-//     complex_or_building: "",
-//     street_address: "",
-//     suburb: "",
-//     city_or_town: "",
-//     province: "",
-//     post_code: "",
-//   },
-//   billingAddress: {
-//     complex_or_building: "",
-//     street_address: "",
-//     suburb: "",
-//     city_or_town: "",
-//     province: "",
-//     post_code: "",
-//   },
-// });
-
-// const mutations = {
-//   SET_LOADING: (state, loading) => {
-//     state.loading = loading;
-//   },
-//   ADD_TO_LIKED: (state, newProduct) => {
-//     const newArray = state.liked.filter(
-//       (product) => product.id !== newProduct.id
-//     );
-//     state.liked = [newProduct, ...newArray];
-//     localStorage.setItem(
-//       "likedItems",
-//       JSON.stringify([newProduct, ...newArray])
-//     );
-//   },
-//   SEED_CART(state, cart) {
-//     state.cart = cart;
-//   },
-//   SET_CART_ID(state, cardId) {
-//     state.cartId = cardId;
-//   },
-//   SET_PERSONAL_INFO(state, personalInfo) {
-//     state.personalInfo = personalInfo;
-//   },
-//   SET_CART_TOTAL(state, total) {
-//     state.cartTotal = total;
-//   },
-//   SET_CART_SUB_TOTAL(state, total) {
-//     state.cartSubTotal = total;
-//   },
-//   SET_CART_SHIPPING(state, total) {
-//     state.shipping = total;
-//   },
-//   UPDATE_ADDRESSES(state, { shippingAddress, billingAddress }) {
-//     state.shippingAddress = shippingAddress;
-//     state.billingAddress = billingAddress;
-//   },
-//   REMOVE_FROM_LIKED: (state, SelectProduct) => {
-//     const newArray = state.liked.filter(
-//       (product) => product.id !== SelectProduct.id
-//     );
-//     state.liked = newArray;
-//     localStorage.setItem("likedItems", JSON.stringify(newArray));
-//   },
-//   CLEAR_CART(state) {
-//     state.cart = [];
-//     state.shipping = 0;
-//     state.cartTotal = 0;
-//     state.cartSubTotal = 0;
-//   },
-// };
-
 // const actions = {
-//   async addToCart({ commit, state, dispatch }, newProduct) {
-//     try {
-//       if (!newProduct.id || !newProduct.qty || state.loading) return;
-
-//       if (!state.cartId) {
-//         await dispatch("createCart");
-//       }
-
-//       commit("SET_LOADING", true);
-
-//       let payload = {
-//         product_id: newProduct.id,
-//         quantity: newProduct.qty,
-//         selectedOptions: newProduct?.selectedOptions,
-//       };
-
-//       const serverBaseUrl = this.$runtimeConfig.serverBaseUrl;
-
-//       const response = await this.$axios.post(
-//         `${serverBaseUrl}/api/cart/${state.cartId}`,
-//         payload
-//       );
-
-//       if (response.data.error) {
-//         throw new Error(response.data.error);
-//       }
-
-//       await dispatch("fetchCart");
-
-//       Vue.prototype.$toast.success("Product added successfully!");
-//     } catch (error) {
-//       const errorMessage = extractErrorMessage(error);
-//       if (errorMessage && errorMessage.includes("Cart not found")) {
-//         await dispatch("checkCart");
-//       } else {
-//         Vue.prototype.$toast.error(
-//           errorMessage || "Error adding product to cart."
-//         );
-//       }
-//     } finally {
-//       commit("SET_LOADING", false);
-//     }
-//   },
-//   async removeFromCart({ commit, state, dispatch }, SelectProduct) {
-//     try {
-//       if (!SelectProduct.id || state.loading || !state.cartId) return;
-
-//       commit("SET_LOADING", true);
-
-//       let payload = {
-//         product_id: SelectProduct.id,
-//         cart_id: state.cartId,
-//       };
-
-//       const serverBaseUrl = this.$runtimeConfig.serverBaseUrl;
-
-//       const response = await this.$axios.post(
-//         `${serverBaseUrl}/api/cart/remove_product`,
-//         payload
-//       );
-
-//       if (response.data.error) {
-//         throw new Error(response.data.error);
-//       }
-
-//       await dispatch("fetchCart");
-
-//       Vue.prototype.$toast.success("Product added successfully!");
-//     } catch (error) {
-//       const errorMessage = extractErrorMessage(error);
-//       if (errorMessage && errorMessage.includes("Cart not found")) {
-//         await dispatch("checkCart");
-//       } else {
-//         Vue.prototype.$toast.error(
-//           errorMessage || "Error removing product from the cart."
-//         );
-//       }
-//     } finally {
-//       commit("SET_LOADING", false);
-//     }
-//     commit("REMOVE_FROM_CART", SelectProduct);
-//   },
 
 //   async saveAddress(
 //     { commit, state, dispatch },
@@ -384,34 +285,11 @@ export const useCart = () => {
 //       commit("SET_LOADING", false);
 //     }
 //   },
-//   async setCartId({ commit }, cardId) {
-//     commit("SET_CART_ID", cardId);
-//   },
+
 //   addToLiked({ commit }, newProduct) {
 //     commit("ADD_TO_LIKED", newProduct);
 //   },
 //   removeFromLiked({ commit }, SelectProduct) {
 //     commit("REMOVE_FROM_LIKED", SelectProduct);
 //   },
-//   clearCart({ commit }) {
-//     commit("CLEAR_CART");
-//   },
-// };
-
-// const getters = {
-//   getCart: (state) => state.cart,
-//   getCartTotal: (state) => state.cartTotal,
-//   getCartSubTotal: (state) => state.cartSubTotal,
-//   getLiked: (state) => state.liked,
-//   getShipping: (state) => state.shipping,
-//   getShippingAddress: (state) => state.shippingAddress,
-//   getBillingAddress: (state) => state.billingAddress,
-//   getPersonalInfo: (state) => state.personalInfo,
-// };
-
-// export default {
-//   state,
-//   getters,
-//   mutations,
-//   actions,
 // };
