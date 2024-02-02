@@ -6,9 +6,9 @@ import SVGButtonComponent from "./SVGButtonComponent";
 import TakealotIcon from "./TakealotIcon";
 import BottomHeaderComponent from "./BottomHeaderComponent";
 import { AppContext } from "../providers/AppProvider";
-// import { ProductContext } from "../providers/ProductProvider";
 import { useAuth } from "../providers/FirebaseAuthProvider";
 import { headerPagesLinks } from "../utils/data";
+import { useProducts } from "@/providers/ProductProvider";
 
 interface HeaderComponentProps {
   title?: string;
@@ -18,8 +18,9 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
   title = "Takealot.com",
 }) => {
   const router = useRouter();
-  const { user, loading, logout } = useAuth();
-  // const { cart } = useContext(ProductContext);
+  const { user, logout } = useAuth();
+
+  const { cart } = useProducts();
   const { isMenuOpen, setIsMenuOpen } = useContext(AppContext);
 
   const bottomLinks = [
@@ -246,7 +247,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
               <div className={divider("mx-2")} />
               <SVGButtonComponent
                 event={() => router.push("/cart")}
-                after={30}
+                after={cart.length}
                 spanStyle="ml-1 hidden text-xs md:inline text-white"
                 iconStyle="h-5 w-5 text-gray-750 md:text-white"
                 btnStyle="h-9 w-9 md:w-auto md:px-4 rounded-full p-2 flex items-center justify-center md:bg-green-450"

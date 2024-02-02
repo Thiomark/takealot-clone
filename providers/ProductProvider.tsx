@@ -11,6 +11,7 @@ import { ProductType } from "@/types/product";
 interface ProductContextType {
   products: ProductType[];
   loading: boolean;
+  cart: Array<ProductType>;
   fetchProduct: (productId: string) => Promise<void>;
   fetchProducts: () => Promise<void>;
 }

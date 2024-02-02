@@ -65,7 +65,7 @@ const ProductsComponent: React.FC<ProductsComponentProps> = ({
           )}
         </div>
         <Slider {...settings}>
-          {products.map((product: ProductType) => (
+          {products?.map((product: ProductType) => (
             <div key={product.id} className="pr-6">
               <ProductComponent
                 product={product}

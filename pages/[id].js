@@ -13,7 +13,7 @@ import { useProducts } from "@/providers/ProductProvider";
 
 const ProductScreen = () => {
   const links = ["Gaming", "Gaming Accessories", "Controllers"];
-  const { product, loading, fetchProduct } = useProducts();
+  const { product, fetchProduct } = useProducts();
   const router = useRouter();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const ProductScreen = () => {
               >
                 <img
                   className="w-full cursor-pointer h-full object-cover"
-                  src={`placeholder-images/${img}-placeholder.png`}
+                  src={product.image}
                 />
               </div>
             ))}
@@ -54,7 +54,7 @@ const ProductScreen = () => {
             <div className="max-w-lg mx-auto h-full w-full lg:border border-[#dadada]">
               <img
                 className="w-auto h-full mx-auto object-center object-cover"
-                src={`placeholder-images/${product.displayedImage}-placeholder.png`}
+                src={product.image}
               />
             </div>
           </div>
