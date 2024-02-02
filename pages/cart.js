@@ -26,7 +26,7 @@ const Cart = () => {
                   <div className="flex col-start-2 md:row-span-5 row-span-3 items-center justify-center">
                     <img
                       className="w-auto object-cover h-20"
-                      src={`placeholder-images/${item.displayedImage}-placeholder.png`}
+                      src={item.image}
                       alt={item.name}
                       srcSet=""
                     />

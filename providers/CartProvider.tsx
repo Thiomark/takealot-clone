@@ -42,7 +42,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       if (!cartId) {
         createCart();
       }
-      setLoading(false);
+      setLoading(true);
       let payload = {
         product_id: newProduct.id,
         quantity: newProduct.qty,
