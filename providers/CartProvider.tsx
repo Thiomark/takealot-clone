@@ -31,7 +31,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState("");
-  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
 
   const addItemToCart = async (newProduct: AddProductToCartProductType) => {
     try {
@@ -108,16 +111,17 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   const fetchCart = async () => {
     try {
-      const cartIdCookie = getCookie("cart-id");
-      if (!cartId && cartIdCookie) {
-        setCartId(cartIdCookie);
-      }
+      const storedCartId = getCookie("cart-id");
 
-      if (!cartId) return;
+      if (!storedCartId) return;
+
+      setCartId(storedCartId);
 
       setLoading(true);
 
-      const response = await axios.get(`${SERVER_BASE_URL}/api/cart/${cartId}`);
+      const response = await axios.get(
+        `${SERVER_BASE_URL}/api/cart/${storedCartId}`
+      );
 
       if (!response.data) return;
 
@@ -142,23 +146,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       setLoading(false);
     }
   };
-
-  const addItemToList = (product: any) => {
-    setList((prev: any) => [product, ...prev] as any);
-  };
-
-  const deleteFromCart = (id: any) => {
-    setCart((prev) => prev.filter((x: any) => x.id !== id));
-  };
-
-  const deleteFromList = (id: any) => {
-    // toast("Item removed from Wish List");
-    setList((prev) => prev.filter((x: any) => x.id !== id));
-  };
-
-  useEffect(() => {
-    fetchCart();
-  }, []);
 
   return (
     <CartContext.Provider
