@@ -6,17 +6,10 @@ import React, {
   ReactNode,
 } from "react";
 import axios from "axios";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  disabled?: boolean;
-  [key: string]: any;
-}
+import { ProductType } from "@/types/product";
 
 interface ProductContextType {
-  products: Product[];
+  products: ProductType[];
   loading: boolean;
   fetchProducts: () => Promise<void>;
 }
@@ -28,7 +21,7 @@ interface ProductProviderProps {
 }
 
 export const ProductProvider = ({ children }: ProductProviderProps) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [product, setProduct] = useState(null);
   const [cart, setCart] = useState([]);

@@ -23,14 +23,14 @@ export default async function handler(
 
     let products = snapshot.docs
       .map(
-        (doc) =>
+        (doc: any) =>
           ({
             id: doc.id,
             ...doc.data(),
             image: fetchImageUrl(doc.data().image),
           } as ProductType)
       )
-      .filter((product) => product.disabled !== true); // Exclude products explicitly marked as disabled
+      .filter((product: ProductType) => product.disabled !== true);
 
     res.status(200).json(products);
   } catch (error) {
