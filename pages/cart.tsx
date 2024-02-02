@@ -1,13 +1,13 @@
 import Layout from "../components/Layout";
 import ProductsComponent from "../components/ProductsComponent";
 import Link from "next/link";
-import { useProducts } from "@/providers/ProductProvider";
+// import { useProducts } from "@/providers/ProductProvider";
 import { useCart } from "@/providers/CartProvider";
 import React from "react";
 
-const Cart = () => {
-  const { addItemToList } = useProducts();
-  const { deleteFromCart } = useCart();
+const Cart: React.FC = () => {
+  // const { addItemToList } = useProducts();
+  const { deleteFromCart, cartSubTotal } = useCart();
   const { cart } = useCart();
 
   return (
@@ -46,7 +46,7 @@ const Cart = () => {
                     <span>Qty</span>
                   </button>
                   <button
-                    onClick={() => deleteFromCart(item.id)}
+                    onClick={() => deleteFromCart(item.id as string)}
                     className="text-gray-700 md:text-xs md:row-start-4 md:col-start-5 md:static absolute top-4 right-4 flex items-center space-x-2"
                   >
                     <svg
@@ -61,8 +61,8 @@ const Cart = () => {
                   </button>
                   <button
                     onClick={() => {
-                      deleteFromCart(item.id);
-                      addItemToList(item.id);
+                      deleteFromCart(item.id as string);
+                      // addItemToList(item.id);
                     }}
                     className="text-gray-700 md:text-xs md:mr-6 md:col-end-5 md:ml-auto text justify-center flex items-center space-x-2 col-start-4 col-end-7 row-start-5 border md:border-none md:row-start-4 md:col-start-4"
                   >
@@ -97,7 +97,7 @@ const Cart = () => {
                     </span>
                   </p>
                   <span className="font-bold text-2xl text-green-450">
-                    R 2700
+                    R {cartSubTotal}
                   </span>
                 </div>
                 <button className=" bg-green-450 text-center py-2 w-full text-sm text-white">
