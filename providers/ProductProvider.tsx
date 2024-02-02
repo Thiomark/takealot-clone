@@ -11,6 +11,7 @@ import { ProductType } from "@/types/product";
 interface ProductContextType {
   products: ProductType[];
   loading: boolean;
+  fetchProduct: (productId: string) => Promise<void>;
   fetchProducts: () => Promise<void>;
 }
 
@@ -40,8 +41,17 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     }
   };
 
-  const fetchProduct = (product: any) => {
-    setProduct(product);
+  const fetchProduct = async (productId: string) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`/api/products/${productId}`);
+      setProduct(response.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      // Handle error appropriately
+    } finally {
+      setLoading(false);
+    }
   };
 
   const addItemToCart = (product: any) => {

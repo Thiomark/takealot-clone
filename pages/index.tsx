@@ -7,12 +7,7 @@ import CarousalsComponent from "@/components/home-screen/CarousalsComponent";
 import { useProducts } from "@/providers/ProductProvider";
 
 const Home: React.FC = () => {
-  const { products, loading } = useProducts();
-
-  // Filter products based on your criteria for different components
-  // For demonstration, using all products for Load Shedding Essentials as an example
-  // Implement your own filtering logic based on product properties or categories
-  const loadSheddingEssentials = products; // Placeholder for actual filtering logic
+  const { products } = useProducts();
 
   return (
     <div>
@@ -30,7 +25,7 @@ const Home: React.FC = () => {
           <>
             <ProductsComponent
               title="Load Shedding Essentials"
-              products={loadSheddingEssentials}
+              products={products}
             />
           </>
         )}

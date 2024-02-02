@@ -6,20 +6,18 @@ import ProductPriceComponent from "../components/single-product/ProductPriceComp
 import ProductSummaryComponent from "../components/single-product/ProductSummaryComponent";
 import ReviewsComponent from "../components/single-product/ReviewsComponent";
 import { useRouter } from "next/router";
-import { generateRandomProduct } from "../utils/data";
-import { ProductContext } from "../providers/ProductProvider";
-import React, { useContext, useEffect } from "react";
+
+import React, { useEffect } from "react";
 import FooterComponent from "../components/FooterComponent";
+import { useProducts } from "@/providers/ProductProvider";
 
 const ProductScreen = () => {
   const links = ["Gaming", "Gaming Accessories", "Controllers"];
-  const { product, fetchProduct } = useContext(ProductContext);
+  const { product, loading, fetchProduct } = useProducts();
   const router = useRouter();
 
   useEffect(() => {
-    if (!product) {
-      fetchProduct(generateRandomProduct());
-    }
+    fetchProduct("M8pv9H5POwdFSPhwnlw3");
   }, []);
 
   if (!product) {
