@@ -18,6 +18,8 @@ import {
 import axios from "axios";
 import firebaseApp from "@/firebase";
 import { SERVER_BASE_URL } from "@/config/index";
+import { toast } from "react-toastify";
+import firebaseErrorHandler from "@/utils/firebaseErrorHandler";
 
 const auth = getAuth(firebaseApp);
 
@@ -48,7 +50,8 @@ export const FirebaseAuthProvider = ({
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push(router.query.redirect?.toString() || "/");
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error));
       console.error(error);
     } finally {
       setLoading(false);
@@ -69,7 +72,8 @@ export const FirebaseAuthProvider = ({
         name,
       });
       await signIn(email, password);
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(firebaseErrorHandler(error));
       console.error(error);
     } finally {
       setLoading(false);

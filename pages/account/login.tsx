@@ -1,25 +1,23 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useAuth } from "@/providers/FirebaseAuthProvider";
+import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const { signIn } = useAuth();
-  const router = useRouter();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
       await signIn(email, password);
-      router.push("/");
     } catch (error) {
+      toast.error("Something went wrong, try again later");
       console.error("Login Error:", error);
-      // Handle login error (e.g., show an error message)
     } finally {
       setLoading(false);
     }

@@ -77,7 +77,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       }
       await fetchCart();
       toast("Product added successfully!");
-      console.log();
     } catch (error) {
       const errorMessage = extractErrorMessage(error as AxiosError);
       if (errorMessage && errorMessage.includes("Cart not found")) {
