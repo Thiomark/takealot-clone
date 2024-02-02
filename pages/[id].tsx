@@ -1,3 +1,6 @@
+// Import necessary modules and components
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import ProductsComponent from "../components/ProductsComponent";
 import ProductDescriptionComponent from "../components/single-product/ProductDescriptionComponent";
@@ -5,27 +8,30 @@ import ProductHeaderComponent from "../components/single-product/ProductHeaderCo
 import ProductPriceComponent from "../components/single-product/ProductPriceComponent";
 import ProductSummaryComponent from "../components/single-product/ProductSummaryComponent";
 import ReviewsComponent from "../components/single-product/ReviewsComponent";
-import { useRouter } from "next/router";
-
-import React, { useEffect } from "react";
 import FooterComponent from "../components/FooterComponent";
 import { useProducts } from "@/providers/ProductProvider";
 
-const ProductScreen = () => {
+const ProductScreen: React.FC = () => {
   const links = ["Gaming", "Gaming Accessories", "Controllers"];
   const { product, fetchProduct } = useProducts();
   const router = useRouter();
 
   useEffect(() => {
-    fetchProduct("M8pv9H5POwdFSPhwnlw3");
-  }, []);
+    const productId = router.query.id as string;
+    if (productId) {
+      fetchProduct(productId);
+    }
+  }, [router.query.id]);
 
   if (!product) {
     return <></>;
   }
 
   return (
-    <Layout showFooter={false} title={router.query?.id?.replaceAll("-", " ")}>
+    <Layout
+      showFooter={false}
+      title={router.query.id?.toString().replaceAll("-", " ")}
+    >
       <div className="bg-gray-100 ">
         <div className="sides lg:grid-rows-[auto_1em_auto_auto_auto_auto_auto_auto] xl:grid-cols-[1fr_1fr_20px_minmax(300px,_auto)] pb-20 space-y-2 grid lg:grid-cols-2">
           <ProductHeaderComponent
@@ -37,18 +43,19 @@ const ProductScreen = () => {
           </div>
 
           <div className="hidden lg:flex 2xl:hidden space-x-2 justify-center col-start-1 col-end-2 lg:pb-[1em] row-start-5 row-end-6">
-            {product.images.map((img, index) => (
-              <div
-                key={index}
-                onClick={() => setImage(img)}
-                className="border border-[#dadada] w-[5em] h-[5em]"
-              >
-                <img
-                  className="w-full cursor-pointer h-full object-cover"
-                  src={product.image}
-                />
-              </div>
-            ))}
+            {product.images &&
+              product.images.map((img, index) => (
+                <div
+                  key={index}
+                  onClick={() => setImage(img)}
+                  className="border border-[#dadada] w-[5em] h-[5em]"
+                >
+                  <img
+                    className="w-full cursor-pointer h-full object-cover"
+                    src={product.image}
+                  />
+                </div>
+              ))}
           </div>
           <div className="shadow h-[45vh] lg:h-auto lg:shadow-none bg-white p-4 xl:row-start-2 lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-5">
             <div className="max-w-lg mx-auto h-full w-full lg:border border-[#dadada]">

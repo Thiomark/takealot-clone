@@ -17,7 +17,7 @@ const ProductComponent: React.FC<ProductComponentProps> = ({
     <div
       className="md:min-w-[280px] min-w-[68%] w-full cursor-pointer bg-white p-4"
       onClick={() => {
-        router.push(`/${product.name.replaceAll(" ", "-").toLowerCase()}`);
+        router.push(`/${product.id}`);
       }}
     >
       <div className="md:h-64 h-52 justify-center items-center relative bg-gray-200 mb-4">

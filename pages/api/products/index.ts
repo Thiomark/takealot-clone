@@ -28,6 +28,7 @@ export default async function handler(
             id: doc.id,
             ...doc.data(),
             image: fetchImageUrl(doc.data().image),
+            images: doc.data().images.map((img: string) => fetchImageUrl(img)),
           } as ProductType)
       )
       .filter((product: ProductType) => product.disabled !== true);

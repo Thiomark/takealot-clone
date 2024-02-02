@@ -43,6 +43,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const fetchProduct = async (productId: string) => {
     setLoading(true);
     try {
+      setProduct(null);
       const response = await axios.get(`/api/products/${productId}`);
       setProduct(response.data);
     } catch (error) {

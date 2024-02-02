@@ -25,7 +25,7 @@ const ProductPriceComponent = ({ style }) => {
           extraStyle="my-3 xl:hidden"
         />
         <h1 className="text-3xl font-semibold lg:border-t xl:border-none xl:pt-0 lg:pt-4 border-gray-250">
-          R 1234
+          R {product.price}
         </h1>
         <p className="text-xs font-bold uppercase text-gray-700">
           Free Delivery

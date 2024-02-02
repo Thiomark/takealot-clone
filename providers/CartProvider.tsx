@@ -1,16 +1,23 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import axios from "axios";
 import { setCookie, deleteCookie } from "cookies-next";
 import { AddProductToCartProductType, ProductType } from "@/types/product";
 import { toast } from "react-toastify";
 import { SERVER_BASE_URL } from "@/config/index";
 import extractErrorMessage, { AxiosError } from "@/utils/extractErrorMessage";
-import { useProducts } from "./ProductProvider";
+import { getCookie } from "cookies-next";
 
 interface CartContextType {
   loading: boolean;
   cart: Array<ProductType>;
   cartId: string;
+  fetchCart: () => Promise<void>;
   addItemToCart: (newProduct: AddProductToCartProductType) => Promise<void>;
 }
 
@@ -23,7 +30,7 @@ interface CartProviderProps {
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [cart, setCart] = useState([]);
-  const [cartId, setCartId] = useState("4A49Q3lh8tNMl090hrlq");
+  const [cartId, setCartId] = useState("");
   const [list, setList] = useState([]);
 
   const addItemToCart = async (newProduct: AddProductToCartProductType) => {
@@ -101,9 +108,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   const fetchCart = async () => {
     try {
-      if (!cartId) {
-        return;
+      const cartIdCookie = getCookie("cart-id");
+      if (!cartId && cartIdCookie) {
+        setCartId(cartIdCookie);
       }
+
+      if (!cartId) return;
 
       setLoading(true);
 
@@ -146,18 +156,23 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     setList((prev) => prev.filter((x: any) => x.id !== id));
   };
 
-  const value = {
-    cart,
-    cartId,
-    loading,
-    addItemToCart,
-    // list,
-    // deleteFromList,
-    // deleteFromCart,
-    // addItemToList,
-  };
+  useEffect(() => {
+    fetchCart();
+  }, []);
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider
+      value={{
+        cart,
+        cartId,
+        loading,
+        addItemToCart,
+        fetchCart,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export const useCart = () => {
