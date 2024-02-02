@@ -16,3 +16,20 @@ export interface ProductType {
   name: string;
   //   [key: string]: any;
 }
+
+export interface ProductServerResponseType extends ProductType {
+  category: Array<string>;
+  brand: string;
+  oldPrice: number;
+  sale: number;
+  rating: string;
+  reviews: number;
+  inStock: Array<string>;
+  summary: string;
+  productInfo: {
+    categories: string;
+    warranty: string;
+    Platform: string;
+    Barcode: number;
+  };
+}

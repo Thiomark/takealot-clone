@@ -10,8 +10,8 @@ import { ProductType } from "@/types/product";
 
 interface ProductContextType {
   products: ProductType[];
+  product: ProductType | null;
   loading: boolean;
-  cart: Array<ProductType>;
   fetchProduct: (productId: string) => Promise<void>;
   fetchProducts: () => Promise<void>;
 }
@@ -25,9 +25,7 @@ interface ProductProviderProps {
 export const ProductProvider = ({ children }: ProductProviderProps) => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [product, setProduct] = useState(null);
-  const [cart, setCart] = useState([]);
-  const [list, setList] = useState([]);
+  const [product, setProduct] = useState<ProductType | null>(null);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -55,23 +53,6 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     }
   };
 
-  const addItemToCart = (product: any) => {
-    setCart((prev) => [product, ...prev] as any);
-  };
-
-  const addItemToList = (product: any) => {
-    setList((prev: any) => [product, ...prev] as any);
-  };
-
-  const deleteFromCart = (id: any) => {
-    setCart((prev) => prev.filter((x: any) => x.id !== id));
-  };
-
-  const deleteFromList = (id: any) => {
-    // toast("Item removed from Wish List");
-    setList((prev) => prev.filter((x: any) => x.id !== id));
-  };
-
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -79,14 +60,8 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const value = {
     products,
     product,
-    cart,
-    list,
     loading,
     fetchProduct,
-    deleteFromList,
-    deleteFromCart,
-    addItemToCart,
-    addItemToList,
     fetchProducts,
   };
 

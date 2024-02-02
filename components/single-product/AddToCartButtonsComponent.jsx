@@ -1,8 +1,10 @@
-import { useProducts } from "@/providers/ProductProvider";
 import React from "react";
+import { useProducts } from "@/providers/ProductProvider";
+import { useCart } from "@/providers/CartProvider";
 
 const AddToCartButtonsComponent = ({ extraStyle }) => {
-  const { addItemToCart, product, addItemToList } = useProducts();
+  const { product } = useProducts();
+  const { addItemToCart, addItemToList } = useCart();
 
   return (
     <div

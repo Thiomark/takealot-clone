@@ -8,7 +8,7 @@ import BottomHeaderComponent from "./BottomHeaderComponent";
 import { AppContext } from "../providers/AppProvider";
 import { useAuth } from "../providers/FirebaseAuthProvider";
 import { headerPagesLinks } from "../utils/data";
-import { useProducts } from "@/providers/ProductProvider";
+import { useCart } from "@/providers/CartProvider";
 
 interface HeaderComponentProps {
   title?: string;
@@ -20,7 +20,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
   const router = useRouter();
   const { user, logout } = useAuth();
 
-  const { cart } = useProducts();
+  const { cart } = useCart();
   const { isMenuOpen, setIsMenuOpen } = useContext(AppContext);
 
   const bottomLinks = [

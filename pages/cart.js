@@ -2,10 +2,12 @@ import Layout from "../components/Layout";
 import ProductsComponent from "../components/ProductsComponent";
 import Link from "next/link";
 import { useProducts } from "@/providers/ProductProvider";
+import { useCart } from "@/providers/CartProvider";
 import React from "react";
 
 const Cart = () => {
-  const { cart, deleteFromCart, addItemToList } = useProducts();
+  const { deleteFromCart, addItemToList } = useProducts();
+  const { cart } = useCart();
 
   return (
     <Layout title="Cart - TAKEALOT">
