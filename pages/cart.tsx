@@ -38,12 +38,8 @@ const Cart: React.FC = () => {
                   <h1 className="col-start-3 md:col-start-5 md:row-start-1 ml-4 col-end-6 font-bold text-lg">
                     R {item.price}
                   </h1>
-                  <div className="col-start-3 md:col-end-5 ml-4 col-end-6">
-                    <p className="text-sm text-gray-500">fghj fgh fghj dfgh</p>
-                    <p className="text-sm font-bold text-gray-600">in stock </p>
-                  </div>
                   <button className="text-gray-700 p-4 md:border-none md:row-start-2 md:col-start-5 md:col-end-6 col-start-1 row-start-5 col-end-4 justify-center border flex items-center space-x-4">
-                    <span>Qty</span>
+                    <span>Qty: {item.qty}</span>
                   </button>
                   <button
                     onClick={() => deleteFromCart(item.id as string)}
@@ -100,9 +96,12 @@ const Cart: React.FC = () => {
                     R {cartSubTotal}
                   </span>
                 </div>
-                <button className=" bg-green-450 text-center py-2 w-full text-sm text-white">
+                <Link
+                  href="/buy/review"
+                  className=" bg-green-450 text-center py-3 px-4 w-full text-sm text-white"
+                >
                   Proceed To Checkout
-                </button>
+                </Link>
               </div>
               <div className="p-4 text-sm text-gray-700 space-y-2 bg-white">
                 <div className="flex items-center space-x-3">
