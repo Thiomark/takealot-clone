@@ -4,29 +4,30 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
         blue: {
-          450: '#0b79bf',
-          250: '#7fc7f5'
+          450: "#0b79bf",
+          250: "#7fc7f5",
         },
         red: {
-          450: '#f4697a'
+          450: "#f4697a",
         },
         green: {
-          450: '#1c8644'
+          450: "#1c8644",
         },
         gray: {
-          350: '#eaeaea',
-          250: '#ededed',
-          750: '#4d4d4f'
+          350: "#eaeaea",
+          250: "#ededed",
+          750: "#4d4d4f",
         },
         yellow: {
-          150: '#FFF2BD'
-        }
-      }
+          150: "#FFF2BD",
+        },
+      },
     },
   },
   plugins: [],
-}
+};

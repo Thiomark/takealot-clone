@@ -1,9 +1,14 @@
-import Layout from "@/components/Layout";
 import TakealotIcon from "@/components/TakealotIcon";
 import Image from "next/image";
 import Link from "next/link";
+import { Router, useRouter } from "next/router";
 
-const ReviewOrder: React.FC = () => {
+const OrderMethods: React.FC = () => {
+  const router = useRouter();
+  const selectDelivery = () => {
+    router.push("addresses/add");
+  };
+
   return (
     <div className="relative bg-gray-100">
       <header className="hidden bg-white lg:block">
@@ -31,7 +36,7 @@ const ReviewOrder: React.FC = () => {
               viewBox="0 0 16 16"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
               />
             </svg>
@@ -62,7 +67,10 @@ const ReviewOrder: React.FC = () => {
                 </p>
               </div>
 
-              <button className="px-4 py-2 text-sm transition-all duration-300 lg:border border-blue-450 w-fit lg:text-blue-450 lg:hover:text-white lg:hover:bg-blue-450 lg:my-auto">
+              <button
+                onClick={selectDelivery}
+                className="px-4 py-2 text-sm transition-all duration-300 lg:border border-blue-450 w-fit lg:text-blue-450 lg:hover:text-white lg:hover:bg-blue-450 lg:my-auto"
+              >
                 <span className="hidden lg:block">Deliver My Order</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +81,7 @@ const ReviewOrder: React.FC = () => {
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
                   />
                 </svg>
@@ -110,7 +118,7 @@ const ReviewOrder: React.FC = () => {
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
                   />
                 </svg>
@@ -151,4 +159,4 @@ const ReviewOrder: React.FC = () => {
   );
 };
 
-export default ReviewOrder;
+export default OrderMethods;
