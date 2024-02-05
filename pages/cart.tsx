@@ -97,7 +97,7 @@ const Cart: React.FC = () => {
                   </span>
                 </div>
                 <Link
-                  href="/buy/review"
+                  href="/buy/delivery/methods"
                   className=" bg-green-450 text-center py-3 px-4 w-full text-sm text-white"
                 >
                   Proceed To Checkout
