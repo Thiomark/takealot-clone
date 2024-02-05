@@ -1,30 +1,49 @@
 import Layout from "@/components/Layout";
+import TakealotIcon from "@/components/TakealotIcon";
 import Image from "next/image";
 import Link from "next/link";
 
 const ReviewOrder: React.FC = () => {
   return (
-    <Layout title="Checkout">
-      <div className="container mx-auto w-full py-6">
-        <div className="flex items-center justify-between px-6">
-          <h1 className=" text-gray-600 font-bold text-xl">
-            Review your order
-          </h1>
-          <Link href="/cart" className="  flex items-center space-x-2">
+    <div className="bg-gray-100 relative">
+      <header className="bg-white hidden lg:block">
+        <div className="container mx-auto w-full px-10 py-4">
+          <TakealotIcon />
+        </div>
+      </header>
+      <div className="lg:container mx-auto w-full py-6 ">
+        <div className="grid grid-cols-[1fr_auto_1fr] absolute lg:static bg-white lg:bg-transparent py-4 lg:py-0 left-0 right-0 top-0 lg:flex lg:flex-row-reverse items-center justify-between px-6">
+          <Link href="/cart" className="flex items-center space-x-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
               fill="currentColor"
-              className="bi bi-cart-fill text-gray-400"
+              className="bi bi-cart-fill text-gray-400 hidden lg:block"
               viewBox="0 0 16 16"
             >
               <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
             </svg>
-            <span className="text-blue-450 text-xs">Back to Cart</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              className="bi bi-arrow-left h-5 w-5 lg:hidden"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+              />
+            </svg>
+            <span className="text-blue-450 text-xs hidden lg:block">
+              Back to Cart
+            </span>
           </Link>
+          <h1 className=" lg:text-gray-600 font-bold lg:text-xl">
+            Review your order
+          </h1>
         </div>
-        <div className="p-6 grid gap-4 xl:grid-cols-6">
+        <div className="p-6 grid gap-4 xl:grid-cols-6 mt-8 lg:mt-0">
           <div className="gap-4 grid xl:col-span-4">
             <div className="bg-white p-6">
               <div className="flex items-center justify-between">
@@ -160,7 +179,7 @@ const ReviewOrder: React.FC = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
