@@ -1,13 +1,35 @@
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import FloatingLabelInput from "@/components/FloatingLabelInput";
 import TakealotIcon from "@/components/TakealotIcon";
-import Link from "next/link";
-import { useState } from "react";
 import { addressFormSchema, personalInfoFormSchema } from "@/utils/formSchemas";
+import { useAuth } from "@/providers/FirebaseAuthProvider";
+import { toast } from "react-toastify";
 
 const OrderAddress: React.FC = () => {
+  const router = useRouter();
+  const { addAddress } = useAuth();
   const [formData, setFormData] = useState<{
     [key: string]: string | undefined;
   }>({});
+
+  const saveAddress = async () => {
+    if(!formData?.street_address || !formData.suburb || !formData?.city_or_town || !formData.province || !formData.post_code) {
+      toast.warning('Please provide all field')
+      return
+    }
+    await addAddress({
+      complex_or_building: formData?.complex_or_building
+        ? formData.complex_or_building
+        : "",
+      street_address: formData.street_address,
+      suburb: formData.suburb,
+      city_or_town: formData.city_or_town,
+      province: formData.province,
+      post_code: formData.post_code,
+    });
+  };
 
   const handleChange = (id: string, value: string) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
@@ -119,12 +141,14 @@ const OrderAddress: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     type="button"
+                    onClick={() => router.push("/buy/delivery/addresses")}
                     className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white  border border-gray-600 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
+                    onClick={saveAddress}
                     className="text-white bg-blue-450 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium  text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                   >
                     Save Address

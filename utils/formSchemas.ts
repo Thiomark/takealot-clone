@@ -7,20 +7,20 @@
 
 export const addressFormSchema = [
   {
-    id: "complex_or_building",
-    label: "Complex or Building",
-    placeholder:
-      "Complex or Building Name, unit number or floor, e.g. Maple Apt #10",
-    value: "",
-    type: "text",
-  },
-  {
     id: "street_address",
     label: "Street Address",
     placeholder: "House number and street name, e.g. 123 Elm St",
     value: "",
     type: "text",
     required: true,
+  },
+  {
+    id: "complex_or_building",
+    label: "Complex / Building (Optional)",
+    placeholder:
+      "Complex or Building Name, unit number or floor, e.g. Maple Apt #10",
+    value: "",
+    type: "text",
   },
   {
     id: "suburb",
@@ -32,7 +32,7 @@ export const addressFormSchema = [
   },
   {
     id: "city_or_town",
-    label: "City or Town",
+    label: "City / Town",
     value: "",
     type: "text",
     required: true,
@@ -70,7 +70,7 @@ export const addressFormSchema = [
 export const personalInfoFormSchema = [
   {
     id: "first_name",
-    label: "First Name",
+    label: "Recipient Name",
     value: "",
     type: "text",
     placeholder: "e.g. John",
@@ -78,7 +78,7 @@ export const personalInfoFormSchema = [
   },
   {
     id: "last_name",
-    label: "Last Name",
+    label: "Recipient Last Name",
     value: "",
     type: "text",
     placeholder: "e.g. Doe",
@@ -94,7 +94,7 @@ export const personalInfoFormSchema = [
   },
   {
     id: "phone_number",
-    label: "Phone Number",
+    label: "Recipient Mobile Number",
     value: "",
     type: "text",
     placeholder: "e.g. +2734567890",
