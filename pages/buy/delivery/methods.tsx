@@ -1,12 +1,49 @@
-import TakealotIcon from "@/components/TakealotIcon";
 import Image from "next/image";
 import Link from "next/link";
-import { Router, useRouter } from "next/router";
+import { getCookie } from "cookies-next";
+import TakealotIcon from "@/components/TakealotIcon";
+import { useCart } from "@/providers/CartProvider";
+import Spinner from "@/components/Spinner";
+import { useState } from "react";
 
 const OrderMethods: React.FC = () => {
-  const router = useRouter();
-  const selectDelivery = () => {
-    router.push("addresses/add");
+  const { fetchCart } = useCart();
+  const [loading, setLoading] = useState(false);
+
+  // TODO move to the cart provider and the loading
+  const selectDelivery = async (paymentMethod: string) => {
+    const cartId = getCookie("cart-id");
+
+    if (!cartId || loading) return;
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(`/api/cart/${cartId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({ shipping_method: { type: paymentMethod } }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update the cart");
+      }
+
+      // TODO add toast here instead of console.log
+
+      // Handle the response. For example, navigate the user to the next step
+      console.log("Cart updated successfully");
+      // Optionally, redirect the user or show a success message
+      fetchCart();
+    } catch (error) {
+      console.error("Error updating cart:", error);
+      // Optionally, handle the error (e.g., show an error message to the user)
+    } finally {
+      setLoading(true);
+    }
   };
 
   return (
@@ -68,23 +105,29 @@ const OrderMethods: React.FC = () => {
               </div>
 
               <button
-                onClick={selectDelivery}
-                className="px-4 py-2 text-sm transition-all duration-300 lg:border border-blue-450 w-fit lg:text-blue-450 lg:hover:text-white lg:hover:bg-blue-450 lg:my-auto"
+                onClick={() => selectDelivery("Delivery")}
+                className="px-4 py-2 min-w-[120px] text-sm transition-all duration-300 lg:border border-blue-450 w-fit lg:text-blue-450 lg:hover:text-white lg:hover:bg-blue-450 lg:my-auto"
               >
-                <span className="hidden lg:block">Deliver My Order</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-arrow-right lg:hidden"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
-                  />
-                </svg>
+                {loading ? (
+                  <Spinner className='mx-auto'/>
+                ) : (
+                  <>
+                    <span className="hidden lg:block">Deliver My Order</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-arrow-right lg:hidden"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+                      />
+                    </svg>
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -107,21 +150,30 @@ const OrderMethods: React.FC = () => {
                 </p>
               </div>
 
-              <button className="px-4 py-2 text-sm transition-all duration-300 lg:border border-blue-450 w-fit lg:text-blue-450 lg:hover:text-white lg:hover:bg-blue-450 lg:my-auto">
-                <span className="hidden lg:block">Collect My Order</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-arrow-right lg:hidden"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
-                  />
-                </svg>
+              <button
+                onClick={() => selectDelivery("Collect")}
+                className="px-4 py-2 min-w-[120px] text-sm transition-all duration-300 lg:border border-blue-450 w-fit lg:text-blue-450 lg:hover:text-white lg:hover:bg-blue-450 lg:my-auto"
+              >
+                {loading ? (
+                  <Spinner className='mx-auto'/>
+                ) : (
+                  <>
+                    <span className="hidden lg:block">Collect My Order</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-arrow-right lg:hidden"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+                      />
+                    </svg>
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -158,5 +210,4 @@ const OrderMethods: React.FC = () => {
     </div>
   );
 };
-
 export default OrderMethods;

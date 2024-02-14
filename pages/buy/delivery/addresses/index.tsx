@@ -122,7 +122,7 @@ const OrderAddress: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="p-6 bg-white">
+            {/* <div className="p-6 bg-white">
               <p className="mb-4 font-bold">Order Review</p>
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-600">Delivery Method</p>
@@ -131,7 +131,7 @@ const OrderAddress: React.FC = () => {
                 </button>
               </div>
               <p className="text-lg font-bold">Delivery</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

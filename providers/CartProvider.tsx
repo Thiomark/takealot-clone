@@ -13,6 +13,7 @@ import { SERVER_BASE_URL } from "@/config/index";
 import extractErrorMessage, { AxiosError } from "@/utils/extractErrorMessage";
 import { getCookie } from "cookies-next";
 import { CartContextType } from "@/types/cart";
+import { useRouter } from "next/router";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -21,12 +22,14 @@ interface CartProviderProps {
 }
 
 export const CartProvider = ({ children }: CartProviderProps) => {
+  const router = useRouter()
   const [loading, setLoading] = useState<boolean>(true);
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState("");
   const [shipping, setShipping] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartSubTotal, setCartSubTotal] = useState(0);
+  const [shippingMethod, setShippingMethod] = useState<{type?: string}>({});
   const [personalInfo, setPersonalInfo] = useState({
     first_name: "",
     last_name: "",
@@ -53,6 +56,17 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   useEffect(() => {
     fetchCart();
   }, []);
+
+  // This acts like navigation guard, until a standard implemtion is done
+  useEffect(() => {
+    if(router.route === '/buy/delivery/methods' && shippingMethod && shippingMethod?.type) {
+      router.push("addresses/add");
+    }
+    else if(router.route === '/buy/delivery/addresses/add' && (!shippingMethod || !shippingMethod?.type)) {
+      router.push("/buy/delivery/methods");
+    }
+  }, [router, shippingMethod])
+  
 
   const addItemToCart = async (newProduct: AddProductToCartProductType) => {
     try {
@@ -171,6 +185,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     }
   };
 
+  const resetShippingMethod = () => {
+    setShippingMethod({})
+  }
+
   const fetchCart = async () => {
     try {
       const storedCartId = getCookie("cart-id");
@@ -194,6 +212,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       setCartTotal(response.data.cart_total);
       setShipping(response.data.cart_shipping);
       setPersonalInfo(response.data.personal_information);
+      setShippingMethod(response.data?.shipping_method);
     } catch (error) {
       const errorMessage = extractErrorMessage(error as AxiosError);
 
@@ -212,6 +231,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       value={{
         cart,
         shipping,
+        shippingMethod,
         cartTotal,
         cartSubTotal,
         cartId,
@@ -220,6 +240,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         billingAddress,
         shippingAddress,
         addItemToCart,
+        resetShippingMethod,
         deleteFromCart,
         fetchCart,
       }}

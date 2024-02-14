@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import FloatingLabelInput from "@/components/FloatingLabelInput";
 import TakealotIcon from "@/components/TakealotIcon";
+import ShippingMethod from '@/components/checkout/ShippingMethod';
 import { addressFormSchema, personalInfoFormSchema } from "@/utils/formSchemas";
 import { useAuth } from "@/providers/FirebaseAuthProvider";
 import { toast } from "react-toastify";
@@ -190,16 +191,7 @@ const OrderAddress: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="p-6 bg-white">
-              <p className="mb-4 font-bold">Order Review</p>
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">Delivery Method</p>
-                <button className="text-xs font-semibold text-blue-450">
-                  Change
-                </button>
-              </div>
-              <p className="text-lg font-bold">Delivery</p>
-            </div>
+            <ShippingMethod />
           </div>
         </div>
       </div>
