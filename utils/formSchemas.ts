@@ -15,6 +15,14 @@ export const addressFormSchema = [
     required: true,
   },
   {
+    id: "address_type",
+    label: "Address Type",
+    placeholder: "",
+    value: "",
+    type: "text",
+    required: true,
+  },
+  {
     id: "complex_or_building",
     label: "Complex / Building (Optional)",
     placeholder:

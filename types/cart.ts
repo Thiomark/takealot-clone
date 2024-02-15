@@ -11,7 +11,7 @@ export interface CartContextType {
   cart: Array<ProductType>;
   shipping: number;
   cartTotal: number;
-  shippingMethod: { type?: string }; // <--- update later so it can be used in the card provider for the shippingMethod useState 
+  shippingMethod: { type?: string }; // <--- update later so it can be used in the card provider for the shippingMethod useState
   cartSubTotal: number;
   cartId: string;
   personalInfo: {
@@ -22,6 +22,13 @@ export interface CartContextType {
   };
   shippingAddress: AddressType;
   billingAddress: AddressType;
+  saveAddress: ({
+    shippingAddress,
+    personalInfo,
+  }: {
+    shippingAddress: AddressType;
+    personalInfo: PersonalInfoType;
+  }) => Promise<void>;
   fetchCart: () => Promise<void>;
   resetShippingMethod: () => void;
   addItemToCart: (newProduct: AddProductToCartProductType) => Promise<void>;
@@ -63,4 +70,5 @@ export type AddressType = {
   city_or_town: string;
   province: string;
   post_code: string;
+  address_type: string;
 };

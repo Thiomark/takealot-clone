@@ -1,34 +1,56 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 import FloatingLabelInput from "@/components/FloatingLabelInput";
 import TakealotIcon from "@/components/TakealotIcon";
-import ShippingMethod from '@/components/checkout/ShippingMethod';
+import ShippingMethod from "@/components/checkout/ShippingMethod";
 import { addressFormSchema, personalInfoFormSchema } from "@/utils/formSchemas";
-import { useAuth } from "@/providers/FirebaseAuthProvider";
-import { toast } from "react-toastify";
+import Spinner from "@/components/Spinner";
+import OrderSummary from "@/components/checkout/OrderSummary";
+import { useCart } from "@/providers/CartProvider";
 
 const OrderAddress: React.FC = () => {
   const router = useRouter();
-  const { addAddress } = useAuth();
+  const { saveAddress, loading } = useCart();
   const [formData, setFormData] = useState<{
     [key: string]: string | undefined;
   }>({});
 
-  const saveAddress = async () => {
-    if(!formData?.street_address || !formData.suburb || !formData?.city_or_town || !formData.province || !formData.post_code) {
-      toast.warning('Please provide all field')
-      return
+  const submitAddress = async () => {
+    if (
+      !formData?.street_address ||
+      !formData.suburb ||
+      !formData?.city_or_town ||
+      !formData.province ||
+      !formData.post_code ||
+      !formData.address_type ||
+      !formData.email ||
+      !formData.first_name ||
+      !formData.last_name ||
+      !formData.phone_number
+    ) {
+      toast.warning("Please provide all field");
+      return;
     }
-    await addAddress({
-      complex_or_building: formData?.complex_or_building
-        ? formData.complex_or_building
-        : "",
-      street_address: formData.street_address,
-      suburb: formData.suburb,
-      city_or_town: formData.city_or_town,
-      province: formData.province,
-      post_code: formData.post_code,
+    await saveAddress({
+      shippingAddress: {
+        complex_or_building: formData?.complex_or_building
+          ? formData.complex_or_building
+          : "",
+        street_address: formData.street_address,
+        address_type: formData.address_type,
+        suburb: formData.suburb,
+        city_or_town: formData.city_or_town,
+        province: formData.province,
+        post_code: formData.post_code,
+      },
+      personalInfo: {
+        email: formData.email,
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        phone_number: formData.phone_number,
+      },
     });
   };
 
@@ -82,30 +104,38 @@ const OrderAddress: React.FC = () => {
               <div className="grid grid-cols-2 gap-2">
                 <div className="flex items-center p-4 mb-4 space-x-3 bg-gray-100">
                   <input
-                    id="default-radio-1"
+                    id="residential"
                     type="radio"
-                    value=""
-                    name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    value="residential"
+                    name="address_type"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                    onChange={(e) =>
+                      handleChange("address_type", e.target.value)
+                    }
+                    checked={formData.address_type === "residential"}
                   />
                   <label
-                    htmlFor="default-radio-1"
-                    className="text-sm font-medium text-gray-900 "
+                    htmlFor="residential"
+                    className="text-sm font-medium text-gray-900"
                   >
                     Residential
                   </label>
                 </div>
                 <div className="flex items-center p-4 mb-4 space-x-3 bg-gray-100">
                   <input
-                    id="default-radio-1"
+                    id="business"
                     type="radio"
-                    value=""
-                    name="default-radio"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    value="business"
+                    name="address_type"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                    onChange={(e) =>
+                      handleChange("address_type", e.target.value)
+                    }
+                    checked={formData.address_type === "business"}
                   />
                   <label
-                    htmlFor="default-radio-1"
-                    className="text-sm font-medium text-gray-900 "
+                    htmlFor="business"
+                    className="text-sm font-medium text-gray-900"
                   >
                     Business
                   </label>
@@ -125,19 +155,21 @@ const OrderAddress: React.FC = () => {
                   required={field.required}
                 />
               ))}
-              {addressFormSchema.map((field) => (
-                <FloatingLabelInput
-                  key={field.id}
-                  id={field.id}
-                  label={field.label}
-                  type={field.type}
-                  value={formData[field.id] || ""}
-                  onChange={(e: { target: { value: string } }) =>
-                    handleChange(field.id, e.target.value)
-                  }
-                  required={field.required}
-                />
-              ))}
+              {addressFormSchema
+                .filter((field) => field.id !== "address_type")
+                .map((field) => (
+                  <FloatingLabelInput
+                    key={field.id}
+                    id={field.id}
+                    label={field.label}
+                    type={field.type}
+                    value={formData[field.id] || ""}
+                    onChange={(e: { target: { value: string } }) =>
+                      handleChange(field.id, e.target.value)
+                    }
+                    required={field.required}
+                  />
+                ))}
               <div className="flex justify-end">
                 <div className="grid grid-cols-2 gap-4">
                   <button
@@ -149,48 +181,21 @@ const OrderAddress: React.FC = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={saveAddress}
+                    onClick={submitAddress}
                     className="text-white bg-blue-450 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium  text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                   >
-                    Save Address
+                    {loading ? (
+                      <Spinner className="mx-auto" />
+                    ) : (
+                      <span>Save Address</span>
+                    )}
                   </button>
                 </div>
               </div>
             </form>
           </div>
           <div className="space-y-4 xl:col-span-2">
-            <div className="p-6 bg-white">
-              <p className="text-sm text-gray-600">Order Summary</p>
-              <div className="flex items-center justify-between text-sm">
-                <p>3 items</p>
-                <p>R 2,127</p>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <p>Delivery</p>
-                <p>Free</p>
-              </div>
-              <div className="flex items-center justify-between py-3 mt-3 text-sm border-t border-dashed">
-                <p className="font-bold">TO PAY:</p>
-                <p className="text-xl font-bold text-green-450">R 2123</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center py-4">
-                <button className="w-full max-w-xs p-3 text-sm uppercase bg-green-450 text-gray-50">
-                  Pay with payfast
-                </button>
-                <div className="flex items-center mt-4 space-x-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    className="w-5 h-5 bi bi-lock-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-                  </svg>
-                  <span>Secure checkout</span>
-                </div>
-              </div>
-            </div>
+            <OrderSummary />
             <ShippingMethod />
           </div>
         </div>

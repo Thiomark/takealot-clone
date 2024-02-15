@@ -106,9 +106,14 @@ export const FirebaseAuthProvider = ({
   };
 
   const addAddress = async (address: AddressType) => {
+    if(loading) return;
+
+    setLoading(true)
+
     if (!user) {
+      // TODO try to save the address temporarly for that were redirected
       // Redirect to login with a redirect back to the current page
-      router.push(`/login?redirect=${router.asPath}`);
+      router.push(`/account/login?redirect=${router.asPath}`);
       return;
     }
     try {
@@ -116,10 +121,15 @@ export const FirebaseAuthProvider = ({
         ...address,
         userId: user.uid,
       });
+
+      console.log(address)
       toast.success("Address added successfully!");
+      
     } catch (error) {
       console.error("Error adding address: ", error);
       toast.error("Error adding address.");
+    } finally {
+      setLoading(false)
     }
   };
   

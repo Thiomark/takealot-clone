@@ -2,14 +2,19 @@ import TakealotIcon from "@/components/TakealotIcon";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useAuth } from "@/providers/FirebaseAuthProvider";
+import { useCart } from "@/providers/CartProvider";
+import ShippingMethod from "@/components/checkout/ShippingMethod";
+import { useRouter } from "next/router";
+import OrderSummary from "@/components/checkout/OrderSummary";
 
 const OrderAddress: React.FC = () => {
   const { fetchAddresses, addresses } = useAuth();
+  const { personalInfo, shippingAddress } = useCart();
+  const router = useRouter();
 
   useEffect(() => {
-    fetchAddresses()
-  }, [])
-
+    fetchAddresses();
+  }, []);
 
   return (
     <div className="relative bg-gray-100">
@@ -54,29 +59,45 @@ const OrderAddress: React.FC = () => {
           <div className="grid gap-4 xl:col-span-4">
             <div>
               <div className="p-6 space-y-3 bg-white">
-                {addresses.map(addresse => (<div key={addresse.id} className="p-6 bg-blue-50 grid grid-cols-[auto_1fr_auto]">
+                <header className="flex items-center justify-between">
+                  <span>Delivery Addresses</span>
+                  <button
+                    onClick={() => router.push("/buy/delivery/addresses/add")}
+                    className="px-8 py-3 text-sm text-white bg-blue-450"
+                  >
+                    Add Address
+                  </button>
+                </header>
+                <div className="p-6 bg-blue-50 grid grid-cols-[auto_1fr_auto]">
                   <div className="flex items-center p-4 mb-4 space-x-3 ">
                     <input
-                      id="default-radio-1"
+                      defaultChecked
                       type="radio"
                       value=""
-                      name="default-radio"
+                      name="selected-address"
                       className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     />
                   </div>
 
                   <div>
                     <div className="relative grid my-2 select-none w-fit items-center whitespace-nowrap rounded-full bg-green-400 py-0.5 px-3 text-[.6rem] font-semibold uppercase text-gray-50">
-                      <span className="">Residential</span>
+                      <span className="">{shippingAddress?.address_type}</span>
                     </div>
-                    <p className="font-bold text-md">The Hangar, M405</p>
-                    <p className="font-bold text-md">3 Bosbok Nook</p>
+                    {shippingAddress?.complex_or_building && (
+                      <p className="font-bold text-md">
+                        {shippingAddress.complex_or_building}
+                      </p>
+                    )}
                     <p className="font-bold text-md">
-                      Zwartkop, Centurion, 0157
+                      {shippingAddress?.street_address}
+                    </p>
+                    <p className="font-bold text-md">
+                      {shippingAddress?.suburb}, {shippingAddress?.city_or_town}
+                      , {shippingAddress?.post_code}
                     </p>
                     <div className="flex items-center mt-3 space-x-3 text-sm text-gray-500">
-                      <span>itumeleng</span>
-                      <span>0787576092</span>
+                      <span>{personalInfo?.first_name}</span>
+                      <span>{personalInfo?.phone_number}</span>
                     </div>
                   </div>
 
@@ -85,53 +106,57 @@ const OrderAddress: React.FC = () => {
                     <span className="px-3">&#x2022;</span>
                     <button className="hover:underline">Edit</button>
                   </div>
-                </div>))}
+                </div>
+                {addresses.map((addresse) => (
+                  <div
+                    key={addresse.id}
+                    className="p-6 bg-blue-50 grid grid-cols-[auto_1fr_auto]"
+                  >
+                    <div className="flex items-center p-4 mb-4 space-x-3 ">
+                      <input
+                        id="default-radio-1"
+                        type="radio"
+                        value=""
+                        name="default-radio"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="relative grid my-2 select-none w-fit items-center whitespace-nowrap rounded-full bg-green-400 py-0.5 px-3 text-[.6rem] font-semibold uppercase text-gray-50">
+                        <span className="">{addresse.address_type}</span>
+                      </div>
+                      {addresse.complex_or_building && (
+                        <p className="font-bold text-md">
+                          {addresse.complex_or_building}
+                        </p>
+                      )}
+                      <p className="font-bold text-md">
+                        {addresse.street_address}
+                      </p>
+                      <p className="font-bold text-md">
+                        {addresse.suburb}, {addresse.city_or_town},{" "}
+                        {addresse.post_code}
+                      </p>
+                      <div className="flex items-center mt-3 space-x-3 text-sm text-gray-500">
+                        <span>{personalInfo?.first_name}</span>
+                        <span>{personalInfo?.phone_number}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center text-sm text-blue-450">
+                      <button className="hover:underline">Delete</button>
+                      <span className="px-3">&#x2022;</span>
+                      <button className="hover:underline">Edit</button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
           <div className="space-y-4 xl:col-span-2">
-            <div className="p-6 bg-white">
-              <p className="text-sm text-gray-600">Order Summary</p>
-              <div className="flex items-center justify-between text-sm">
-                <p>3 items</p>
-                <p>R 2,127</p>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <p>Delivery</p>
-                <p>Free</p>
-              </div>
-              <div className="flex items-center justify-between py-3 mt-3 text-sm border-t border-dashed">
-                <p className="font-bold">TO PAY:</p>
-                <p className="text-xl font-bold text-green-450">R 2123</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center py-4">
-                <button className="w-full max-w-xs p-3 text-sm uppercase bg-green-450 text-gray-50">
-                  Pay with payfast
-                </button>
-                <div className="flex items-center mt-4 space-x-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    className="w-5 h-5 bi bi-lock-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-                  </svg>
-                  <span>Secure checkout</span>
-                </div>
-              </div>
-            </div>
-            {/* <div className="p-6 bg-white">
-              <p className="mb-4 font-bold">Order Review</p>
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">Delivery Method</p>
-                <button className="text-xs font-semibold text-blue-450">
-                  Change
-                </button>
-              </div>
-              <p className="text-lg font-bold">Delivery</p>
-            </div> */}
+            <OrderSummary />
+            <ShippingMethod />
           </div>
         </div>
       </div>

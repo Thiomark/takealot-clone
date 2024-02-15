@@ -1,10 +1,11 @@
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getCookie } from "cookies-next";
 import TakealotIcon from "@/components/TakealotIcon";
 import { useCart } from "@/providers/CartProvider";
 import Spinner from "@/components/Spinner";
-import { useState } from "react";
+import OrderSummary from "@/components/checkout/OrderSummary";
 
 const OrderMethods: React.FC = () => {
   const { fetchCart } = useCart();
@@ -109,7 +110,7 @@ const OrderMethods: React.FC = () => {
                 className="px-4 py-2 min-w-[120px] text-sm transition-all duration-300 lg:border border-blue-450 w-fit lg:text-blue-450 lg:hover:text-white lg:hover:bg-blue-450 lg:my-auto"
               >
                 {loading ? (
-                  <Spinner className='mx-auto'/>
+                  <Spinner className="mx-auto" />
                 ) : (
                   <>
                     <span className="hidden lg:block">Deliver My Order</span>
@@ -155,7 +156,7 @@ const OrderMethods: React.FC = () => {
                 className="px-4 py-2 min-w-[120px] text-sm transition-all duration-300 lg:border border-blue-450 w-fit lg:text-blue-450 lg:hover:text-white lg:hover:bg-blue-450 lg:my-auto"
               >
                 {loading ? (
-                  <Spinner className='mx-auto'/>
+                  <Spinner className="mx-auto" />
                 ) : (
                   <>
                     <span className="hidden lg:block">Collect My Order</span>
@@ -178,32 +179,7 @@ const OrderMethods: React.FC = () => {
             </div>
           </div>
           <div className="space-y-4 lg:order-2 xl:col-span-2 xl:row-span-2">
-            <div className="p-6 bg-white">
-              <p className="font-bold text-gray-800 text-md">Order Summary</p>
-              <div className="flex items-center justify-between text-sm">
-                <p>3 items</p>
-                <p>R 2,127</p>
-              </div>
-
-              <div className="flex items-center justify-between py-3 mt-3 text-sm border-t border-dashed">
-                <p className="font-bold">TO PAY:</p>
-                <p className="text-xl font-bold text-green-450">R 2123</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center py-4 border-t border-dashed">
-                <div className="flex items-center mt-4 space-x-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    className="w-5 h-5 bi bi-lock-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-                  </svg>
-                  <span>Secure checkout</span>
-                </div>
-              </div>
-            </div>
+            <OrderSummary />
           </div>
         </div>
       </div>

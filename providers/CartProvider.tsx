@@ -12,8 +12,9 @@ import { toast } from "react-toastify";
 import { SERVER_BASE_URL } from "@/config/index";
 import extractErrorMessage, { AxiosError } from "@/utils/extractErrorMessage";
 import { getCookie } from "cookies-next";
-import { CartContextType } from "@/types/cart";
+import { AddressType, CartContextType } from "@/types/cart";
 import { useRouter } from "next/router";
+import { PersonalInfoType } from "@/types/profile";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -22,14 +23,14 @@ interface CartProviderProps {
 }
 
 export const CartProvider = ({ children }: CartProviderProps) => {
-  const router = useRouter()
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState("");
   const [shipping, setShipping] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartSubTotal, setCartSubTotal] = useState(0);
-  const [shippingMethod, setShippingMethod] = useState<{type?: string}>({});
+  const [shippingMethod, setShippingMethod] = useState<{ type?: string }>({});
   const [personalInfo, setPersonalInfo] = useState({
     first_name: "",
     last_name: "",
@@ -41,6 +42,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     street_address: "",
     suburb: "",
     city_or_town: "",
+    address_type: "",
     province: "",
     post_code: "",
   });
@@ -49,9 +51,29 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     street_address: "",
     suburb: "",
     city_or_town: "",
+    address_type: "",
     province: "",
     post_code: "",
   });
+
+  useEffect(() => {
+    // Function to check if an object has all properties empty
+    const areAllFieldsEmpty = (obj: PersonalInfoType | AddressType) => {
+      if (obj === null || obj === undefined) {
+        return true; // Consider null or undefined objects as "empty" for this context
+      }
+      return Object.values(obj).every((x) => x === "");
+    };
+
+    // Check if personalInfo, shippingAddress, and billingAddress are empty
+    if (
+      areAllFieldsEmpty(personalInfo) ||
+      areAllFieldsEmpty(shippingAddress) ||
+      areAllFieldsEmpty(billingAddress)
+    ) {
+      router.push("/buy/delivery/addresses/add");
+    }
+  }, [personalInfo, shippingAddress, billingAddress]);
 
   useEffect(() => {
     fetchCart();
@@ -59,14 +81,26 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   // This acts like navigation guard, until a standard implemtion is done
   useEffect(() => {
-    if(router.route === '/buy/delivery/methods' && shippingMethod && shippingMethod?.type) {
+    if (
+      router.route === "/buy/delivery/methods" &&
+      shippingMethod &&
+      shippingMethod?.type
+    ) {
       router.push("addresses/add");
+    } else if (
+      router.route === "/buy/delivery/addresses/add" &&
+      shippingMethod &&
+      shippingMethod?.type
+    ) {
+      // router.push("/buy/delivery/addresses");
+    } else if (
+      router.route === "/buy/delivery/addresses" &&
+      shippingMethod &&
+      shippingMethod?.type
+    ) {
+      // router.push("/buy/delivery/addresses");
     }
-    else if(router.route === '/buy/delivery/addresses/add' && (!shippingMethod || !shippingMethod?.type)) {
-      router.push("/buy/delivery/methods");
-    }
-  }, [router, shippingMethod])
-  
+  }, [router, shippingMethod]);
 
   const addItemToCart = async (newProduct: AddProductToCartProductType) => {
     try {
@@ -97,6 +131,45 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         await checkCart();
       } else {
         toast.error(errorMessage || "Error adding product to cart.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveAddress = async ({
+    personalInfo,
+    shippingAddress,
+  }: {
+    personalInfo: PersonalInfoType;
+    shippingAddress: AddressType;
+  }) => {
+    try {
+      const storedCartId = getCookie("cart-id");
+
+      if (!storedCartId) {
+        throw new Error("Cart ID is missing.");
+      }
+
+      setLoading(true);
+
+      const response = await axios.put(`/api/cart/${storedCartId}`, {
+        shipping_address: shippingAddress,
+        billing_address: shippingAddress,
+        personal_information: personalInfo,
+      });
+
+      if (response.data.error) {
+        throw new Error(response.data.error);
+      }
+
+      fetchCart();
+    } catch (error) {
+      const errorMessage = extractErrorMessage(error as AxiosError);
+      if (errorMessage && errorMessage.includes("Cart not found")) {
+        await checkCart();
+      } else {
+        toast.error(errorMessage || "Error submitting the address");
       }
     } finally {
       setLoading(false);
@@ -186,8 +259,8 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   };
 
   const resetShippingMethod = () => {
-    setShippingMethod({})
-  }
+    setShippingMethod({});
+  };
 
   const fetchCart = async () => {
     try {
@@ -239,6 +312,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         personalInfo,
         billingAddress,
         shippingAddress,
+        saveAddress,
         addItemToCart,
         resetShippingMethod,
         deleteFromCart,
@@ -257,59 +331,3 @@ export const useCart = () => {
   }
   return context;
 };
-
-// const actions = {
-
-//   async saveAddress(
-//     { commit, state, dispatch },
-//     { shippingAddress, billingAddress, personalInformation }
-//   ) {
-//     try {
-//       // Check if the state has cartId
-//       if (!state.cartId) {
-//         throw new Error("Cart ID is missing.");
-//       }
-
-//       commit("SET_LOADING", true);
-
-//       let payload = {
-//         shipping_address: shippingAddress,
-//         billing_address: billingAddress,
-//         personal_information: personalInformation,
-//       };
-
-//       const serverBaseUrl = this.$runtimeConfig.serverBaseUrl;
-
-//       const response = await this.$axios.put(
-//         `${serverBaseUrl}/api/cart/${state.cartId}`,
-//         payload
-//       );
-
-//       if (response.data.error) {
-//         throw new Error(response.data.error);
-//       }
-
-//       await dispatch("fetchCart");
-
-//       Vue.prototype.$toast.success("Address added successfully!");
-//     } catch (error) {
-//       const errorMessage = extractErrorMessage(error);
-//       if (errorMessage && errorMessage.includes("Cart not found")) {
-//         await dispatch("checkCart");
-//       } else {
-//         Vue.prototype.$toast.error(
-//           errorMessage || "Error submitting the address"
-//         );
-//       }
-//     } finally {
-//       commit("SET_LOADING", false);
-//     }
-//   },
-
-//   addToLiked({ commit }, newProduct) {
-//     commit("ADD_TO_LIKED", newProduct);
-//   },
-//   removeFromLiked({ commit }, SelectProduct) {
-//     commit("REMOVE_FROM_LIKED", SelectProduct);
-//   },
-// };
