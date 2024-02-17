@@ -23,7 +23,10 @@ const Button: React.FC<{ orderReview: boolean }> = ({ orderReview }) => {
   }
 };
 
-const OrderSummary: React.FC = () => {
+const OrderSummary: React.FC<{
+  hideButton?: boolean;
+  hideDelivery?: boolean;
+}> = ({ hideButton, hideDelivery }) => {
   const router = useRouter();
   const { cartSubTotal, cartTotal, cart, shipping } = useCart();
   const orderReview = router.pathname === "/buy/review";
@@ -35,10 +38,12 @@ const OrderSummary: React.FC = () => {
         <p>{cart.length} items</p>
         <p>R {cartSubTotal}</p>
       </div>
-      <div className="flex items-center justify-between text-sm">
-        <p>Delivery</p>
-        <p>{shipping}</p>
-      </div>
+      {!hideDelivery && (
+        <div className="flex items-center justify-between text-sm">
+          <p>Delivery</p>
+          <p>{shipping}</p>
+        </div>
+      )}
       <div className="flex items-center justify-between py-3 mt-3 text-sm border-t border-dashed">
         <p className="font-bold">TO PAY:</p>
         <p className="text-xl font-bold text-green-450">R {cartTotal}</p>
@@ -67,8 +72,10 @@ const OrderSummary: React.FC = () => {
           </svg>
         </div>
       )}
-      <div className="flex flex-col items-center justify-center py-4">
-        <Button orderReview={orderReview} />
+      <div
+        className={`flex flex-col items-center justify-center py-4 ${hideButton && "border-t border-dashed"}`}
+      >
+        {!hideButton && <Button orderReview={orderReview} />}
         <div className="flex items-center mt-4 space-x-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"

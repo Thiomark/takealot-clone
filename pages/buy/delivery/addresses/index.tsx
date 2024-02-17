@@ -155,7 +155,7 @@ const OrderAddress: React.FC = () => {
             </div>
           </div>
           <div className="space-y-4 xl:col-span-2">
-            <OrderSummary />
+            <OrderSummary hideDelivery />
             <ShippingMethod />
           </div>
         </div>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import TakealotIcon from "@/components/TakealotIcon";
 import OrderSummary from "@/components/checkout/OrderSummary";
+import ShippingMethod from "@/components/checkout/ShippingMethod";
 
 const ReviewOrder: React.FC = () => {
   return (
@@ -45,15 +46,7 @@ const ReviewOrder: React.FC = () => {
         </div>
         <div className="grid gap-4 p-6 mt-8 xl:grid-cols-6 lg:mt-0">
           <div className="grid gap-4 xl:col-span-4">
-            <div className="p-6 bg-white">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">Delivery Method</p>
-                <button className="text-xs font-semibold text-blue-450">
-                  Change
-                </button>
-              </div>
-              <p className="text-lg font-bold">Delivery</p>
-            </div>
+            <ShippingMethod />
             <div className="p-6 bg-white">
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-600">Delivery Address</p>

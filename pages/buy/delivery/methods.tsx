@@ -179,7 +179,7 @@ const OrderMethods: React.FC = () => {
             </div>
           </div>
           <div className="space-y-4 lg:order-2 xl:col-span-2 xl:row-span-2">
-            <OrderSummary />
+            <OrderSummary hideButton hideDelivery />
           </div>
         </div>
       </div>
