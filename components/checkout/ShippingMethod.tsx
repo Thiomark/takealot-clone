@@ -1,18 +1,8 @@
 import { useCart } from "@/providers/CartProvider";
-import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 
 const ShippingMethod: React.FC = () => {
   const { resetShippingMethod, shippingMethod } = useCart();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!shippingMethod?.type) {
-      router.push("/buy/delivery/methods");
-    }
-  }, [router]);
-
-  if (!shippingMethod.type) return null;
 
   return (
     <div className="p-6 bg-white">

@@ -6,24 +6,38 @@ import React, {
   useEffect,
 } from "react";
 import axios from "axios";
-import { setCookie, deleteCookie } from "cookies-next";
-import { AddProductToCartProductType } from "@/types/product";
+import { setCookie, deleteCookie, getCookie } from "cookies-next";
 import { toast } from "react-toastify";
+import { AddProductToCartProductType } from "@/types/product";
 import { SERVER_BASE_URL } from "@/config/index";
 import extractErrorMessage, { AxiosError } from "@/utils/extractErrorMessage";
-import { getCookie } from "cookies-next";
 import { AddressType, CartContextType } from "@/types/cart";
-import { useRouter } from "next/router";
 import { PersonalInfoType } from "@/types/profile";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+const defaultPersonalInfo: PersonalInfoType = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone_number: "",
+};
+
+const defaultAddress: AddressType = {
+  complex_or_building: "",
+  street_address: "",
+  suburb: "",
+  city_or_town: "",
+  address_type: "",
+  province: "",
+  post_code: "",
+};
 
 interface CartProviderProps {
   children: ReactNode;
 }
 
 export const CartProvider = ({ children }: CartProviderProps) => {
-  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState("");
@@ -31,76 +45,19 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [cartTotal, setCartTotal] = useState(0);
   const [cartSubTotal, setCartSubTotal] = useState(0);
   const [shippingMethod, setShippingMethod] = useState<{ type?: string }>({});
-  const [personalInfo, setPersonalInfo] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone_number: "",
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfoType>({
+    ...defaultPersonalInfo,
   });
-  const [shippingAddress, setShippingAddress] = useState({
-    complex_or_building: "",
-    street_address: "",
-    suburb: "",
-    city_or_town: "",
-    address_type: "",
-    province: "",
-    post_code: "",
+  const [shippingAddress, setShippingAddress] = useState<AddressType>({
+    ...defaultAddress,
   });
-  const [billingAddress, setBillingAddress] = useState({
-    complex_or_building: "",
-    street_address: "",
-    suburb: "",
-    city_or_town: "",
-    address_type: "",
-    province: "",
-    post_code: "",
+  const [billingAddress, setBillingAddress] = useState<AddressType>({
+    ...defaultAddress,
   });
-
-  useEffect(() => {
-    // Function to check if an object has all properties empty
-    const areAllFieldsEmpty = (obj: PersonalInfoType | AddressType) => {
-      if (obj === null || obj === undefined) {
-        return true; // Consider null or undefined objects as "empty" for this context
-      }
-      return Object.values(obj).every((x) => x === "");
-    };
-
-    // Check if personalInfo, shippingAddress, and billingAddress are empty
-    if (
-      areAllFieldsEmpty(personalInfo) ||
-      areAllFieldsEmpty(shippingAddress) ||
-      areAllFieldsEmpty(billingAddress)
-    ) {
-      router.push("/buy/delivery/addresses/add");
-    }
-  }, [personalInfo, shippingAddress, billingAddress]);
 
   useEffect(() => {
     fetchCart();
   }, []);
-
-  // This acts like navigation guard, until a standard implemtion is done
-  useEffect(() => {
-    if (
-      router.route === "/buy/delivery/methods" &&
-      shippingMethod &&
-      shippingMethod?.type
-    ) {
-      router.push("addresses/add");
-    } else if (
-      router.route === "/buy/delivery/addresses/add" &&
-      shippingMethod &&
-      shippingMethod?.type
-    ) {
-      // router.push("/buy/delivery/addresses");
-    } else if (
-      router.route === "/buy/delivery/addresses" &&
-      shippingMethod &&
-      shippingMethod?.type
-    ) {
-      // router.push("/buy/delivery/addresses");
-    }
-  }, [router, shippingMethod]);
 
   const addItemToCart = async (newProduct: AddProductToCartProductType) => {
     try {
@@ -278,14 +235,30 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
       if (!response.data) return;
 
-      setCart(response.data.cart_items);
-      setShippingAddress(response.data.shipping_address);
-      setBillingAddress(response.data.billing_address);
-      setCartSubTotal(response.data.cart_subtotal);
-      setCartTotal(response.data.cart_total);
-      setShipping(response.data.cart_shipping);
-      setPersonalInfo(response.data.personal_information);
-      setShippingMethod(response.data?.shipping_method);
+      if (response.data?.cart_items) {
+        setCart(response.data.cart_items);
+      }
+      if (response.data?.shipping_address) {
+        setShippingAddress(response.data.shipping_address);
+      }
+      if (response.data?.billing_address) {
+        setBillingAddress(response.data.billing_address);
+      }
+      if (response.data?.cart_subtotal) {
+        setCartSubTotal(response.data.cart_subtotal);
+      }
+      if (response.data?.cart_total) {
+        setCartTotal(response.data.cart_total);
+      }
+      if (response.data?.cart_shipping) {
+        setShipping(response.data.cart_shipping);
+      }
+      if (response.data?.personal_information) {
+        setPersonalInfo(response.data.personal_information);
+      }
+      if (response.data?.shipping_method) {
+        setShippingMethod(response.data.shipping_method);
+      }
     } catch (error) {
       const errorMessage = extractErrorMessage(error as AxiosError);
 

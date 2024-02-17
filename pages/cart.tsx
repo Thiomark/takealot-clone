@@ -1,9 +1,9 @@
+import React from "react";
+import Link from "next/link";
 import Layout from "../components/Layout";
 import ProductsComponent from "../components/ProductsComponent";
-import Link from "next/link";
 // import { useProducts } from "@/providers/ProductProvider";
 import { useCart } from "@/providers/CartProvider";
-import React from "react";
 
 const Cart: React.FC = () => {
   // const { addItemToList } = useProducts();
@@ -97,7 +97,7 @@ const Cart: React.FC = () => {
                   </span>
                 </div>
                 <Link
-                  href="/buy/delivery/methods"
+                  href="/buy/review"
                   className=" bg-green-450 text-center py-3 px-4 w-full text-sm text-white"
                 >
                   Proceed To Checkout

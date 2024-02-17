@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { getCookie } from "cookies-next";
 import TakealotIcon from "@/components/TakealotIcon";
@@ -8,6 +9,7 @@ import Spinner from "@/components/Spinner";
 import OrderSummary from "@/components/checkout/OrderSummary";
 
 const OrderMethods: React.FC = () => {
+  const router = useRouter();
   const { fetchCart } = useCart();
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +40,9 @@ const OrderMethods: React.FC = () => {
       // Handle the response. For example, navigate the user to the next step
       console.log("Cart updated successfully");
       // Optionally, redirect the user or show a success message
-      fetchCart();
+      await fetchCart();
+
+      router.push("/buy/review");
     } catch (error) {
       console.error("Error updating cart:", error);
       // Optionally, handle the error (e.g., show an error message to the user)

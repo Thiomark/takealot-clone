@@ -1,10 +1,50 @@
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import useCheckoutNavigation from "@/hooks/useCheckoutNavigation";
 import Image from "next/image";
 import Link from "next/link";
 import TakealotIcon from "@/components/TakealotIcon";
 import OrderSummary from "@/components/checkout/OrderSummary";
 import ShippingMethod from "@/components/checkout/ShippingMethod";
+import { CheckoutData } from "@/types/checkout";
 
 const ReviewOrder: React.FC = () => {
+  const router = useRouter();
+  const { currentStep, startCheckout, completedSteps, isActive } =
+    useCheckoutNavigation();
+
+  useEffect(() => {
+    if (!isActive) {
+      startCheckout();
+    }
+    const stepRoutes: { [K in keyof Partial<CheckoutData>]: string } = {
+      cart: "/cart",
+      userStep: "/buy/delivery/addresses/add",
+      shippingAddress: "/buy/delivery/addresses/add",
+      billingAddress: "/buy/delivery/addresses/add",
+      shippingMethod: "/buy/delivery/methods",
+      review: "/buy/review",
+      payment: "/payment",
+      confirmation: "/confirmation",
+    };
+
+    // Fix TypeScript issue by ensuring nextStepKey is a keyof CheckoutData
+    const nextStepKey = Object.keys(completedSteps).find(
+      (key) => !completedSteps[key as keyof Partial<CheckoutData>]
+    ) as keyof Partial<CheckoutData> | undefined;
+
+    if (!nextStepKey) {
+      router.push("/checkout/complete");
+      return;
+    }
+
+    const nextRoute = stepRoutes[nextStepKey];
+
+    if (router.pathname !== nextRoute && nextRoute) {
+      router.push(nextRoute);
+    }
+  }, [currentStep, completedSteps, router]);
+
   return (
     <div className="relative bg-gray-100">
       <header className="hidden bg-white lg:block">
