@@ -3,12 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import FloatingLabelInput from "@/components/FloatingLabelInput";
-import TakealotIcon from "@/components/TakealotIcon";
 import ShippingMethod from "@/components/checkout/ShippingMethod";
 import { addressFormSchema, personalInfoFormSchema } from "@/utils/formSchemas";
 import Spinner from "@/components/Spinner";
 import OrderSummary from "@/components/checkout/OrderSummary";
 import { useCart } from "@/providers/CartProvider";
+import { CheckoutLayout } from "@/components/Layout";
 
 const OrderAddress: React.FC = () => {
   const router = useRouter();
@@ -59,12 +59,7 @@ const OrderAddress: React.FC = () => {
   };
 
   return (
-    <div className="relative bg-gray-100">
-      <header className="hidden bg-white lg:block">
-        <div className="container w-full px-10 py-4 mx-auto">
-          <TakealotIcon />
-        </div>
-      </header>
+    <CheckoutLayout>
       <div className="w-full py-6 mx-auto lg:container ">
         <div className="grid grid-cols-[1fr_auto_1fr] absolute lg:static bg-white lg:bg-transparent py-4 lg:py-0 left-0 right-0 top-0 lg:flex lg:flex-row-reverse items-center justify-between px-6">
           <Link href="/cart" className="flex items-center space-x-2">
@@ -200,7 +195,7 @@ const OrderAddress: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </CheckoutLayout>
   );
 };
 

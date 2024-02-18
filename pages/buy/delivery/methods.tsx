@@ -3,11 +3,11 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { getCookie } from "cookies-next";
-import TakealotIcon from "@/components/TakealotIcon";
 import { useCart } from "@/providers/CartProvider";
 import Spinner from "@/components/Spinner";
 import OrderSummary from "@/components/checkout/OrderSummary";
 import useCheckoutNavigation from "@/hooks/useCheckoutNavigation";
+import { CheckoutLayout } from "@/components/Layout";
 
 const OrderMethods: React.FC = () => {
   const router = useRouter();
@@ -61,12 +61,7 @@ const OrderMethods: React.FC = () => {
   };
 
   return (
-    <div className="relative bg-gray-100">
-      <header className="hidden bg-white lg:block">
-        <div className="container w-full px-10 py-4 mx-auto">
-          <TakealotIcon />
-        </div>
-      </header>
+    <CheckoutLayout>
       <div className="w-full py-6 mx-auto lg:container ">
         <div className="grid grid-cols-[1fr_auto_1fr] absolute lg:static bg-white lg:bg-transparent py-4 lg:py-0 left-0 right-0 top-0 lg:flex lg:flex-row-reverse items-center justify-between px-6">
           <Link href="/cart" className="flex items-center space-x-2">
@@ -196,7 +191,7 @@ const OrderMethods: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </CheckoutLayout>
   );
 };
 export default OrderMethods;

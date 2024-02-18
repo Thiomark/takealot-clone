@@ -111,7 +111,7 @@ function useCheckoutNavigation(
   }, [determineNextStep, stepKeys.length]);
 
   const startCheckout = useCallback(() => {
-    setCheckoutState({ currentStep: determineNextStep(0), isActive: true });
+    setCheckoutState({ currentStep: determineNextStep(), isActive: true });
   }, [determineNextStep]);
 
   const endCheckout = useCallback(() => {
