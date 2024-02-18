@@ -31,7 +31,7 @@ function useCheckoutNavigation(
     shippingMethod,
   } = useCart();
 
-  // Define the steps of the checkout process in the order they should be completed.
+  // Define the steps of the checkout process in order
   const stepKeys: (keyof CheckoutData)[] = [
     "shippingMethod",
     "shippingAddress",
@@ -52,10 +52,9 @@ function useCheckoutNavigation(
         (value) => value !== ""
       ),
       shippingMethod: shippingMethod.type !== undefined,
-      review: externalData.review ?? false, // Provide default boolean values
+      review: externalData.review ?? false,
       payment: externalData.payment ?? false,
       confirmation: externalData.confirmation ?? false,
-      // If there are other fields in externalData that might not be provided, ensure they have defaults too
     }),
     [
       cart,
@@ -67,8 +66,20 @@ function useCheckoutNavigation(
     ]
   );
 
+  const determineNextStep = useCallback((): number => {
+    let nextStep = checkoutState.currentStep;
+    while (nextStep < stepKeys.length && checkoutData[stepKeys[nextStep]]) {
+      nextStep++;
+    }
+    return nextStep;
+  }, [checkoutState.currentStep, checkoutData, stepKeys]);
+
   useEffect(() => {
-    // Redirect the user to the appropriate page based on the current step of the checkout process.
+    const isCheckoutRoute = router.pathname.startsWith("/buy");
+    if (isCheckoutRoute && !checkoutState.isActive) {
+      setCheckoutState((prevState) => ({ ...prevState, isActive: true }));
+    }
+
     if (checkoutState.isActive) {
       const stepRoutes: { [K in keyof Partial<CheckoutData>]: string } = {
         cart: "/cart",
@@ -81,55 +92,39 @@ function useCheckoutNavigation(
         confirmation: "/confirmation",
       };
 
-      const nextStep = determineNextStep(checkoutState.currentStep);
-      const nextStepKey = stepKeys[nextStep] as keyof Partial<CheckoutData>;
-      const nextRoute = stepRoutes[nextStepKey];
-
+      const currentStepKey = stepKeys[
+        checkoutState.currentStep
+      ] as keyof Partial<CheckoutData>;
+      const nextRoute = stepRoutes[currentStepKey];
       if (nextRoute && router.pathname !== nextRoute) {
         router.push(nextRoute);
       }
     }
-  }, [checkoutState, router]);
+  }, [router, checkoutState, stepKeys]);
 
-  // Determine the next step in the checkout process that hasn't been completed yet.
-  const determineNextStep = (currentStep: number): number => {
-    let nextStep = currentStep;
-    // Loop to find the next unfilled step.
-    while (nextStep < stepKeys.length && checkoutData[stepKeys[nextStep]]) {
-      nextStep++;
-    }
-    return nextStep;
-  };
+  const goToNextStep = useCallback(() => {
+    setCheckoutState((prevState) => ({
+      ...prevState,
+      currentStep:
+        determineNextStep() < stepKeys.length ? determineNextStep() : 0,
+    }));
+  }, [determineNextStep, stepKeys.length]);
 
-  // Calculate which steps have been completed using the checkoutData.
+  const startCheckout = useCallback(() => {
+    setCheckoutState({ currentStep: determineNextStep(0), isActive: true });
+  }, [determineNextStep]);
+
+  const endCheckout = useCallback(() => {
+    setCheckoutState({ currentStep: 0, isActive: false });
+  }, []);
+
   const completedSteps = useMemo(() => {
     const stepsCompletion: Partial<CheckoutData> = {};
-    // Populate the stepsCompletion object with the completion status of each step.
     for (const step of stepKeys) {
       stepsCompletion[step] = checkoutData[step];
     }
     return stepsCompletion;
   }, [checkoutData, stepKeys]);
-
-  // Advances the user to the next step in the checkout process.
-  const goToNextStep = () => {
-    setCheckoutState((prevState) => {
-      const nextStep = determineNextStep(prevState.currentStep + 1);
-      return {
-        ...prevState,
-        currentStep: nextStep < stepKeys.length ? nextStep : 0,
-      };
-    });
-  };
-
-  // Initiates the checkout process, starting from the first incomplete step.
-  const startCheckout = useCallback(() => {
-    setCheckoutState({ currentStep: determineNextStep(0), isActive: true });
-  }, []);
-
-  // Ends the checkout process and resets the state.
-  const endCheckout = () =>
-    setCheckoutState({ currentStep: 0, isActive: false });
 
   return {
     currentStep: checkoutState.currentStep,
@@ -137,13 +132,7 @@ function useCheckoutNavigation(
     goToNextStep,
     startCheckout,
     endCheckout,
-    completedSteps: useMemo(() => {
-      const stepsCompletion: Partial<CheckoutData> = {};
-      for (const step of stepKeys) {
-        stepsCompletion[step] = checkoutData[step];
-      }
-      return stepsCompletion;
-    }, [checkoutData]),
+    completedSteps,
   };
 }
 

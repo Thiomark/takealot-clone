@@ -7,14 +7,17 @@ import TakealotIcon from "@/components/TakealotIcon";
 import OrderSummary from "@/components/checkout/OrderSummary";
 import ShippingMethod from "@/components/checkout/ShippingMethod";
 import { CheckoutData } from "@/types/checkout";
+import { useCart } from "@/providers/CartProvider";
+import SelectedAddress from "@/components/checkout/SelectedAddress";
 
 const ReviewOrder: React.FC = () => {
+  const { resetShippingAddress, loading, cart } = useCart();
   const router = useRouter();
   const { currentStep, startCheckout, completedSteps, isActive } =
     useCheckoutNavigation();
 
   useEffect(() => {
-    if (!isActive) {
+    if (!isActive && !loading) {
       startCheckout();
     }
     const stepRoutes: { [K in keyof Partial<CheckoutData>]: string } = {
@@ -90,27 +93,18 @@ const ReviewOrder: React.FC = () => {
             <div className="p-6 bg-white">
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-600">Delivery Address</p>
-                <button className="text-xs font-semibold text-blue-450">
+                <button
+                  onClick={resetShippingAddress}
+                  className="text-xs font-semibold text-blue-450"
+                >
                   Change
                 </button>
               </div>
-              <div className="relative grid my-2 select-none w-fit items-center whitespace-nowrap rounded-full bg-gray-900/10 py-0.5 px-3 text-[.6rem] font-semibold uppercase text-gray-900">
-                <span className="">Residential</span>
-              </div>
-              <p className="font-bold text-md">The Hangar, M405</p>
-              <p className="font-bold text-md">3 Bosbok Nook</p>
-              <p className="font-bold text-md">Zwartkop, Centurion, 0157</p>
-              <div className="flex items-center mt-3 space-x-3 text-sm text-gray-500">
-                <span>itumeleng</span>
-                <span>0787576092</span>
-              </div>
+              <SelectedAddress />
             </div>
             <div className="p-6 bg-white">
-              <div className="flex items-center justify-between">
+              <div>
                 <p className="text-sm text-gray-600">Delivery by</p>
-                <button className="text-xs font-semibold text-blue-450">
-                  Change
-                </button>
               </div>
               <p className="font-bold text-md">Thursday, 15 February 2024</p>
               <div className="flex items-center mt-3 space-x-3 text-sm text-gray-500">
@@ -119,11 +113,8 @@ const ReviewOrder: React.FC = () => {
               </div>
             </div>
             <div className="p-6 bg-white">
-              <div className="flex items-center justify-between">
+              <div>
                 <p className="text-sm text-gray-600">Payment Method</p>
-                <button className="text-xs font-semibold text-blue-450">
-                  Change
-                </button>
               </div>
               <p className="font-bold text-md">EFT with payFast</p>
             </div>
@@ -140,13 +131,11 @@ const ReviewOrder: React.FC = () => {
                 </button>
               </div>
               <div className="flex flex-wrap gap-3 mt-2">
-                {[...Array(4)].map((img, idx) => (
+                {cart.map((itm, idx) => (
                   <Image
                     key={idx}
                     alt="product"
-                    src={
-                      "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                    }
+                    src={itm.image}
                     height={70}
                     width={70}
                     objectFit="contain"

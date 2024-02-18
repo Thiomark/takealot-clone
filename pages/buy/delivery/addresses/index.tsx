@@ -6,10 +6,11 @@ import { useCart } from "@/providers/CartProvider";
 import ShippingMethod from "@/components/checkout/ShippingMethod";
 import { useRouter } from "next/router";
 import OrderSummary from "@/components/checkout/OrderSummary";
+import SelectedAddress from "@/components/checkout/SelectedAddress";
 
 const OrderAddress: React.FC = () => {
   const { fetchAddresses, addresses } = useAuth();
-  const { personalInfo, shippingAddress } = useCart();
+  const { personalInfo } = useCart();
   const router = useRouter();
 
   useEffect(() => {
@@ -78,29 +79,7 @@ const OrderAddress: React.FC = () => {
                       className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     />
                   </div>
-
-                  <div>
-                    <div className="relative grid my-2 select-none w-fit items-center whitespace-nowrap rounded-full bg-green-400 py-0.5 px-3 text-[.6rem] font-semibold uppercase text-gray-50">
-                      <span className="">{shippingAddress?.address_type}</span>
-                    </div>
-                    {shippingAddress?.complex_or_building && (
-                      <p className="font-bold text-md">
-                        {shippingAddress.complex_or_building}
-                      </p>
-                    )}
-                    <p className="font-bold text-md">
-                      {shippingAddress?.street_address}
-                    </p>
-                    <p className="font-bold text-md">
-                      {shippingAddress?.suburb}, {shippingAddress?.city_or_town}
-                      , {shippingAddress?.post_code}
-                    </p>
-                    <div className="flex items-center mt-3 space-x-3 text-sm text-gray-500">
-                      <span>{personalInfo?.first_name}</span>
-                      <span>{personalInfo?.phone_number}</span>
-                    </div>
-                  </div>
-
+                  <SelectedAddress />
                   <div className="flex items-center text-sm text-blue-450">
                     <button className="hover:underline">Delete</button>
                     <span className="px-3">&#x2022;</span>

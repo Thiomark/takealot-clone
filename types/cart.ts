@@ -31,6 +31,7 @@ export interface CartContextType {
   }) => Promise<void>;
   fetchCart: () => Promise<void>;
   resetShippingMethod: () => void;
+  resetShippingAddress: () => void;
   addItemToCart: (newProduct: AddProductToCartProductType) => Promise<void>;
   deleteFromCart: (productId: string) => Promise<void>;
 }

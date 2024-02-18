@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -7,11 +7,20 @@ import TakealotIcon from "@/components/TakealotIcon";
 import { useCart } from "@/providers/CartProvider";
 import Spinner from "@/components/Spinner";
 import OrderSummary from "@/components/checkout/OrderSummary";
+import useCheckoutNavigation from "@/hooks/useCheckoutNavigation";
 
 const OrderMethods: React.FC = () => {
   const router = useRouter();
-  const { fetchCart } = useCart();
+  const { fetchCart, shippingMethod } = useCart();
   const [loading, setLoading] = useState(false);
+
+  const { goToNextStep } = useCheckoutNavigation();
+
+  useEffect(() => {
+    if (shippingMethod.type) {
+      goToNextStep();
+    }
+  }, [shippingMethod]);
 
   // TODO move to the cart provider and the loading
   const selectDelivery = async (paymentMethod: string) => {

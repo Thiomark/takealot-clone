@@ -219,6 +219,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     setShippingMethod({});
   };
 
+  const resetShippingAddress = () => {
+    setShippingAddress(defaultAddress);
+  };
+
   const fetchCart = async () => {
     try {
       const storedCartId = getCookie("cart-id");
@@ -288,6 +292,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         saveAddress,
         addItemToCart,
         resetShippingMethod,
+        resetShippingAddress,
         deleteFromCart,
         fetchCart,
       }}
