@@ -11,7 +11,7 @@ import SelectedAddress from "@/components/checkout/SelectedAddress";
 import { CheckoutLayout } from "@/components/Layout";
 
 const ReviewOrder: React.FC = () => {
-  const { resetShippingAddress, loading, cart } = useCart();
+  const { resetShippingAddress, loading, cart, shipping } = useCart();
   const router = useRouter();
   const { currentStep, startCheckout, completedSteps, isActive } =
     useCheckoutNavigation();
@@ -31,7 +31,6 @@ const ReviewOrder: React.FC = () => {
       confirmation: "/confirmation",
     };
 
-    // Fix TypeScript issue by ensuring nextStepKey is a keyof CheckoutData
     const nextStepKey = Object.keys(completedSteps).find(
       (key) => !completedSteps[key as keyof Partial<CheckoutData>]
     ) as keyof Partial<CheckoutData> | undefined;
@@ -104,7 +103,7 @@ const ReviewOrder: React.FC = () => {
               <p className="font-bold text-md">Thursday, 15 February 2024</p>
               <div className="flex items-center mt-3 space-x-3 text-sm text-gray-500">
                 <span>Standard Delivery</span>
-                <span>Free</span>
+                <span>{shipping}</span>
               </div>
             </div>
             <div className="p-6 bg-white">

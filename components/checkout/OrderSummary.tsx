@@ -7,7 +7,10 @@ const Button: React.FC<{ orderReview: boolean }> = ({ orderReview }) => {
 
   if (orderReview) {
     return (
-      <button className="w-full p-3 text-sm uppercase bg-green-450 text-gray-50">
+      <button
+        onClick={() => router.push("/account/orders/NZZe0jgJjo3zYHxxy3uD")}
+        className="w-full p-3 text-sm uppercase bg-green-450 text-gray-50"
+      >
         Pay with payfast
       </button>
     );
