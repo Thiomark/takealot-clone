@@ -1,14 +1,16 @@
 import { useCart } from "@/providers/CartProvider";
+import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import React from "react";
 
 const Button: React.FC<{ orderReview: boolean }> = ({ orderReview }) => {
   const router = useRouter();
+  const storedCartId = getCookie("cart-id");
 
-  if (orderReview) {
+  if (orderReview && storedCartId) {
     return (
       <button
-        onClick={() => router.push("/account/orders/NZZe0jgJjo3zYHxxy3uD")}
+        onClick={() => router.push(`/account/orders/${storedCartId}`)}
         className="w-full p-3 text-sm uppercase bg-green-450 text-gray-50"
       >
         Pay with payfast

@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import { AccountLayout } from "@/components/Layout";
 import Spinner from "@/components/Spinner";
 import firebase_app from "@/firebase";
 import { OrderType } from "@/types/order";
@@ -60,10 +60,10 @@ const OrderHistory: React.FC = () => {
   if (loading || !order) return <Spinner />;
 
   return (
-    <Layout title="Order History" showFooter={false}>
+    <AccountLayout bg={"bg-gray-50"} title="Order History" showFooter={false}>
       <main className="min-h-screen">
         {order && (
-          <div className="py-14 sides">
+          <div className="py-14">
             <div className="flex justify-start item-start space-y-2 flex-col">
               <h1 className="text-3xl dark:text-white lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">
                 Order #{order.order_id}
@@ -233,7 +233,7 @@ const OrderHistory: React.FC = () => {
           </div>
         )}
       </main>
-    </Layout>
+    </AccountLayout>
   );
 };
 

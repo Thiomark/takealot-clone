@@ -211,7 +211,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({
               )}
               <div className={divider()} />
               <Link
-                href="#"
+                href="/account/orders"
                 className="hidden lg:inline hover:underline hover:text-blue-450"
               >
                 Orders
