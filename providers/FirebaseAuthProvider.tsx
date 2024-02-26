@@ -15,7 +15,16 @@ import {
   User as FirebaseUser,
   signOut,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, query, where, getDocs, doc, deleteDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import axios from "axios";
 import firebaseApp from "@/firebase";
 import { SERVER_BASE_URL } from "@/config/index";
@@ -27,7 +36,7 @@ const auth = getAuth(firebaseApp);
 
 interface AuthContextType {
   user: FirebaseUser | null;
-  addresses: Array<AddressType & { id: string }>; 
+  addresses: Array<AddressType & { id: string }>;
   loading: boolean;
   addAddress: (address: AddressType) => Promise<void>;
   deleteAddress: (addressId: string) => Promise<void>;
@@ -49,7 +58,9 @@ export const FirebaseAuthProvider = ({
 }: FirebaseAuthProviderProps) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [addresses, setAddresses] = useState<Array<AddressType & { id: string }>>([]);
+  const [addresses, setAddresses] = useState<
+    Array<AddressType & { id: string }>
+  >([]);
   const router = useRouter();
   const db = getFirestore(firebaseApp);
 
@@ -106,9 +117,9 @@ export const FirebaseAuthProvider = ({
   };
 
   const addAddress = async (address: AddressType) => {
-    if(loading) return;
+    if (loading) return;
 
-    setLoading(true)
+    setLoading(true);
 
     if (!user) {
       // TODO try to save the address temporarly for that were redirected
@@ -122,17 +133,15 @@ export const FirebaseAuthProvider = ({
         userId: user.uid,
       });
 
-      console.log(address)
       toast.success("Address added successfully!");
-      
     } catch (error) {
       console.error("Error adding address: ", error);
       toast.error("Error adding address.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
-  
+
   const deleteAddress = async (addressId: string) => {
     if (!user) {
       router.push(`/login?redirect=${router.asPath}`);
@@ -146,14 +155,17 @@ export const FirebaseAuthProvider = ({
       toast.error("Error deleting address.");
     }
   };
-  
+
   const fetchAddresses = async () => {
     if (!user) {
       return;
     }
     const fetchedAddresses: Array<AddressType & { id: string }> = [];
     try {
-      const q = query(collection(db, "addresses"), where("userId", "==", user.uid));
+      const q = query(
+        collection(db, "addresses"),
+        where("userId", "==", user.uid)
+      );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         fetchedAddresses.push({ id: doc.id, ...(doc.data() as AddressType) });
@@ -166,7 +178,9 @@ export const FirebaseAuthProvider = ({
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser && !currentUser.isAnonymous) {
+        setUser(currentUser);
+      }
       setLoading(false);
     });
     return () => unsubscribe();

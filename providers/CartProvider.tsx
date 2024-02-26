@@ -5,7 +5,6 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import axios from "axios";
 import { setCookie, deleteCookie, getCookie } from "cookies-next";
 import { toast } from "react-toastify";
 import { AddProductToCartProductType } from "@/types/product";
@@ -13,6 +12,9 @@ import { SERVER_BASE_URL } from "@/config/index";
 import extractErrorMessage, { AxiosError } from "@/utils/extractErrorMessage";
 import { AddressType, CartContextType } from "@/types/cart";
 import { PersonalInfoType } from "@/types/profile";
+import firebaseApp from "@/firebase";
+import { getAuth, signInAnonymously } from "firebase/auth";
+import axiosWithAuth from "@/utils/axiosWithAuth";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -38,6 +40,8 @@ interface CartProviderProps {
 }
 
 export const CartProvider = ({ children }: CartProviderProps) => {
+  const auth = getAuth(firebaseApp);
+
   const [loading, setLoading] = useState<boolean>(true);
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState("");
@@ -63,7 +67,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     try {
       if (!newProduct.id || !newProduct.qty || loading) return;
       if (!cartId) {
-        createCart();
+        await createCart();
       }
       setLoading(true);
       let payload = {
@@ -72,8 +76,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         selectedOptions: newProduct?.selectedOptions,
       };
 
-      const response = await axios.post(
-        `${SERVER_BASE_URL}/api/cart/${cartId}`,
+      const storedCartId = getCookie("cart-id");
+
+      const response = await axiosWithAuth.post(
+        `${SERVER_BASE_URL}/api/cart/${storedCartId}`,
         payload
       );
 
@@ -110,7 +116,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
       setLoading(true);
 
-      const response = await axios.put(`/api/cart/${storedCartId}`, {
+      const response = await axiosWithAuth.put(`/api/cart/${storedCartId}`, {
         shipping_address: shippingAddress,
         billing_address: shippingAddress,
         personal_information: personalInfo,
@@ -137,7 +143,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     if (!cartId) return;
 
     try {
-      const response = await axios.get(
+      const response = await axiosWithAuth.get(
         `${SERVER_BASE_URL}/api/cart/exists/${cartId}`
       );
       if (!response.data.exists) {
@@ -161,20 +167,34 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
   const createCart = async () => {
     if (cartId) return;
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const response = await axios.post(
-        `${SERVER_BASE_URL}/api/cart/create_cart`
+    try {
+      // Ensure there is a user, either logged in or anonymously
+      if (!auth.currentUser) {
+        await signInAnonymously(auth);
+      }
+
+      // Check again if currentUser is not null after signInAnonymously
+      if (!auth.currentUser) {
+        throw new Error("Authentication failed");
+      }
+
+      const response = await axiosWithAuth.post(
+        `${SERVER_BASE_URL}/api/cart/create_cart`,
+        {}
       );
 
-      if (response.data.error || !response.data.id) return;
+      if (response.data.error || !response.data.id) {
+        throw new Error("Failed to create cart");
+      }
 
       setCartId(response.data.id);
-      setCookie("cart-id", response.data.id);
+      setCookie("cart-id", response.data.id); // Assuming setCookie is a function you have for setting cookies
     } catch (error) {
-      const errorMessage = extractErrorMessage(error as AxiosError);
-      toast.error(errorMessage || "Error creating a cart");
+      // Handle errors, including errors from signInAnonymously, getIdToken, or the API call
+      console.error(error);
+      toast.error("Error creating a cart");
     } finally {
       setLoading(false);
     }
@@ -191,7 +211,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         cart_id: cartId,
       };
 
-      const response = await axios.post(
+      const response = await axiosWithAuth.post(
         `${SERVER_BASE_URL}/api/cart/remove_product`,
         payload
       );
@@ -233,7 +253,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
       setLoading(true);
 
-      const response = await axios.get(
+      const response = await axiosWithAuth.get(
         `${SERVER_BASE_URL}/api/cart/${storedCartId}`
       );
 

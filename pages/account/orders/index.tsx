@@ -38,7 +38,7 @@ const OrderHistory: React.FC = () => {
       ],
     },
     {
-      orderId: "NZZe0jgJjo3zYHxxy3uD",
+      orderId: "NZZe0jgJjo3zYHxxy3uA",
       status: "Awaiting Payment",
       productImages: [
         "https://images.pexels.com/photos/335257/pexels-photo-335257.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
