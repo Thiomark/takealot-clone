@@ -9,7 +9,7 @@ import SelectedAddress from "@/components/checkout/SelectedAddress";
 import { CheckoutLayout } from "@/components/Layout";
 
 const OrderAddress: React.FC = () => {
-  const { fetchAddresses, addresses } = useAuth();
+  const { fetchAddresses, addresses, deleteAddress } = useAuth();
   const { personalInfo } = useCart();
   const router = useRouter();
 
@@ -119,7 +119,13 @@ const OrderAddress: React.FC = () => {
                     </div>
 
                     <div className="flex items-center text-sm text-blue-450">
-                      <button className="hover:underline">Delete</button>
+                      <button
+                        aria-label="Delete"
+                        onClick={() => deleteAddress(addresse.id)}
+                        className="hover:underline"
+                      >
+                        Delete
+                      </button>
                       <span className="px-3">&#x2022;</span>
                       <button className="hover:underline">Edit</button>
                     </div>
