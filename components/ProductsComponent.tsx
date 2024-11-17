@@ -56,15 +56,16 @@ const ProductsComponent: React.FC<ProductsComponentProps> = ({
   return (
     <div>
       <div className={`${sides ? "sides" : ""}`}>
-        <div className="flex py-2 items-center justify-between">
-          <h1 className="capitalize text-sm">{title}</h1>
+        <div className="flex items-center justify-between py-2">
+          <h1 className="text-sm capitalize">{title}</h1>
           {showMoreButton && (
             <button className="px-3 py-2 font-semibold text-xs rounded-full md:rounded-none md:text-sm border-[1.5px] border-gray-500">
               View More
             </button>
           )}
         </div>
-        <Slider {...settings}>
+        <div className="grid grid-cols-2 lg:grid-cols-4">
+          {/* <Slider {...settings}> */}
           {products?.map((product: ProductType) => (
             <div key={product.id} className="pr-6">
               <ProductComponent
@@ -73,7 +74,8 @@ const ProductsComponent: React.FC<ProductsComponentProps> = ({
               />
             </div>
           ))}
-        </Slider>
+          {/* </Slider> */}
+        </div>
       </div>
     </div>
   );
